@@ -3,7 +3,7 @@ const path = require("path");
 module.exports = {
   mode: "development",
   entry: {
-    "userlistUpdater": "./src/userlistUpdater.ts",
+    "registerExistingMembers": "./src/registerExistingMembers.ts",
   },
   output: {
     filename: "[name].js",
@@ -24,5 +24,5 @@ module.exports = {
   resolve: {
     extensions: [".js", ".ts"],
   },
-  devtool: false,
+  devtool: "eval-source-map",
 };
