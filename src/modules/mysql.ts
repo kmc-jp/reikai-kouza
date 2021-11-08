@@ -19,64 +19,72 @@ const connect = async () => {
 }
 
 export const executeQuery= async (query: string) => {
-  postText(`以下のクエリを発行\n${query}`);
+  await postText(`以下のクエリを発行\n${query}`);
 
   const connection = await connect();
   connection.connect();
 
-  connection.query(`SELECT * FROM ${projectConstants.mysql.tableName};`, (error: any, results: Array<object>) => {
+  connection.query(`SELECT * FROM ${projectConstants.mysql.tableName};`, async (error: any, results: Array<object>) => {
     if (error) {
-      postText(`発行前の確認でエラー`);
+      await postText(`発行前の確認でエラー`);
     }
 
     // あまりにログが見づらいのでやめた
-    // postText(`発行前のテーブル\n${results.map(x => JSON.stringify(x)).join("\n")}`);
+    // await postText(`発行前のテーブル\n${results.map(x => JSON.stringify(x)).join("\n")}`);
   });
 
   connection.query(query, (error: any, results: any) => {
+    if(error) {
+      postText(`発行時エラー\n${error}`);
+    }
+
     return results;
   });
 
-  connection.query(`SELECT * FROM ${projectConstants.mysql.tableName};`, (error: any, results: Array<Object>) => {
+  connection.query(`SELECT * FROM ${projectConstants.mysql.tableName};`, async (error: any, results: Array<Object>) => {
     if (error) {
-      postText(`発行後の確認でエラー`);
+      await postText(`発行後の確認でエラー`);
     }
 
     // あまりにログが見づらいのでやめた
-    // postText(`発行後のテーブル\n${results.map(x => JSON.stringify(x)).join("\n")}`);
+    // await postText(`発行後のテーブル\n${results.map(x => JSON.stringify(x)).join("\n")}`);
   });
 
   connection.end();
 }
 
 export const executeQueries = async (queries: string[]) => {
-  postText(`以下のクエリを実行\n${queries.join("\n")}`);
+  await postText(`以下のクエリを実行\n${queries.join("\n")}`);
 
   const connection = await connect();
   connection.connect();
   
-  connection.query(`SELECT * FROM ${projectConstants.mysql.tableName};`, (error: any, results: Array<object>) => {
+  connection.query(`SELECT * FROM ${projectConstants.mysql.tableName};`, async (error: any, results: Array<object>) => {
     if (error) {
-      postText(`発行前の確認でエラー`);
+      await postText(`発行前の確認でエラー`);
     }
 
     // あまりにログが見づらいのでやめた
-    // postText(`発行前のテーブル\n${results.map(x => JSON.stringify(x)).join("\n")}`);
+    // await postText(`発行前のテーブル\n${results.map(x => JSON.stringify(x)).join("\n")}`);
   });
 
   for (let q of queries) {
     connection.query(q, (error: any, results: any) => {
+      if(error) {
+        postText(`発行時エラー\n${error}`);
+      }
+
       return results;
     });
   }
 
-  connection.query(`SELECT * FROM ${projectConstants.mysql.tableName};`, (error: any, results: Array<Object>) => {
+  connection.query(`SELECT * FROM ${projectConstants.mysql.tableName};`, async (error: any, results: Array<Object>) => {
     if (error) {
-      postText(`発行後の確認でエラー`);
+      await postText(`発行後の確認でエラー`);
     }
 
     // あまりにログが見づらいのでやめた
-    // postText(`発行後のテーブル\n${results.map(x => JSON.stringify(x)).join("\n")}`);
+    // await postText(`発行後のテーブル\n${results.map(x => JSON.stringify(x)).join("\n")}`);
   });
 
   connection.end();

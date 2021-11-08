@@ -50,10 +50,10 @@ const register = async () => {
     }
     else
     {
-      postText("メンバー情報の取得に失敗しました。");
+      await postText("メンバー情報の取得に失敗しました。");
     }
   } catch (error) {
-    postText(`部員の登録処理でエラーが発生しました。\n${error}`);
+    await postText(`部員の登録処理でエラーが発生しました。\n${error}`);
   }
 }
 
