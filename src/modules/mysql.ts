@@ -1,7 +1,7 @@
 import { readFile } from "fs/promises";
 import { projectConstants } from "./constants";
-import { postText } from "./slack";
-const mysql = require('mysql');
+import { postText, postText2Log } from "./slack";
+const mysql = require('mysql2/promise');
 const path = require("path");
 
 const connect = async () => {
@@ -19,65 +19,39 @@ const connect = async () => {
 }
 
 export const executeQuery= async (query: string) => {
-  postText(`以下のクエリを発行\n${query}`);
+  await postText2Log(`以下のクエリを発行\n${query}`);
 
   const connection = await connect();
   connection.connect();
 
-  connection.query(`SELECT * FROM ${projectConstants.mysql.tableName};`, (error: any, results: Array<object>) => {
-    if (error) {
-      postText(`発行前の確認でエラー`);
-    }
-
-    // あまりにログが見づらいのでやめた
-    // postText(`発行前のテーブル\n${results.map(x => JSON.stringify(x)).join("\n")}`);
-  });
-
-  connection.query(query, (error: any, results: any) => {
+  try {
+    const [results, _] = await connection.query(query);
     return results;
-  });
-
-  connection.query(`SELECT * FROM ${projectConstants.mysql.tableName};`, (error: any, results: Array<Object>) => {
-    if (error) {
-      postText(`発行後の確認でエラー`);
+  } catch (error) {
+    if(error) {
+      await postText(`発行時エラー\n${error}`);
     }
-
-    // あまりにログが見づらいのでやめた
-    // postText(`発行後のテーブル\n${results.map(x => JSON.stringify(x)).join("\n")}`);
-  });
-
-  connection.end();
+  } finally {
+    connection.end();
+  }
 }
 
 export const executeQueries = async (queries: string[]) => {
-  postText(`以下のクエリを実行\n${queries.join("\n")}`);
+  await postText2Log(`以下のクエリを実行\n${queries.join("\n")}`);
 
   const connection = await connect();
   connection.connect();
-  
-  connection.query(`SELECT * FROM ${projectConstants.mysql.tableName};`, (error: any, results: Array<object>) => {
-    if (error) {
-      postText(`発行前の確認でエラー`);
-    }
 
-    // あまりにログが見づらいのでやめた
-    // postText(`発行前のテーブル\n${results.map(x => JSON.stringify(x)).join("\n")}`);
-  });
-
-  for (let q of queries) {
-    connection.query(q, (error: any, results: any) => {
+  try {
+    return Promise.all(queries.map(async query => {
+      const [results, _] = await connection.query(query);
       return results;
-    });
-  }
-
-  connection.query(`SELECT * FROM ${projectConstants.mysql.tableName};`, (error: any, results: Array<Object>) => {
-    if (error) {
-      postText(`発行後の確認でエラー`);
+    }));
+  } catch (error) {
+    if(error) {
+      await postText(`発行時エラー\n${error}`);
     }
-
-    // あまりにログが見づらいのでやめた
-    // postText(`発行後のテーブル\n${results.map(x => JSON.stringify(x)).join("\n")}`);
-  });
-
-  connection.end();
+  } finally {
+    connection.end();
+  }
 }
