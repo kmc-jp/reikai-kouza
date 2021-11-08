@@ -4,6 +4,7 @@ module.exports = {
   mode: "development",
   entry: {
     "registerExistingMembers": "./src/registerExistingMembers.ts",
+    "updateMembers": "/src/updateMembers.ts",
   },
   output: {
     filename: "[name].js",

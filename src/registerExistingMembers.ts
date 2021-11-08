@@ -41,8 +41,7 @@ const register = async () => {
         // 表示名は設定されていない場合がある
         .map(member => `INSERT INTO ${projectConstants.mysql.tableName} VALUES (`
           + `'${member["id"]}',`
-          + `'${member["profile"]["display_name"] === "" ? member["profile"]["real_name"] : member["profile"]["display_name"]}',`
-          + `${date_halfYearAgo__db},`
+          + `'${member["profile"]["display_name"] === "" ? member["profile"]["real_name"].replace(/'/g, "\\'") : member["profile"]["display_name"].replace(/'/g, "\\'")}',`
           + `${date_halfYearAgo__dbFormat},`
           + `${projectConstants.values.preferredDayOfWeek.Unanswered},`
           + `${projectConstants.values.assignedDate.None},`

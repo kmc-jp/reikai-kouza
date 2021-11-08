@@ -1,5 +1,7 @@
 export const projectConstants = {
   slack: {
+    memberChannelName: "#reikai-kouza-member",
+    ownerChannelName: "#reikai-kouza-owner",
     logChannelName: "#reikai-kouza-log",
   },
   mysql: {
