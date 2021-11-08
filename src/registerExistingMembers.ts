@@ -6,6 +6,8 @@ const axios = require("axios");
 const path = require("path");
 const argv = require("minimist")(process.argv.slice(2));
 
+// 既存の部員の登録
+// 引数として、日付をYYYYMMDDの形式で与える必要がある
 const register = async () => {
   try {
     // key.jsonの内容を読み出し
@@ -29,7 +31,7 @@ const register = async () => {
     // 実際は時差があり9時間ずれているがどうでもいいので無視
     const date_halfYearAgo = new Date(date.getTime() - 6 * 30 * 24 * 60 * 60 * 1000);
 
-    const date_halfYearAgo__db = date_halfYearAgo.getFullYear() * 10000 + (date_halfYearAgo.getMonth() + 1) * 100 + date_halfYearAgo.getDate();
+    const date_halfYearAgo__dbFormat = date_halfYearAgo.getFullYear() * 10000 + (date_halfYearAgo.getMonth() + 1) * 100 + date_halfYearAgo.getDate();
 
     if (responseJson["ok"]) {
       executeQueries((responseJson["members"] as Array<any>)
@@ -41,10 +43,11 @@ const register = async () => {
           + `'${member["id"]}',`
           + `'${member["profile"]["display_name"] === "" ? member["profile"]["real_name"] : member["profile"]["display_name"]}',`
           + `${date_halfYearAgo__db},`
+          + `${date_halfYearAgo__dbFormat},`
           + `${projectConstants.values.preferredDayOfWeek.Unanswered},`
           + `${projectConstants.values.assignedDate.None},`
-          + `${date_halfYearAgo__db},`
-          + `${date_halfYearAgo__db},`
+          + `${date_halfYearAgo__dbFormat},`
+          + `${date_halfYearAgo__dbFormat},`
           + `${projectConstants.values.announcementStatus.Unassigned}`
           + `);`));
     }
