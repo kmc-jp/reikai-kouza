@@ -38,16 +38,16 @@ const update = async () => {
         .filter(member => !member["is_bot"])                              // botを除外
         .filter(member => member["is_restricted"] === false)              // 制限されたユーザーを除外
         // 表示名は設定されていない場合がある
-        .map(member => `INSERT INTO ${projectConstants.mysql.tableName} VALUES (\
-          '${member["id"]}',\
-          '${member["profile"]["display_name"] === "" ? member["profile"]["real_name"] : member["profile"]["display_name"]}',\
-          ${date_halfYearAgo__db},\
-          -1,\
-          -1,\
-          ${date_halfYearAgo__db},\
-          ${date_halfYearAgo__db},\
-          0
-          );`));
+        .map(member => `INSERT INTO ${projectConstants.mysql.tableName} VALUES (`
+          + `'${member["id"]}',`
+          + `'${member["profile"]["display_name"] === "" ? member["profile"]["real_name"] : member["profile"]["display_name"]}',`
+          + `${date_halfYearAgo__db},`
+          + `${projectConstants.values.preferredDayOfWeek.Unanswered},`
+          + `${projectConstants.values.assignedDate.None},`
+          + `${date_halfYearAgo__db},`
+          + `${date_halfYearAgo__db},`
+          + `${projectConstants.values.announcementStatus.Unassigned}`
+          + `);`));
     }
     else
     {
