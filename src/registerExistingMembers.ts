@@ -6,7 +6,7 @@ const axios = require("axios");
 const path = require("path");
 const argv = require("minimist")(process.argv.slice(2));
 
-const update = async () => {
+const register = async () => {
   try {
     // key.jsonの内容を読み出し
     const keyReader = readFile(path.join(__dirname, "./secret/keys.json"), "utf-8");
@@ -29,7 +29,6 @@ const update = async () => {
     // 実際は時差があり9時間ずれているがどうでもいいので無視
     const date_halfYearAgo = new Date(date.getTime() - 6 * 30 * 24 * 60 * 60 * 1000);
 
-    const date__db = date.getFullYear() * 10000 + (date.getMonth() + 1) * 100 + date.getDate();
     const date_halfYearAgo__db = date_halfYearAgo.getFullYear() * 10000 + (date_halfYearAgo.getMonth() + 1) * 100 + date_halfYearAgo.getDate();
 
     if (responseJson["ok"]) {
@@ -53,9 +52,9 @@ const update = async () => {
     {
       postText("メンバー情報の取得に失敗しました。");
     }
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    postText(`部員の登録処理でエラーが発生しました。\n${error}`);
   }
 }
 
-update();
+register();

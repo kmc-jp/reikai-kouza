@@ -15,6 +15,5 @@ export const postText = async (message: string) => {
       "Authorization": `Bearer ${JSON.parse(data)["slack"]["bot_user_oauth_token"]}`,
       "Content-Type": 'application/json',
     },
-  },
-  )
+  });
 }
