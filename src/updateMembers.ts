@@ -51,44 +51,35 @@ const update = async () => {
       const allMembersInDB: Array<any> = await executeQuery(`SELECT id FROM ${projectConstants.mysql.tableName};`);
       const registeredMembers: string[] = allMembersInDB.map(x => x["id"]);
 
-      // 新規の部員をチェック
-      allMembers.forEach(async (display_name, id) => {
-        // DBにIDが登録されていなかった場合
-        if (!registeredMembers.includes(id)) {
-          await postText(`新規の部員を追加します。\n<@${display_name}>, ID: ${id}`);
+      // 新規部員の登録
+      const registerNewMembers = async () => {
+        // 新規の部員をチェック
+        await Promise.all(Array.from(allMembers.keys()).map(async id => {
+          // DBにIDが登録されていなかった場合
+          if (!registeredMembers.includes(id)) {
+            await postText(`新規の部員を追加します。\n<@${allMembers.get(id)}>, ID: ${id}`);
 
-          // 時間がかかってしまうが、メンバー一覧からIDが一致するまで探してくる
-          // TODO: 後ろから探査したほうが確実に早い
-          // TODO: 見つけたらbreak
-          (responseJson["members"] as Array<any>).forEach(async x => {
-            if (x["id"] === id) {
-              await executeQuery(`INSERT INTO ${projectConstants.mysql.tableName} VALUES (`
-                + `'${x["id"]}',`
-                + `'${x["profile"]["display_name"] === "" ? x["profile"]["real_name"].replace(/'/g, "\\'") : x["profile"]["display_name"].replace(/'/g, "\\'")}',`
-                + `${date__dbFormat},`
-                + `${projectConstants.values.preferredDayOfWeek.Unanswered},`
-                + `${projectConstants.values.assignedDate.None},`
-                + `${date_halfYearAgo__dbFormat},`
-                + `${date_halfYearAgo__dbFormat},`
-                + `${projectConstants.values.announcementStatus.Unassigned}`
-                + `);`);
-            }
-          })
-        }
-      })
-
-      await postText2Log("30秒後に表示名の更新を行います...");
-
-      // 間隔をあけないと、新規部員の登録が終わるまでに実行されてしまい、つらいことになります
-      setTimeout(async () => {
-        // 表示名の更新
-        updateDisplayName();
-        await postText2Log("30秒後に登録情報の削除を行います...");
-
-        setTimeout(() => {
-          deleteMembers();
-        }, 30 * 1000);
-      }, 30 * 1000);
+            // 時間がかかってしまうが、メンバー一覧からIDが一致するまで探してくる
+            // TODO: 後ろから探査したほうが確実に早い
+            // TODO: 見つけたらbreak
+            return Promise.all((responseJson["members"] as Array<any>).map(async x => {
+              if (x["id"] === id) {
+                const r = await executeQuery(`INSERT INTO ${projectConstants.mysql.tableName} VALUES (`
+                  + `'${x["id"]}',`
+                  + `'${x["profile"]["display_name"] === "" ? x["profile"]["real_name"].replace(/'/g, "\\'") : x["profile"]["display_name"].replace(/'/g, "\\'")}',`
+                  + `${date__dbFormat},`
+                  + `${projectConstants.values.preferredDayOfWeek.Unanswered},`
+                  + `${projectConstants.values.assignedDate.None},`
+                  + `${date_halfYearAgo__dbFormat},`
+                  + `${date_halfYearAgo__dbFormat},`
+                  + `${projectConstants.values.announcementStatus.Unassigned}`
+                  + `);`);
+                return r;
+              }
+            }));
+          }
+        }));
+      }
 
       // 表示名の更新
       const updateDisplayName = async () => {
@@ -104,7 +95,8 @@ const update = async () => {
         })
       }
 
-      const deleteMembers = () => {
+      // 登録情報の削除
+      const deleteMembers = async () => {
         registeredMembers.forEach(async id => {
           // Slackの非制限ユーザーリストに入っていなかった場合は、DBから削除
           if (allMembers.get(id) == null) {
@@ -114,6 +106,10 @@ const update = async () => {
           }
         })
       }
+
+      await registerNewMembers();
+      await updateDisplayName();
+      await deleteMembers();
     }
     else
     {
