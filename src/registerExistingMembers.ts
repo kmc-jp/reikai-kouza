@@ -43,7 +43,7 @@ const register = async () => {
           + `'${member["id"]}',`
           + `'${member["profile"]["display_name"] === "" ? member["profile"]["real_name"].replace(/'/g, "\\'") : member["profile"]["display_name"].replace(/'/g, "\\'")}',`
           + `${date_halfYearAgo__dbFormat},`
-          + `${projectConstants.values.preferredDayOfWeek.Unanswered},`
+          + `${projectConstants.values.preferredDayOfWeek.Unanswered.value},`
           + `${projectConstants.values.assignedDate.None},`
           + `${date_halfYearAgo__dbFormat},`
           + `${date_halfYearAgo__dbFormat},`

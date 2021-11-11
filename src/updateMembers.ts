@@ -68,7 +68,7 @@ const update = async () => {
                   + `'${x["id"]}',`
                   + `'${x["profile"]["display_name"] === "" ? x["profile"]["real_name"].replace(/'/g, "\\'") : x["profile"]["display_name"].replace(/'/g, "\\'")}',`
                   + `${date__dbFormat},`
-                  + `${projectConstants.values.preferredDayOfWeek.Unanswered},`
+                  + `${projectConstants.values.preferredDayOfWeek.Unanswered.value},`
                   + `${projectConstants.values.assignedDate.None},`
                   + `${date_halfYearAgo__dbFormat},`
                   + `${date_halfYearAgo__dbFormat},`

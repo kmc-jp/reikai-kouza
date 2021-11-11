@@ -1,3 +1,4 @@
+// プログラム内で使用する定数類
 export const projectConstants = {
   slack: {
     memberChannelName: "#reikai-kouza-member",
@@ -8,12 +9,30 @@ export const projectConstants = {
     DBName: "test_db",
     tableName: "reikai_kouza",
   },
+  server: {
+    port: 10080,
+    path: {
+      interactivity: "/interactivity",
+    }
+  },
   values: {
     preferredDayOfWeek: {
-      Unanswered: -1,
-      Both: 1,
-      Monday: 2,
-      Thursday: 3,
+      Unanswered: {
+        value: -1,
+        text: "未回答",
+      },
+      Both: {
+        value: 1,
+        text: "どちらも",
+      },
+      Monday: {
+        value: 2,
+        text: "月曜日",
+      },
+      Thursday: {
+        value: 3,
+        text: "木曜日",
+      },
     },
     assignedDate: {
       None: -1,
@@ -25,5 +44,20 @@ export const projectConstants = {
       Postponed: 3,
       OK: 10,
     }
-  }
+  },
+  interactivity: {
+    blockID: {
+      submit: "id--submit",
+    },
+    actionID: {
+      dayOfWeekSelect: "id--day-of-week-select",
+    },
+    values: {
+      dayOfWeekSelect: {
+        Monday: "value--Monday",
+        Thursday: "value--Thursday",
+        Both: "value--Both",
+      },
+    },
+  },
 }
