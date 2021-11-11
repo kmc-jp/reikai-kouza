@@ -3,6 +3,8 @@ const path = require("path");
 module.exports = {
   mode: "development",
   entry: {
+    "background": "./src/background.ts",
+    "postDateSelection": "./src/postDateSelection.ts",
     "registerExistingMembers": "./src/registerExistingMembers.ts",
     "updateMembers": "/src/updateMembers.ts",
   },
