@@ -1,3 +1,4 @@
+// プログラム内で使用する定数類
 export const projectConstants = {
   slack: {
     memberChannelName: "#reikai-kouza-member",

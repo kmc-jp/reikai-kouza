@@ -3,6 +3,7 @@ import { projectConstants } from "./constants";
 const axios = require('axios');
 const path = require("path");
 
+// 例会講座用 公開Slackチャンネルに指定したメッセージを投稿
 export const postText2Members = async (message: string) => {
   const keyReader = readFile(path.join(__dirname, "./secret/keys.json"), "utf-8");
   const data = await keyReader;
@@ -18,6 +19,8 @@ export const postText2Members = async (message: string) => {
   });
 }
 
+// 例会講座 運営用Slackチャンネルに指定したメッセージを投稿
+// このメッセージは全てログチャンネルにも投稿する。
 export const postText = async (message: string) => {
   const keyReader = readFile(path.join(__dirname, "./secret/keys.json"), "utf-8");
   const data = await keyReader;
@@ -36,6 +39,7 @@ export const postText = async (message: string) => {
   await postText2Log(message);
 }
 
+// 例会講座 ログ用Slackチャンネルに指定したメッセージを投稿
 export const postText2Log = async (message: string) => {
   const keyReader = readFile(path.join(__dirname, "./secret/keys.json"), "utf-8");
   const data = await keyReader;

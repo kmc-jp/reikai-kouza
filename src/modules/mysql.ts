@@ -4,6 +4,7 @@ import { postText, postText2Log } from "./slack";
 const mysql = require('mysql2/promise');
 const path = require("path");
 
+// MySQLへの接続を返す
 const connect = async () => {
   const keyReader = readFile(path.join(__dirname, "./secret/keys.json"), "utf-8");
   const data = await keyReader;
@@ -18,6 +19,7 @@ const connect = async () => {
   return connection;
 }
 
+// 指定したクエリを実行するとともに、Slackのログチャンネルに実行したクエリ文字列を投げる。
 export const executeQuery= async (query: string) => {
   await postText2Log(`以下のクエリを発行\n${query}`);
 
@@ -36,6 +38,7 @@ export const executeQuery= async (query: string) => {
   }
 }
 
+// 指定した複数のクエリを実行するとともに、Slackのログチャンネルに実行したクエリ文字列を投げる。
 export const executeQueries = async (queries: string[]) => {
   await postText2Log(`以下のクエリを実行\n${queries.join("\n")}`);
 
