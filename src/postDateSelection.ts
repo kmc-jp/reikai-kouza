@@ -1,9 +1,11 @@
 import { readFile } from "fs/promises";
 import { projectConstants } from "./modules/constants";
+import { executeQueries } from "./modules/mysql";
+import { postText } from "./modules/slack";
 const axios = require('axios');
 const path = require("path");
 
-const post = async () => {
+export const postDateSelection = async (id: string) => {
   const keyReader = readFile(path.join(__dirname, "./secret/keys.json"), "utf-8");
   const data = await keyReader;
 
@@ -71,7 +73,7 @@ const post = async () => {
   ];
 
   await axios.post("https://slack.com/api/chat.postMessage", {
-      channel: "@ryokohbato",
+      channel: `@${id}`,
       blocks: JSON.stringify(message),
     }, {
     headers: {
@@ -80,5 +82,3 @@ const post = async () => {
     },
   });
 }
-
-post();
