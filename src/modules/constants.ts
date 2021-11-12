@@ -23,7 +23,7 @@ export const projectConstants = {
       },
       Both: {
         value: 1,
-        text: "どちらも",
+        text: "どちらでも",
       },
       Monday: {
         value: 2,
