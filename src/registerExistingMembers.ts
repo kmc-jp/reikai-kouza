@@ -34,20 +34,21 @@ const register = async () => {
     const date_halfYearAgo__dbFormat = date_halfYearAgo.getFullYear() * 10000 + (date_halfYearAgo.getMonth() + 1) * 100 + date_halfYearAgo.getDate();
 
     if (responseJson["ok"]) {
-      executeQueries((responseJson["members"] as Array<any>)
+      executeQueries(`INSERT INTO ${projectConstants.mysql.tableName} VALUES (?, ?, ?, ?, ?, ?, ?);`, (responseJson["members"] as Array<any>)
         .filter(member => member["id"] !== "USLACKBOT")                   // Slack Botを除外
         .filter(member => !member["is_bot"])                              // botを除外
         .filter(member => member["is_restricted"] === false)              // 制限されたユーザーを除外
         // 表示名は設定されていない場合がある
-        .map(member => `INSERT INTO ${projectConstants.mysql.tableName} VALUES (`
-          + `'${member["id"]}',`
-          + `${date_halfYearAgo__dbFormat},`
-          + `${projectConstants.values.preferredDayOfWeek.Unanswered.value},`
-          + `${projectConstants.values.assignedDate.None},`
-          + `${date_halfYearAgo__dbFormat},`
-          + `${date_halfYearAgo__dbFormat},`
-          + `${projectConstants.values.announcementStatus.Unassigned}`
-          + `);`));
+        .map(member => {
+          return [
+            member["id"],
+            date_halfYearAgo__dbFormat,
+            projectConstants.values.preferredDayOfWeek.Unanswered.value,
+            projectConstants.values.assignedDate.None,
+            date_halfYearAgo__dbFormat,
+            date_halfYearAgo__dbFormat,
+            projectConstants.values.announcementStatus.Unassigned,
+          ]}));
     }
     else
     {

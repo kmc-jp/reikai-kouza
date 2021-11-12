@@ -20,14 +20,14 @@ const connect = async () => {
 }
 
 // 指定したクエリを実行するとともに、Slackのログチャンネルに実行したクエリ文字列を投げる。
-export const executeQuery= async (query: string) => {
-  await postText2Log(`以下のクエリを発行\n${query}`);
+export const executeQuery= async (query: string, placeholder: any[]) => {
+  await postText2Log(`以下のクエリを発行\n${query}\n${placeholder.join(", ")}`);
 
   const connection = await connect();
   connection.connect();
 
   try {
-    const [results, _] = await connection.query(query);
+    const [results, _] = await connection.query(query, placeholder);
     return results;
   } catch (error) {
     if(error) {
@@ -39,15 +39,17 @@ export const executeQuery= async (query: string) => {
 }
 
 // 指定した複数のクエリを実行するとともに、Slackのログチャンネルに実行したクエリ文字列を投げる。
-export const executeQueries = async (queries: string[]) => {
-  await postText2Log(`以下のクエリを実行\n${queries.join("\n")}`);
+export const executeQueries = async (query: string, placeholders: any[][]) => {
+  await postText2Log(`以下のクエリを実行\n${query}\n${(placeholders.map(placeholder => {
+    return placeholder.join(", ");
+  }).join("\n"))}`);
 
   const connection = await connect();
   connection.connect();
 
   try {
-    return Promise.all(queries.map(async query => {
-      const [results, _] = await connection.query(query);
+    return Promise.all(placeholders.map(async placeholder => {
+      const [results, _] = await connection.query(query, placeholder);
       return results;
     }));
   } catch (error) {

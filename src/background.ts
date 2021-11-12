@@ -28,15 +28,27 @@ app.post(projectConstants.server.path.interactivity, async (request: any, respon
           switch (payload["actions"][0]["selected_option"]["value"]) {
             // 月曜日
             case projectConstants.interactivity.values.dayOfWeekSelect.Monday:
-              await executeQuery(`UPDATE ${projectConstants.mysql.tableName} SET preferred_day_of_week=${projectConstants.values.preferredDayOfWeek.Monday.value} WHERE id = '${payload["user"]["id"]}';`);
+              await executeQuery(`UPDATE ${projectConstants.mysql.tableName} SET preferred_day_of_week = ? WHERE id = ?;`,
+              [
+                projectConstants.values.preferredDayOfWeek.Monday.value,
+                payload["user"]["id"],
+              ]);
               break;
             // 木曜日
             case projectConstants.interactivity.values.dayOfWeekSelect.Thursday:
-              await executeQuery(`UPDATE ${projectConstants.mysql.tableName} SET preferred_day_of_week=${projectConstants.values.preferredDayOfWeek.Thursday.value} WHERE id = '${payload["user"]["id"]}';`);
+              await executeQuery(`UPDATE ${projectConstants.mysql.tableName} SET preferred_day_of_week = ? WHERE id = ?;`,
+              [
+                projectConstants.values.preferredDayOfWeek.Thursday.value,
+                payload["user"]["id"],
+              ]);
               break;
             // どちらでも
             case projectConstants.interactivity.values.dayOfWeekSelect.Both:
-              await executeQuery(`UPDATE ${projectConstants.mysql.tableName} SET preferred_day_of_week=${projectConstants.values.preferredDayOfWeek.Both.value} WHERE id = '${payload["user"]["id"]}';`);
+              await executeQuery(`UPDATE ${projectConstants.mysql.tableName} SET preferred_day_of_week = ? WHERE id = ?;`,
+              [
+                projectConstants.values.preferredDayOfWeek.Both.value,
+                payload["user"]["id"],
+              ]);
               break;
           }
           break;
@@ -50,7 +62,10 @@ app.post(projectConstants.server.path.interactivity, async (request: any, respon
       switch (payload["actions"][0]["block_id"]) {
         // 送信ボタン
         case projectConstants.interactivity.blockID.submit:
-          const registeredData = (await executeQuery(`SELECT preferred_day_of_week from ${projectConstants.mysql.tableName} WHERE id = '${payload["user"]["id"]}';`))[0]["preferred_day_of_week"];
+          const registeredData = (await executeQuery(`SELECT preferred_day_of_week from ${projectConstants.mysql.tableName} WHERE id = ? ;`,
+          [
+            payload["user"]["id"],
+          ]))[0]["preferred_day_of_week"];
           let dayOfWeek = "";
 
           switch(registeredData) {

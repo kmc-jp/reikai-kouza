@@ -47,7 +47,7 @@ const update = async () => {
           return member["id"];
         });
 
-      const allMembersInDB: Array<any> = await executeQuery(`SELECT id FROM ${projectConstants.mysql.tableName};`);
+      const allMembersInDB: Array<any> = await executeQuery(`SELECT id FROM ${projectConstants.mysql.tableName} ;`, []);
       const registeredMembers: string[] = allMembersInDB.map(x => x["id"]);
 
       // 新規部員の登録
@@ -64,16 +64,17 @@ const update = async () => {
             // TODO: 見つけたらbreak
             return Promise.all((responseJson["members"] as Array<any>).map(async x => {
               if (x["id"] === id) {
-                const r = await executeQuery(`INSERT INTO ${projectConstants.mysql.tableName} VALUES (`
-                  + `'${x["id"]}',`
-                  + `${date__dbFormat},`
-                  + `${projectConstants.values.preferredDayOfWeek.Unanswered.value},`
-                  + `${projectConstants.values.assignedDate.None},`
-                  + `${date_halfYearAgo__dbFormat},`
-                  + `${date_halfYearAgo__dbFormat},`
-                  + `${projectConstants.values.announcementStatus.Unassigned}`
-                  + `);`);
-                return r;
+                const result = await executeQuery(
+                  `INSERT INTO ${projectConstants.mysql.tableName} VALUES (?, ?, ?, ?, ?, ?, ?);`, [
+                    x["id"],
+                    date__dbFormat,
+                    projectConstants.values.preferredDayOfWeek.Unanswered.value,
+                    projectConstants.values.assignedDate.None,
+                    date_halfYearAgo__dbFormat,
+                    date_halfYearAgo__dbFormat,
+                    projectConstants.values.announcementStatus.Unassigned,
+                  ]);
+                return result;
               }
             }));
           }
@@ -86,7 +87,9 @@ const update = async () => {
           // Slackの非制限ユーザーリストに入っていなかった場合は、DBから削除
           if (!allMembers.includes(id)) {
             await postText(`登録情報を削除します。\n<@${id}>, ID: ${id}`);
-            await executeQuery(`DELETE FROM ${projectConstants.mysql.tableName} WHERE id = '${id}';`);
+            await executeQuery(`DELETE FROM ${projectConstants.mysql.tableName} WHERE id = ? ;`, [
+              id,
+            ]);
           }
         })
       }
