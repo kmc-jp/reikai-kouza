@@ -2,6 +2,7 @@ import { readFile } from "fs/promises";
 import { projectConstants } from "./modules/constants";
 import { executeQueries, executeQuery } from "./modules/mysql";
 import { postText, postText2Log } from "./modules/slack";
+import { postAnnounce } from "./postAnnounce";
 const axios = require("axios"); 
 const path = require("path");
 const argv = require("minimist")(process.argv.slice(2));
@@ -56,6 +57,7 @@ const update = async () => {
           // DBにIDが登録されていなかった場合
           if (!registeredMembers.includes(id)) {
             await postText(`新規の部員を追加します。\n<@${id}>, ID: ${id}`);
+            await postAnnounce(id);
 
             // 時間がかかってしまうが、メンバー一覧からIDが一致するまで探してくる
             // TODO: 後ろから探査したほうが確実に早い

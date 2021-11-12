@@ -81,4 +81,5 @@ export const postDateSelection = async (id: string) => {
       "Content-Type": 'application/json',
     },
   });
+  await postText(`<@${id}> さんに、希望曜日調査を送付しました。`);
 }

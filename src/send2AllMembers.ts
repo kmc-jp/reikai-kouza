@@ -1,5 +1,6 @@
 import { readFile } from "fs/promises";
 import { postText } from "./modules/slack";
+import { postAnnounce } from "./postAnnounce";
 import { postDateSelection } from "./postDateSelection";
 const axios = require('axios');
 const path = require("path");
@@ -25,6 +26,7 @@ const post = async () => {
 
     // リクエスト数超過を避けるため、3秒間隔で送信
     for (const id of allMembersID) {
+      await postAnnounce(id);
       await postDateSelection(id);
       await new Promise(resolve => {
         setTimeout(resolve, 3000);
