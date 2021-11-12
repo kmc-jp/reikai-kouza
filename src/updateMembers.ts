@@ -2,6 +2,7 @@ import { readFile } from "fs/promises";
 import { projectConstants } from "./modules/constants";
 import { executeQueries, executeQuery } from "./modules/mysql";
 import { postText, postText2Log } from "./modules/slack";
+import { postAnnounce } from "./postAnnounce";
 const axios = require("axios"); 
 const path = require("path");
 const argv = require("minimist")(process.argv.slice(2));
@@ -38,15 +39,13 @@ const update = async () => {
 
     if (responseJson["ok"]) {
       // 全部員の最新のIDリスト
-      const allMembers= new Map<string, string>();
-      
-      (responseJson["members"] as Array<any>)
+      const allMembers = (responseJson["members"] as Array<any>)
         .filter(member => member["id"] !== "USLACKBOT")                   // Slack Botを除外
         .filter(member => !member["is_bot"])                              // botを除外
         .filter(member => member["is_restricted"] === false)              // 制限されたユーザーを除外
-        .forEach(member => {
-          allMembers.set(member["id"], member["profile"]["display_name"] === "" ? member["profile"]["real_name"] : member["profile"]["display_name"]);
-        })
+        .map(member => {
+          return member["id"];
+        });
 
       const allMembersInDB: Array<any> = await executeQuery(`SELECT id FROM ${projectConstants.mysql.tableName};`);
       const registeredMembers: string[] = allMembersInDB.map(x => x["id"]);
@@ -54,10 +53,11 @@ const update = async () => {
       // 新規部員の登録
       const registerNewMembers = async () => {
         // 新規の部員をチェック
-        await Promise.all(Array.from(allMembers.keys()).map(async id => {
+        await Promise.all(allMembers.map(async id => {
           // DBにIDが登録されていなかった場合
           if (!registeredMembers.includes(id)) {
-            await postText(`新規の部員を追加します。\n<@${allMembers.get(id)}>, ID: ${id}`);
+            await postText(`新規の部員を追加します。\n<@${id}>, ID: ${id}`);
+            await postAnnounce(id);
 
             // 時間がかかってしまうが、メンバー一覧からIDが一致するまで探してくる
             // TODO: 後ろから探査したほうが確実に早い
@@ -66,7 +66,6 @@ const update = async () => {
               if (x["id"] === id) {
                 const r = await executeQuery(`INSERT INTO ${projectConstants.mysql.tableName} VALUES (`
                   + `'${x["id"]}',`
-                  + `'${x["profile"]["display_name"] === "" ? x["profile"]["real_name"].replace(/'/g, "\\'") : x["profile"]["display_name"].replace(/'/g, "\\'")}',`
                   + `${date__dbFormat},`
                   + `${projectConstants.values.preferredDayOfWeek.Unanswered.value},`
                   + `${projectConstants.values.assignedDate.None},`
@@ -81,34 +80,18 @@ const update = async () => {
         }));
       }
 
-      // 表示名の更新
-      const updateDisplayName = async () => {
-        const allMembersDisplayNameInDB = await executeQueries(Array.from(allMembers.keys()).map(id => {
-          return `SELECT id, display_name FROM ${projectConstants.mysql.tableName} WHERE id = '${id}';`;
-        }))
-
-        allMembersDisplayNameInDB!.forEach(async db => {
-          if (db[0]["display_name"] !== allMembers.get(db[0]["id"])) {
-            await postText(`表示名を更新します。\n<@${allMembers.get(db[0]["id"])}>`);
-            await executeQuery(`UPDATE ${projectConstants.mysql.tableName} SET display_name='${allMembers.get(db[0]["id"])!.replace(/'/g, "\\'")}' WHERE id = '${db[0]["id"]}';`);
-          }
-        })
-      }
-
       // 登録情報の削除
       const deleteMembers = async () => {
         registeredMembers.forEach(async id => {
           // Slackの非制限ユーザーリストに入っていなかった場合は、DBから削除
-          if (allMembers.get(id) == null) {
-            const deletingMemberDisplayName = await executeQuery(`SELECT display_name FROM ${projectConstants.mysql.tableName} WHERE id = '${id}';`)
-            await postText(`登録情報を削除します。\n<@${deletingMemberDisplayName[0]["display_name"]}>, ID: ${id}`);
+          if (!allMembers.includes(id)) {
+            await postText(`登録情報を削除します。\n<@${id}>, ID: ${id}`);
             await executeQuery(`DELETE FROM ${projectConstants.mysql.tableName} WHERE id = '${id}';`);
           }
         })
       }
 
       await registerNewMembers();
-      await updateDisplayName();
       await deleteMembers();
     }
     else

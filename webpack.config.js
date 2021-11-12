@@ -4,8 +4,8 @@ module.exports = {
   mode: "development",
   entry: {
     "background": "./src/background.ts",
-    "postDateSelection": "./src/postDateSelection.ts",
     "registerExistingMembers": "./src/registerExistingMembers.ts",
+    "send2AllMembers": "./src/send2AllMembers.ts",
     "updateMembers": "/src/updateMembers.ts",
   },
   output: {
