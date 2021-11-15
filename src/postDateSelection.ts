@@ -57,7 +57,7 @@ export const postDateSelection = async (id: string) => {
     },
     {
       "type": "actions",
-      "block_id": `${projectConstants.interactivity.blockID.submit}`,
+      "block_id": `${projectConstants.interactivity.blockID.dayOfWeekSelectSubmit}`,
       "elements": [
         {
           "type": "button",

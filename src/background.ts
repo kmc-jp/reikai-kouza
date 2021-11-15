@@ -61,7 +61,7 @@ app.post(projectConstants.server.path.interactivity, async (request: any, respon
     if (payload["actions"][0]["block_id"] != null) {
       switch (payload["actions"][0]["block_id"]) {
         // 送信ボタン
-        case projectConstants.interactivity.blockID.submit:
+        case projectConstants.interactivity.blockID.dayOfWeekSelectSubmit:
           const registeredData = (await executeQuery(`SELECT preferred_day_of_week from ${projectConstants.mysql.tableName} WHERE id = ? ;`,
           [
             payload["user"]["id"],

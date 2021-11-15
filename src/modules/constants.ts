@@ -47,7 +47,7 @@ export const projectConstants = {
   },
   interactivity: {
     blockID: {
-      submit: "id--submit",
+      dayOfWeekSelectSubmit: "id--day-of-week-submit",
     },
     actionID: {
       dayOfWeekSelect: "id--day-of-week-select",
