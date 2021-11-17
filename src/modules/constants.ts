@@ -48,15 +48,25 @@ export const projectConstants = {
   interactivity: {
     blockID: {
       dayOfWeekSelectSubmit: "id--day-of-week-submit",
+      assign: "id--assign-submit",
     },
     actionID: {
       dayOfWeekSelect: "id--day-of-week-select",
+      assign: "id--assign-select",
     },
     values: {
       dayOfWeekSelect: {
         Monday: "value--Monday",
         Thursday: "value--Thursday",
         Both: "value--Both",
+      },
+      assign: {
+        OK: "value--postpone-OK",
+        Postpone1: "value--postpone-1",
+        Postpone2: "value--postpone-2",
+        Postpone3: "value--postpone-3",
+        Postpone4: "value--postpone-4",
+        Cancel: "value--Cancel",
       },
     },
   },
