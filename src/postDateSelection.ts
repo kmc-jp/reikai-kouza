@@ -30,7 +30,7 @@ export const postDateSelection = async (id: string) => {
               "text": "月曜日",
               "emoji": true
             },
-            "value": "value--Monday"
+            "value": `${projectConstants.interactivity.values.dayOfWeekSelect.Monday}`
           },
           {
             "text": {
@@ -38,7 +38,7 @@ export const postDateSelection = async (id: string) => {
               "text": "木曜日",
               "emoji": true
             },
-            "value": "value--Thursday"
+            "value": `${projectConstants.interactivity.values.dayOfWeekSelect.Thursday}`
           },
           {
             "text": {
@@ -46,10 +46,10 @@ export const postDateSelection = async (id: string) => {
               "text": "どちらでも (月曜日・木曜日)",
               "emoji": true
             },
-            "value": "value--Both"
+            "value": `${projectConstants.interactivity.values.dayOfWeekSelect.Both}`
           }
         ],
-        "action_id": "id--day-of-week-select"
+        "action_id": `${projectConstants.interactivity.actionID.dayOfWeekSelect}`
       }
     },
     {
@@ -57,7 +57,7 @@ export const postDateSelection = async (id: string) => {
     },
     {
       "type": "actions",
-      "block_id": "id--submit",
+      "block_id": `${projectConstants.interactivity.blockID.dayOfWeekSelectSubmit}`,
       "elements": [
         {
           "type": "button",

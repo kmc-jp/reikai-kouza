@@ -1,5 +1,6 @@
 import { readFile } from "fs/promises";
 import { projectConstants } from "./modules/constants";
+import { toDate, toDBFormat } from "./modules/date";
 import { executeQueries, executeQuery } from "./modules/mysql";
 import { postText, postText2Log } from "./modules/slack";
 import { postAnnounce } from "./postAnnounce";
@@ -24,18 +25,15 @@ const update = async () => {
     // 実際の日付の6ヶ月前の日付を求める。
     // 実際の日付は引数で指定する。
     const date_str = (argv["_"][0] as number).toString();
-    const date = new Date();
-    date.setFullYear(Number.parseInt(date_str.substring(0, 4)))
-    date.setMonth(Number.parseInt(date_str.substring(4, 6)) - 1)
-    date.setDate(Number.parseInt(date_str.substring(6, 8)))
+    const date = toDate(date_str);
 
     // 6ヶ月前 (簡単に180日前) の時刻を取得
     // ミリ秒単位であることに注意
     // 実際は時差があり9時間ずれているがどうでもいいので無視
     const date_halfYearAgo = new Date(date.getTime() - 6 * 30 * 24 * 60 * 60 * 1000);
 
-    const date__dbFormat = date.getFullYear() * 10000 + (date.getMonth() + 1) * 100 + date.getDate();
-    const date_halfYearAgo__dbFormat = date_halfYearAgo.getFullYear() * 10000 + (date_halfYearAgo.getMonth() + 1) * 100 + date_halfYearAgo.getDate();
+    const date__dbFormat = toDBFormat(date);
+    const date_halfYearAgo__dbFormat = toDBFormat(date_halfYearAgo);
 
     if (responseJson["ok"]) {
       // 全部員の最新のIDリスト
