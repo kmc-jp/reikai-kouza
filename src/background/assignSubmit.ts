@@ -14,7 +14,7 @@ export const assignSubmit = async (payload: any) => {
   const keyReader = readFile(path.join(__dirname, "./secret/keys.json"), "utf-8");
   const data = await keyReader;
 
-  const registeredData = (await executeQuery(`SELECT assignment_group, announced_date, announcement_status from ${projectConstants.mysql.tableName} WHERE id = ? ;`,
+  const registeredData = (await executeQuery(`SELECT assigned_date, assignment_group, announced_date, announcement_status from ${projectConstants.mysql.tableName} WHERE id = ? ;`,
     [
       payload["user"]["id"],
     ]))[0];
@@ -32,21 +32,21 @@ export const assignSubmit = async (payload: any) => {
         },
       });
       // 担当日選択フォームを再送信
-      assignMember(payload["user"]["id"], registeredData["announced_date"], registeredData["assignment_group"]);
+      assignMember(payload["user"]["id"], toDate(registeredData["announced_date"]), toDate(registeredData["assignment_group"]));
       return;
 
     case projectConstants.values.announcementStatus.OK:
     case projectConstants.values.announcementStatus.Postponed:
       await axios.post(payload["response_url"], {
         channel: projectConstants.slack.memberChannelName,
-        text: `<@${payload["user"]["id"]}> \n${format(toDate(registeredData["assignment_group"]))} の講座に登録しました。講座担当日の1週間前に #ryokohbato-memo で告知されます。`,
+        text: `<@${payload["user"]["id"]}> \n${format(toDate(registeredData["assigned_date"]))} の講座に登録しました。講座担当日の1週間前に <${projectConstants.slack.memberChannelName}> で告知されます。`,
       }, {
         headers: {
           "Authorization": `Bearer ${JSON.parse(data)["slack"]["bot_user_oauth_token"]}`,
           "Content-Type": 'application/json',
         },
       });
-      await postText(`<@${payload["user"]["id"]}> ${format(toDate(registeredData["assignment_group"]))} に登録`);
+      await postText(`<@${payload["user"]["id"]}> ${format(toDate(registeredData["assigned_date"]))} に登録`);
       break;
     case projectConstants.values.announcementStatus.AdditionalAssignmentNeeded:
       await axios.post(payload["response_url"], {
@@ -58,7 +58,7 @@ export const assignSubmit = async (payload: any) => {
           "Content-Type": 'application/json',
         },
       });
-      await postText(`<@${payload["user"]["id"]}> ${format(toDate(registeredData["assigned_date"]))} をキャンセル`);
+      await postText(`<@${payload["user"]["id"]}> ${format(toDate(registeredData["assignment_group"]))} をキャンセル`);
       break;
   }
 }

@@ -16,7 +16,7 @@ export const assignMember = async (id: string, today: Date, assignedDate: Date) 
 		id,
 	]);
 
-  // TODO: 選ばれた担当者にメッセージを送信
+  // 選ばれた担当者にメッセージを送信
   await axios.post("https://slack.com/api/chat.postMessage", {
       channel: `@${id}`,
       blocks: `${getAssignMessage(assignedDate)}`,
@@ -26,7 +26,13 @@ export const assignMember = async (id: string, today: Date, assignedDate: Date) 
       "Content-Type": 'application/json',
     },
   });
-  // TODO: データベースの更新
+
+  // データベースの更新
+	await executeQuery(`UPDATE ${projectConstants.mysql.tableName} SET announcement_status = ? WHERE id = ?`,
+	[
+    projectConstants.values.announcementStatus.NoReply,
+		id,
+	]);
 }
 
 const getAssignMessage = (assignedDate: Date): string => {
