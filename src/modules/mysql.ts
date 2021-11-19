@@ -20,7 +20,7 @@ const connect = async () => {
 }
 
 // 指定したクエリを実行するとともに、Slackのログチャンネルに実行したクエリ文字列を投げる。
-export const executeQuery= async (query: string, placeholder: any[]) => {
+export const executeQuery = async (query: string, placeholder: any[]): Promise<any[]> => {
   await postText2Log(`以下のクエリを発行\n${query}\n${placeholder.join(", ")}`);
 
   const connection = await connect();
@@ -33,13 +33,14 @@ export const executeQuery= async (query: string, placeholder: any[]) => {
     if(error) {
       await postText(`発行時エラー\n${error}`);
     }
+    return [];
   } finally {
     connection.end();
   }
 }
 
 // 指定した複数のクエリを実行するとともに、Slackのログチャンネルに実行したクエリ文字列を投げる。
-export const executeQueries = async (query: string, placeholders: any[][]) => {
+export const executeQueries = async (query: string, placeholders: any[][]): Promise<any[][]> => {
   await postText2Log(`以下のクエリを実行\n${query}\n${(placeholders.map(placeholder => {
     return placeholder.join(", ");
   }).join("\n"))}`);
@@ -56,6 +57,7 @@ export const executeQueries = async (query: string, placeholders: any[][]) => {
     if(error) {
       await postText(`発行時エラー\n${error}`);
     }
+    return [];
   } finally {
     connection.end();
   }

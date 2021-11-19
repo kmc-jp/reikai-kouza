@@ -3,6 +3,7 @@ const path = require("path");
 module.exports = {
   mode: "development",
   entry: {
+    "additionalAssignTask": "./src/additionalAssignTask.ts",
     "assignTask": "./src/assignTask.ts",
     "background": "./src/background.ts",
     "registerExistingMembers": "./src/registerExistingMembers.ts",
