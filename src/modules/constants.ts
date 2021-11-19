@@ -13,7 +13,7 @@ export const projectConstants = {
     port: 10080,
     path: {
       interactivity: "/interactivity",
-    }
+    },
   },
   values: {
     preferredDayOfWeek: {
@@ -43,7 +43,7 @@ export const projectConstants = {
       AdditionalAssignmentNeeded: 2,
       Postponed: 3,
       OK: 10,
-    }
+    },
   },
   interactivity: {
     blockID: {
@@ -70,4 +70,4 @@ export const projectConstants = {
       },
     },
   },
-}
+};

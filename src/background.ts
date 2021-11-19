@@ -1,14 +1,8 @@
 import { projectConstants } from "./modules/constants";
-import { executeQuery } from "./modules/mysql";
-import { readFile } from "fs/promises";
-import { postDateSelection } from "./postDateSelection";
-import { postText } from "./modules/slack";
 import { dayOfWeekSelectAction } from "./background/dayOfWeekSelectAction";
 import { dayOfWeekSelectSubmit } from "./background/dayOfWeekSelectSubmit";
 import { assignAction } from "./background/assignAction";
 import { assignSubmit } from "./background/assignSubmit";
-const axios = require('axios');
-const path = require("path");
 
 const express = require("express");
 const app = express();
@@ -38,7 +32,7 @@ app.post(projectConstants.server.path.interactivity, async (request: any, respon
           break;
       }
     }
-    
+
     if (payload["actions"][0]["block_id"] != null) {
       switch (payload["actions"][0]["block_id"]) {
         // 希望曜日選択 送信ボタン

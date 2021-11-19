@@ -1,7 +1,5 @@
 import { assign } from "./assign";
-import { projectConstants } from "./modules/constants";
 import { toDate } from "./modules/date";
-import { executeQuery } from "./modules/mysql";
 import { postText } from "./modules/slack";
 
 const argv = require("minimist")(process.argv.slice(2));
@@ -20,6 +18,6 @@ const assignTask = async () => {
   const assignedDate = new Date(today.getTime() + 3 * 7 * 24 * 60 * 60 * 1000);
 
   assign(today, assignedDate);
-}
+};
 
 assignTask();

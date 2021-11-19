@@ -11,18 +11,22 @@ export const assign = async (today: Date, assignedDate: Date) => {
   const today_threeMonthsAgo = new Date(today.getTime() - 3 * 30 * 24 * 60 * 60 * 1000);
   const today_threeMonthsAgo__dbFormat = toDBFormat(today_threeMonthsAgo);
 
-  const targetMembers = await executeQuery(`SELECT * FROM ${projectConstants.mysql.tableName} WHERE registration_date < ? AND\
+  const targetMembers = await executeQuery(
+    `SELECT * FROM ${projectConstants.mysql.tableName} WHERE registration_date < ? AND\
     (preferred_day_of_week = ? OR preferred_day_of_week = ? OR preferred_day_of_week = ?) AND\
     assignment_group < ? AND\
     announcement_status = ?;`,
-  [
-    today_threeMonthsAgo__dbFormat,
-    projectConstants.values.preferredDayOfWeek.Both.value,
-    assignedDate.getDay() === 1 ? projectConstants.values.preferredDayOfWeek.Monday.value : projectConstants.values.preferredDayOfWeek.Thursday.value,
-    projectConstants.values.preferredDayOfWeek.Unanswered.value,
-    today_threeMonthsAgo__dbFormat,
-    projectConstants.values.announcementStatus.Unassigned,
-  ]);
+    [
+      today_threeMonthsAgo__dbFormat,
+      projectConstants.values.preferredDayOfWeek.Both.value,
+      assignedDate.getDay() === 1
+        ? projectConstants.values.preferredDayOfWeek.Monday.value
+        : projectConstants.values.preferredDayOfWeek.Thursday.value,
+      projectConstants.values.preferredDayOfWeek.Unanswered.value,
+      today_threeMonthsAgo__dbFormat,
+      projectConstants.values.announcementStatus.Unassigned,
+    ]
+  );
 
   await postText(`${format(assignedDate)} の講座担当者を選びます (対象人数: ${targetMembers.length})`);
 
@@ -30,6 +34,6 @@ export const assign = async (today: Date, assignedDate: Date) => {
   const assignedMember: string = targetMembers[Math.floor(Math.random() * targetMembers.length)]["id"];
   await postText(`<@${assignedMember}>`);
 
-	// assignMember(assignedMember, today, assignedDate);
-	assignMember("U01U7S3UFAB", today, assignedDate);
-}
+  // assignMember(assignedMember, today, assignedDate);
+  assignMember("U01U7S3UFAB", today, assignedDate);
+};

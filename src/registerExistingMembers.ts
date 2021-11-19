@@ -3,7 +3,7 @@ import { projectConstants } from "./modules/constants";
 import { toDate, toDBFormat } from "./modules/date";
 import { executeQueries } from "./modules/mysql";
 import { postText } from "./modules/slack";
-const axios = require("axios"); 
+const axios = require("axios");
 const path = require("path");
 const argv = require("minimist")(process.argv.slice(2));
 
@@ -16,7 +16,9 @@ const register = async () => {
     const data = await keyReader;
 
     // ユーザー一覧情報を取得
-    const response = await axios.get("https://slack.com/api/users.list", {headers: {Authorization: `Bearer ${JSON.parse(data)["slack"]["bot_user_oauth_token"]}`}})
+    const response = await axios.get("https://slack.com/api/users.list", {
+      headers: { Authorization: `Bearer ${JSON.parse(data)["slack"]["bot_user_oauth_token"]}` },
+    });
     const responseJson = response["data"];
 
     // 実際の日付の6ヶ月前の日付を求める。
@@ -32,29 +34,31 @@ const register = async () => {
     const date_halfYearAgo__dbFormat = toDBFormat(date_halfYearAgo);
 
     if (responseJson["ok"]) {
-      executeQueries(`INSERT INTO ${projectConstants.mysql.tableName} VALUES (?, ?, ?, ?, ?, ?, ?);`, (responseJson["members"] as Array<any>)
-        .filter(member => member["id"] !== "USLACKBOT")                   // Slack Botを除外
-        .filter(member => !member["is_bot"])                              // botを除外
-        .filter(member => member["is_restricted"] === false)              // 制限されたユーザーを除外
-        // 表示名は設定されていない場合がある
-        .map(member => {
-          return [
-            member["id"],
-            date_halfYearAgo__dbFormat,
-            projectConstants.values.preferredDayOfWeek.Unanswered.value,
-            projectConstants.values.assignedDate.None,
-            date_halfYearAgo__dbFormat,
-            date_halfYearAgo__dbFormat,
-            projectConstants.values.announcementStatus.Unassigned,
-          ]}));
-    }
-    else
-    {
+      executeQueries(
+        `INSERT INTO ${projectConstants.mysql.tableName} VALUES (?, ?, ?, ?, ?, ?, ?);`,
+        (responseJson["members"] as Array<any>)
+          .filter((member) => member["id"] !== "USLACKBOT") // Slack Botを除外
+          .filter((member) => !member["is_bot"]) // botを除外
+          .filter((member) => member["is_restricted"] === false) // 制限されたユーザーを除外
+          // 表示名は設定されていない場合がある
+          .map((member) => {
+            return [
+              member["id"],
+              date_halfYearAgo__dbFormat,
+              projectConstants.values.preferredDayOfWeek.Unanswered.value,
+              projectConstants.values.assignedDate.None,
+              date_halfYearAgo__dbFormat,
+              date_halfYearAgo__dbFormat,
+              projectConstants.values.announcementStatus.Unassigned,
+            ];
+          })
+      );
+    } else {
       await postText("メンバー情報の取得に失敗しました。");
     }
   } catch (error) {
     await postText(`部員の登録処理でエラーが発生しました。\n${error}`);
   }
-}
+};
 
 register();
