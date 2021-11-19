@@ -26,7 +26,7 @@ export const assign = async (today: Date, assignedDate: Date) => {
     projectConstants.values.announcementStatus.Unassigned,
   ]);
 
-  await postText(`${targetMembers.length} 人の対象者からランダムに割り当てを行います。`);
+  await postText(`${format(assignedDate)} の講座担当者を選びます (対象人数: ${targetMembers.length})`);
 
   // 対象者からランダムに1人割り当てる
   const assignedMember: string = targetMembers[Math.floor(Math.random() * targetMembers.length)]["id"];
