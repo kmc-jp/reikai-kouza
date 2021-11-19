@@ -6,6 +6,7 @@ import { postText } from "./modules/slack";
 import { dayOfWeekSelectAction } from "./background/dayOfWeekSelectAction";
 import { dayOfWeekSelectSubmit } from "./background/dayOfWeekSelectSubmit";
 import { assignAction } from "./background/assignAction";
+import { assignSubmit } from "./background/assignSubmit";
 const axios = require('axios');
 const path = require("path");
 
@@ -46,9 +47,7 @@ app.post(projectConstants.server.path.interactivity, async (request: any, respon
           break;
 
         case projectConstants.interactivity.blockID.assign:
-          // 割り当て日 送信ボタン
-          console.log("確定");
-          console.log(payload["message"]["blocks"]);
+          assignSubmit(payload);
           break;
 
         default:
