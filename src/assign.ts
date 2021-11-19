@@ -13,7 +13,7 @@ export const assign = async (today: Date, assignedDate: Date) => {
   const today_threeMonthsAgo = new Date(today.getTime() - 3 * 30 * 24 * 60 * 60 * 1000);
   const today_threeMonthsAgo__dbFormat = toDBFormat(today_threeMonthsAgo);
 
-  const targetMembers: any[] = await executeQuery(`SELECT * FROM ${projectConstants.mysql.tableName} WHERE registration_date < ? AND\
+  const targetMembers = await executeQuery(`SELECT * FROM ${projectConstants.mysql.tableName} WHERE registration_date < ? AND\
     (preferred_day_of_week = ? OR preferred_day_of_week = ? OR preferred_day_of_week = ?) AND\
     assignment_group < ? AND\
     announcement_status = ?;`,

@@ -45,7 +45,7 @@ const update = async () => {
           return member["id"];
         });
 
-      const allMembersInDB: Array<any> = await executeQuery(`SELECT id FROM ${projectConstants.mysql.tableName} ;`, []);
+      const allMembersInDB = await executeQuery(`SELECT id FROM ${projectConstants.mysql.tableName} ;`, []);
       const registeredMembers: string[] = allMembersInDB.map(x => x["id"]);
 
       // 新規部員の登録
