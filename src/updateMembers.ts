@@ -1,10 +1,10 @@
 import { readFile } from "fs/promises";
 import { projectConstants } from "./modules/constants";
 import { toDate, toDBFormat } from "./modules/date";
-import { executeQueries, executeQuery } from "./modules/mysql";
-import { postText, postText2Log } from "./modules/slack";
+import { executeQuery } from "./modules/mysql";
+import { postText } from "./modules/slack";
 import { postAnnounce } from "./postAnnounce";
-const axios = require("axios"); 
+const axios = require("axios");
 const path = require("path");
 const argv = require("minimist")(process.argv.slice(2));
 
@@ -12,14 +12,15 @@ const argv = require("minimist")(process.argv.slice(2));
 // 引数として、日付をYYYYMMDDの形式で与える必要がある
 // 処理に時間がかかるので注意
 const update = async () => {
-  try
-  {
+  try {
     // key.jsonの内容を読み出し
     const keyReader = readFile(path.join(__dirname, "./secret/keys.json"), "utf-8");
     const data = await keyReader;
 
     // ユーザー一覧情報を取得
-    const response = await axios.get("https://slack.com/api/users.list", {headers: {Authorization: `Bearer ${JSON.parse(data)["slack"]["bot_user_oauth_token"]}`}})
+    const response = await axios.get("https://slack.com/api/users.list", {
+      headers: { Authorization: `Bearer ${JSON.parse(data)["slack"]["bot_user_oauth_token"]}` },
+    });
     const responseJson = response["data"];
 
     // 実際の日付の6ヶ月前の日付を求める。
@@ -38,70 +39,72 @@ const update = async () => {
     if (responseJson["ok"]) {
       // 全部員の最新のIDリスト
       const allMembers = (responseJson["members"] as Array<any>)
-        .filter(member => member["id"] !== "USLACKBOT")                   // Slack Botを除外
-        .filter(member => !member["is_bot"])                              // botを除外
-        .filter(member => member["is_restricted"] === false)              // 制限されたユーザーを除外
-        .map(member => {
+        .filter((member) => member["id"] !== "USLACKBOT") // Slack Botを除外
+        .filter((member) => !member["is_bot"]) // botを除外
+        .filter((member) => member["is_restricted"] === false) // 制限されたユーザーを除外
+        .map((member) => {
           return member["id"];
         });
 
       const allMembersInDB = await executeQuery(`SELECT id FROM ${projectConstants.mysql.tableName} ;`, []);
-      const registeredMembers: string[] = allMembersInDB.map(x => x["id"]);
+      const registeredMembers: string[] = allMembersInDB.map((x) => x["id"]);
 
       // 新規部員の登録
       const registerNewMembers = async () => {
         // 新規の部員をチェック
-        await Promise.all(allMembers.map(async id => {
-          // DBにIDが登録されていなかった場合
-          if (!registeredMembers.includes(id)) {
-            await postText(`新規の部員を追加します。\n<@${id}>, ID: ${id}`);
-            await postAnnounce(id);
+        await Promise.all(
+          allMembers.map(async (id) => {
+            // DBにIDが登録されていなかった場合
+            if (!registeredMembers.includes(id)) {
+              await postText(`新規の部員を追加します。\n<@${id}>, ID: ${id}`);
+              await postAnnounce(id);
 
-            // 時間がかかってしまうが、メンバー一覧からIDが一致するまで探してくる
-            // TODO: 後ろから探査したほうが確実に早い
-            // TODO: 見つけたらbreak
-            return Promise.all((responseJson["members"] as Array<any>).map(async x => {
-              if (x["id"] === id) {
-                const result = await executeQuery(
-                  `INSERT INTO ${projectConstants.mysql.tableName} VALUES (?, ?, ?, ?, ?, ?, ?);`, [
-                    x["id"],
-                    date__dbFormat,
-                    projectConstants.values.preferredDayOfWeek.Unanswered.value,
-                    projectConstants.values.assignedDate.None,
-                    date_halfYearAgo__dbFormat,
-                    date_halfYearAgo__dbFormat,
-                    projectConstants.values.announcementStatus.Unassigned,
-                  ]);
-                return result;
-              }
-            }));
-          }
-        }));
-      }
+              // 時間がかかってしまうが、メンバー一覧からIDが一致するまで探してくる
+              // TODO: 後ろから探査したほうが確実に早い
+              // TODO: 見つけたらbreak
+              return Promise.all(
+                (responseJson["members"] as Array<any>).map(async (x) => {
+                  if (x["id"] === id) {
+                    const result = await executeQuery(
+                      `INSERT INTO ${projectConstants.mysql.tableName} VALUES (?, ?, ?, ?, ?, ?, ?);`,
+                      [
+                        x["id"],
+                        date__dbFormat,
+                        projectConstants.values.preferredDayOfWeek.Unanswered.value,
+                        projectConstants.values.assignedDate.None,
+                        date_halfYearAgo__dbFormat,
+                        date_halfYearAgo__dbFormat,
+                        projectConstants.values.announcementStatus.Unassigned,
+                      ]
+                    );
+                    return result;
+                  }
+                })
+              );
+            }
+          })
+        );
+      };
 
       // 登録情報の削除
       const deleteMembers = async () => {
-        registeredMembers.forEach(async id => {
+        registeredMembers.forEach(async (id) => {
           // Slackの非制限ユーザーリストに入っていなかった場合は、DBから削除
           if (!allMembers.includes(id)) {
             await postText(`登録情報を削除します。\n<@${id}>, ID: ${id}`);
-            await executeQuery(`DELETE FROM ${projectConstants.mysql.tableName} WHERE id = ? ;`, [
-              id,
-            ]);
+            await executeQuery(`DELETE FROM ${projectConstants.mysql.tableName} WHERE id = ? ;`, [id]);
           }
-        })
-      }
+        });
+      };
 
       await registerNewMembers();
       await deleteMembers();
-    }
-    else
-    {
+    } else {
       await postText("メンバー情報の取得に失敗しました。");
     }
   } catch (error) {
     await postText(`部員情報の更新でエラーが発生しました。\n${error}`);
   }
-}
+};
 
 update();
