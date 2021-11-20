@@ -34,7 +34,7 @@ const register = async () => {
     const date_halfYearAgo__dbFormat = toDBFormat(date_halfYearAgo);
 
     if (responseJson["ok"]) {
-      executeQueries(
+      await executeQueries(
         `INSERT INTO ${projectConstants.mysql.tableName} VALUES (?, ?, ?, ?, ?, ?, ?);`,
         (responseJson["members"] as Array<any>)
           .filter((member) => member["id"] !== "USLACKBOT") // Slack Botを除外

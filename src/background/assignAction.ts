@@ -1,13 +1,14 @@
-import { projectConstants } from "../modules/constants";
+import { projectConstants, tableStructure__assignmentGroup } from "../modules/constants";
 import { getNextDate, toDate, toDBFormat } from "../modules/date";
 import { executeQuery } from "../modules/mysql";
 
 export const assignAction = async (payload: any) => {
   const assignedGroup: number = (
-    await executeQuery(`SELECT assignment_group FROM ${projectConstants.mysql.tableName} WHERE id = ?`, [
-      payload["user"]["id"],
-    ])
-  )[0]["assignment_group"];
+    await executeQuery<tableStructure__assignmentGroup>(
+      `SELECT assignment_group FROM ${projectConstants.mysql.tableName} WHERE id = ?`,
+      [payload["user"]["id"]]
+    )
+  )[0].assignment_group;
 
   switch (payload["actions"][0]["selected_option"]["value"]) {
     case projectConstants.interactivity.values.assign.OK:

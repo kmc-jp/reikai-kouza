@@ -20,7 +20,7 @@ const connect = async () => {
 };
 
 // 指定したクエリを実行するとともに、Slackのログチャンネルに実行したクエリ文字列を投げる。
-export const executeQuery = async (query: string, placeholder: any[]): Promise<any[]> => {
+export const executeQuery = async <T>(query: string, placeholder: any[]): Promise<T[]> => {
   await postText2Log(`以下のクエリを発行\n${query}\n${placeholder.join(", ")}`);
 
   const connection = await connect();
@@ -39,7 +39,7 @@ export const executeQuery = async (query: string, placeholder: any[]): Promise<a
 };
 
 // 指定した複数のクエリを実行するとともに、Slackのログチャンネルに実行したクエリ文字列を投げる。
-export const executeQueries = async (query: string, placeholders: any[][]): Promise<any[][]> => {
+export const executeQueries = async <T>(query: string, placeholders: any[][]): Promise<T[][]> => {
   await postText2Log(
     `以下のクエリを実行\n${query}\n${placeholders
       .map((placeholder) => {

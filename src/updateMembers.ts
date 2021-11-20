@@ -1,5 +1,5 @@
 import { readFile } from "fs/promises";
-import { projectConstants } from "./modules/constants";
+import { projectConstants, tableStructure__ID } from "./modules/constants";
 import { toDate, toDBFormat } from "./modules/date";
 import { executeQuery } from "./modules/mysql";
 import { postText } from "./modules/slack";
@@ -46,8 +46,11 @@ const update = async () => {
           return member["id"];
         });
 
-      const allMembersInDB = await executeQuery(`SELECT id FROM ${projectConstants.mysql.tableName} ;`, []);
-      const registeredMembers: string[] = allMembersInDB.map((x) => x["id"]);
+      const allMembersInDB = await executeQuery<tableStructure__ID>(
+        `SELECT id FROM ${projectConstants.mysql.tableName} ;`,
+        []
+      );
+      const registeredMembers: string[] = allMembersInDB.map((x) => x.id);
 
       // 新規部員の登録
       const registerNewMembers = async () => {
@@ -65,7 +68,7 @@ const update = async () => {
               return Promise.all(
                 (responseJson["members"] as Array<any>).map(async (x) => {
                   if (x["id"] === id) {
-                    const result = await executeQuery(
+                    return await executeQuery(
                       `INSERT INTO ${projectConstants.mysql.tableName} VALUES (?, ?, ?, ?, ?, ?, ?);`,
                       [
                         x["id"],
@@ -77,7 +80,6 @@ const update = async () => {
                         projectConstants.values.announcementStatus.Unassigned,
                       ]
                     );
-                    return result;
                   }
                 })
               );
