@@ -8,7 +8,8 @@ module.exports = {
     "background": "./src/background.ts",
     "registerExistingMembers": "./src/registerExistingMembers.ts",
     "send2AllMembers": "./src/send2AllMembers.ts",
-    "updateMembers": "/src/updateMembers.ts",
+    "updateMembers": "./src/updateMembers.ts",
+    "updateStatus": "./src/updateStatus.ts",
   },
   output: {
     filename: "[name].js",
