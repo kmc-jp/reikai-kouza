@@ -46,17 +46,17 @@ const additionalAssignTask = async () => {
       case projectConstants.values.announcementStatus.AdditionalAssignmentNeeded:
         break;
       case projectConstants.values.announcementStatus.Postponed:
-        await executeQuery(`UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.assignmentGroup} = ? WHERE ${tableItemName.id} = ?`, [
-          result.assigned_date,
-          result.id,
-        ]);
+        await executeQuery(
+          `UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.assignmentGroup} = ? WHERE ${tableItemName.id} = ?`,
+          [result.assigned_date, result.id]
+        );
         break;
     }
 
-    await executeQuery(`UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.announcementStatus} = ? WHERE ${tableItemName.id} = ?`, [
-      projectConstants.values.announcementStatus.OK,
-      result.id,
-    ]);
+    await executeQuery(
+      `UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.announcementStatus} = ? WHERE ${tableItemName.id} = ?`,
+      [projectConstants.values.announcementStatus.OK, result.id]
+    );
   }
 };
 

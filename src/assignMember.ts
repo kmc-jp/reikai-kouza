@@ -30,10 +30,10 @@ export const assignMember = async (id: string, today: Date, assignedDate: Date) 
   );
 
   // データベースの更新
-  await executeQuery(`UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.announcementStatus} = ? WHERE ${tableItemName.id} = ?`, [
-    projectConstants.values.announcementStatus.NoReply,
-    id,
-  ]);
+  await executeQuery(
+    `UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.announcementStatus} = ? WHERE ${tableItemName.id} = ?`,
+    [projectConstants.values.announcementStatus.NoReply, id]
+  );
 };
 
 const getAssignMessage = (assignedDate: Date): string => {
