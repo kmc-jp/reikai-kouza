@@ -21,6 +21,8 @@ export const postText2Members = async (message: string) => {
       },
     }
   );
+
+  await postText(message);
 };
 
 // 例会講座 運営用Slackチャンネルに指定したメッセージを投稿
