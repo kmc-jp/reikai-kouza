@@ -37,10 +37,11 @@ const additionalAssignTask = async () => {
       result["assignment_group"] <= threeWeeksAfter__dbFormat &&
       result["assignment_group"] >= twoWeeksAfter__dbFormat
     ) {
-      postText(`=> <@${result["id"]}>`);
+      postText(`追加の割り当てを行います (=> <@${result["id"]}>)`);
       assign(today, toDate(result["assignment_group"]));
     }
 
+    postText(`追加の割り当てに関する登録情報を処理します (<@${result["id"]}>)`);
     switch (result["announcement_status"]) {
       case projectConstants.values.announcementStatus.NoReply:
         // TODO: ボタンを押せないようにする。
