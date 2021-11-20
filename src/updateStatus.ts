@@ -5,7 +5,7 @@ import { postText } from "./modules/slack";
 
 const argv = require("minimist")(process.argv.slice(2));
 
-export const updateStatus = async () => {
+const updateStatus = async () => {
   const today = toDate((argv["_"][0] as number).toString());
   const today_threeMonthsAgo = new Date(today.getTime() - 3 * 30 * 24 * 60 * 60 * 1000);
   const today_threeMonthsAgo__dbFormat = toDBFormat(today_threeMonthsAgo);
