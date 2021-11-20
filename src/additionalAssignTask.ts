@@ -1,5 +1,5 @@
 import { assign } from "./assign";
-import { projectConstants, tableStructure } from "./modules/constants";
+import { projectConstants, tableItemName, tableStructure } from "./modules/constants";
 import { toDate, toDBFormat } from "./modules/date";
 import { executeQuery } from "./modules/mysql";
 import { postText } from "./modules/slack";
@@ -16,7 +16,7 @@ const additionalAssignTask = async () => {
 
   const results = await executeQuery<tableStructure>(
     `SELECT * FROM ${projectConstants.mysql.tableName} WHERE\
-  (announced_date <= ? AND announcement_status = ?) OR announcement_status = ? OR announcement_status = ?`,
+  (${tableItemName.announcedDate} <= ? AND ${tableItemName.announcementStatus} = ?) OR ${tableItemName.announcementStatus} = ? OR ${tableItemName.announcementStatus} = ?`,
     [
       threeDaysAgo__dbFormat,
       projectConstants.values.announcementStatus.NoReply,
@@ -46,14 +46,14 @@ const additionalAssignTask = async () => {
       case projectConstants.values.announcementStatus.AdditionalAssignmentNeeded:
         break;
       case projectConstants.values.announcementStatus.Postponed:
-        await executeQuery(`UPDATE ${projectConstants.mysql.tableName} SET assignment_group = ? WHERE id = ?`, [
+        await executeQuery(`UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.assignmentGroup} = ? WHERE ${tableItemName.id} = ?`, [
           result.assigned_date,
           result.id,
         ]);
         break;
     }
 
-    await executeQuery(`UPDATE ${projectConstants.mysql.tableName} SET announcement_status = ? WHERE id = ?`, [
+    await executeQuery(`UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.announcementStatus} = ? WHERE ${tableItemName.id} = ?`, [
       projectConstants.values.announcementStatus.OK,
       result.id,
     ]);

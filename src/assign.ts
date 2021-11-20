@@ -1,5 +1,5 @@
 import { assignMember } from "./assignMember";
-import { projectConstants, tableStructure } from "./modules/constants";
+import { projectConstants, tableItemName, tableStructure } from "./modules/constants";
 import { format, toDBFormat } from "./modules/date";
 import { executeQuery } from "./modules/mysql";
 import { postText } from "./modules/slack";
@@ -12,10 +12,10 @@ export const assign = async (today: Date, assignedDate: Date) => {
   const today_threeMonthsAgo__dbFormat = toDBFormat(today_threeMonthsAgo);
 
   const targetMembers = await executeQuery<tableStructure>(
-    `SELECT * FROM ${projectConstants.mysql.tableName} WHERE registration_date < ? AND\
-    (preferred_day_of_week = ? OR preferred_day_of_week = ? OR preferred_day_of_week = ?) AND\
-    assignment_group < ? AND\
-    announcement_status = ?;`,
+    `SELECT * FROM ${projectConstants.mysql.tableName} WHERE ${tableItemName.registrationDate} < ? AND\
+    (${tableItemName.preferredDayOfWeek} = ? OR ${tableItemName.preferredDayOfWeek} = ? OR ${tableItemName.preferredDayOfWeek} = ?) AND\
+    ${tableItemName.assignmentGroup} < ? AND\
+    ${tableItemName.announcementStatus} = ?;`,
     [
       today_threeMonthsAgo__dbFormat,
       projectConstants.values.preferredDayOfWeek.Both.value,

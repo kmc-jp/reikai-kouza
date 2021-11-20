@@ -1,5 +1,5 @@
 import { readFile } from "fs/promises";
-import { projectConstants, tableStructure__ID } from "./modules/constants";
+import { projectConstants, tableItemName, tableStructure__ID } from "./modules/constants";
 import { toDate, toDBFormat } from "./modules/date";
 import { executeQuery } from "./modules/mysql";
 import { postText } from "./modules/slack";
@@ -47,7 +47,7 @@ const update = async () => {
         });
 
       const allMembersInDB = await executeQuery<tableStructure__ID>(
-        `SELECT id FROM ${projectConstants.mysql.tableName} ;`,
+        `SELECT ${tableItemName.id} FROM ${projectConstants.mysql.tableName};`,
         []
       );
       const registeredMembers: string[] = allMembersInDB.map((x) => x.id);
@@ -94,7 +94,7 @@ const update = async () => {
           // Slackの非制限ユーザーリストに入っていなかった場合は、DBから削除
           if (!allMembers.includes(id)) {
             await postText(`登録情報を削除します。\n<@${id}>, ID: ${id}`);
-            await executeQuery(`DELETE FROM ${projectConstants.mysql.tableName} WHERE id = ? ;`, [id]);
+            await executeQuery(`DELETE FROM ${projectConstants.mysql.tableName} WHERE ${tableItemName.id} = ? ;`, [id]);
           }
         });
       };

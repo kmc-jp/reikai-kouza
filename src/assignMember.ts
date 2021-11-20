@@ -1,5 +1,5 @@
 import { readFile } from "fs/promises";
-import { projectConstants } from "./modules/constants";
+import { projectConstants, tableItemName } from "./modules/constants";
 import { format, getNextDate, toDBFormat } from "./modules/date";
 import { executeQuery } from "./modules/mysql";
 const axios = require("axios");
@@ -10,7 +10,7 @@ export const assignMember = async (id: string, today: Date, assignedDate: Date) 
   const data = await keyReader;
 
   await executeQuery(
-    `UPDATE ${projectConstants.mysql.tableName} SET assignment_group = ?, announced_date = ? WHERE id = ?`,
+    `UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.assignmentGroup} = ?, ${tableItemName.announcedDate} = ? WHERE ${tableItemName.id} = ?`,
     [toDBFormat(assignedDate), toDBFormat(today), id]
   );
 
@@ -30,7 +30,7 @@ export const assignMember = async (id: string, today: Date, assignedDate: Date) 
   );
 
   // データベースの更新
-  await executeQuery(`UPDATE ${projectConstants.mysql.tableName} SET announcement_status = ? WHERE id = ?`, [
+  await executeQuery(`UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.announcementStatus} = ? WHERE ${tableItemName.id} = ?`, [
     projectConstants.values.announcementStatus.NoReply,
     id,
   ]);

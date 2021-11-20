@@ -2,6 +2,7 @@ import { readFile } from "fs/promises";
 import { assignMember } from "../assignMember";
 import {
   projectConstants,
+  tableItemName,
   tableStructure__announcedDate,
   tableStructure__announcementStatus,
   tableStructure__assignedDate,
@@ -26,7 +27,7 @@ export const assignSubmit = async (payload: any) => {
         tableStructure__announcedDate &
         tableStructure__announcementStatus
     >(
-      `SELECT assigned_date, assignment_group, announced_date, announcement_status from ${projectConstants.mysql.tableName} WHERE id = ? ;`,
+      `SELECT ${tableItemName.assignedDate}, ${tableItemName.assignmentGroup}, ${tableItemName.announcedDate}, ${tableItemName.announcementStatus} from ${projectConstants.mysql.tableName} WHERE ${tableItemName.id} = ? ;`,
       [payload["user"]["id"]]
     )
   )[0];
