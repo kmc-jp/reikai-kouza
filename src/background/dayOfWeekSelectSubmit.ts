@@ -1,5 +1,5 @@
 import { readFile } from "fs/promises";
-import { projectConstants } from "../modules/constants";
+import { projectConstants, tableItemName, tableStructure__preferredDayOfWeek } from "../modules/constants";
 import { executeQuery } from "../modules/mysql";
 import { postText } from "../modules/slack";
 import { postDateSelection } from "../postDateSelection";
@@ -11,10 +11,11 @@ export const dayOfWeekSelectSubmit = async (payload: any) => {
   const data = await keyReader;
 
   const registeredData = (
-    await executeQuery(`SELECT preferred_day_of_week from ${projectConstants.mysql.tableName} WHERE id = ? ;`, [
-      payload["user"]["id"],
-    ])
-  )[0]["preferred_day_of_week"];
+    await executeQuery<tableStructure__preferredDayOfWeek>(
+      `SELECT ${tableItemName.preferredDayOfWeek} from ${projectConstants.mysql.tableName} WHERE ${tableItemName.id} = ? ;`,
+      [payload["user"]["id"]]
+    )
+  )[0].preferred_day_of_week;
   let dayOfWeek = "";
 
   switch (registeredData) {

@@ -1,5 +1,5 @@
 import { assignMember } from "./assignMember";
-import { projectConstants } from "./modules/constants";
+import { projectConstants, tableItemName, tableStructure } from "./modules/constants";
 import { format, toDBFormat } from "./modules/date";
 import { executeQuery } from "./modules/mysql";
 import { postText } from "./modules/slack";
@@ -11,11 +11,11 @@ export const assign = async (today: Date, assignedDate: Date) => {
   const today_threeMonthsAgo = new Date(today.getTime() - 3 * 30 * 24 * 60 * 60 * 1000);
   const today_threeMonthsAgo__dbFormat = toDBFormat(today_threeMonthsAgo);
 
-  const targetMembers = await executeQuery(
-    `SELECT * FROM ${projectConstants.mysql.tableName} WHERE registration_date < ? AND\
-    (preferred_day_of_week = ? OR preferred_day_of_week = ? OR preferred_day_of_week = ?) AND\
-    assignment_group < ? AND\
-    announcement_status = ?;`,
+  const targetMembers = await executeQuery<tableStructure>(
+    `SELECT * FROM ${projectConstants.mysql.tableName} WHERE ${tableItemName.registrationDate} < ? AND\
+    (${tableItemName.preferredDayOfWeek} = ? OR ${tableItemName.preferredDayOfWeek} = ? OR ${tableItemName.preferredDayOfWeek} = ?) AND\
+    ${tableItemName.assignmentGroup} < ? AND\
+    ${tableItemName.announcementStatus} = ?;`,
     [
       today_threeMonthsAgo__dbFormat,
       projectConstants.values.preferredDayOfWeek.Both.value,
@@ -31,7 +31,7 @@ export const assign = async (today: Date, assignedDate: Date) => {
   await postText(`${format(assignedDate)} の講座担当者を選びます (対象人数: ${targetMembers.length})`);
 
   // 対象者からランダムに1人割り当てる
-  const assignedMember: string = targetMembers[Math.floor(Math.random() * targetMembers.length)]["id"];
+  const assignedMember: string = targetMembers[Math.floor(Math.random() * targetMembers.length)].id;
   await postText(`<@${assignedMember}>`);
 
   // assignMember(assignedMember, today, assignedDate);

@@ -6,9 +6,11 @@ module.exports = {
     "additionalAssignTask": "./src/additionalAssignTask.ts",
     "assignTask": "./src/assignTask.ts",
     "background": "./src/background.ts",
+    "publicAnnounce": "./src/publicAnnounce.ts",
     "registerExistingMembers": "./src/registerExistingMembers.ts",
     "send2AllMembers": "./src/send2AllMembers.ts",
-    "updateMembers": "/src/updateMembers.ts",
+    "updateMembers": "./src/updateMembers.ts",
+    "updateStatus": "./src/updateStatus.ts",
   },
   output: {
     filename: "[name].js",
