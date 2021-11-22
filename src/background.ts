@@ -33,6 +33,8 @@ app.post(projectConstants.server.path.interactivity, async (request: any, respon
     return;
   }
 
+  // TODO: 5分以上前のものは破棄
+
   const parsedPayload = querystring.parse(request.text.toString("utf8"), null, null);
   const payload = JSON.parse(parsedPayload["payload"]);
 
