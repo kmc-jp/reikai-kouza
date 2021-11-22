@@ -3,7 +3,7 @@ import { projectConstants } from "./modules/constants";
 import { toDate, toDBFormat } from "./modules/date";
 import { filterNormalMembers } from "./modules/member";
 import { executeQueries } from "./modules/mysql";
-import { postText } from "./modules/slack";
+import { Member, postText } from "./modules/slack";
 const axios = require("axios");
 const path = require("path");
 const argv = require("minimist")(process.argv.slice(2));
@@ -37,11 +37,11 @@ const register = async () => {
     if (responseJson["ok"]) {
       await executeQueries(
         `INSERT INTO ${projectConstants.mysql.tableName} VALUES (?, ?, ?, ?, ?, ?, ?);`,
-        filterNormalMembers(responseJson["members"] as Array<any>)
+        filterNormalMembers(responseJson["members"] as Array<Member>)
           // 表示名は設定されていない場合がある
           .map((member) => {
             return [
-              member["id"],
+              member.id,
               date_halfYearAgo__dbFormat,
               projectConstants.values.preferredDayOfWeek.Unanswered.value,
               projectConstants.values.assignedDate.None,
