@@ -11,6 +11,7 @@ yarn が必要です。
 ```
 $ cd reikai-kouza
 $ yarn install
+$ yarn prepare
 $ yarn build              # dist/ 以下に生成
 ```
 
