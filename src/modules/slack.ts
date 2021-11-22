@@ -69,6 +69,52 @@ export const postText2Log = async (message: string) => {
   );
 };
 
+export const post2DM = async (id: string, blocks: string) => {
+  const keyReader = readFile(path.join(__dirname, "./secret/keys.json"), "utf-8");
+  const data = await keyReader;
+
+  await axios.post(
+    "https://slack.com/api/chat.postMessage",
+    {
+      channel: `@${id}`,
+      blocks: blocks,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${JSON.parse(data)["slack"]["bot_user_oauth_token"]}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+};
+
+export const updateByResponseURL = async (responseURL: string, message: string) => {
+  const keyReader = readFile(path.join(__dirname, "./secret/keys.json"), "utf-8");
+  const data = await keyReader;
+
+  await axios.post(
+    responseURL,
+    {
+      text: message,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${JSON.parse(data)["slack"]["bot_user_oauth_token"]}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+};
+
+export const getMemberList = async () => {
+  const keyReader = readFile(path.join(__dirname, "./secret/keys.json"), "utf-8");
+  const data = await keyReader;
+
+  return await axios.get("https://slack.com/api/users.list", {
+    headers: { Authorization: `Bearer ${JSON.parse(data)["slack"]["bot_user_oauth_token"]}` },
+  });
+};
+
 export interface Member {
   id?: string;
   team_id?: string;
