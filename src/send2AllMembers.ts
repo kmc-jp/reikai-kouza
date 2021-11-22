@@ -6,14 +6,13 @@ import { postDateSelection } from "./postDateSelection";
 // 全部員に送信
 const post = async () => {
   // ユーザー一覧情報を取得
-  const response = await getMemberList();
-  const responseJson = response["data"];
+  const responseJson = await getMemberList();
 
-  if (responseJson["ok"]) {
-    const allMembersID = filterNormalMembers(responseJson["members"] as Array<Member>)
+  if (responseJson.ok) {
+    const allMembersID = filterNormalMembers(responseJson.members as Array<Member>)
       // 表示名は設定されていない場合がある
       .map((member) => {
-        return member["id"];
+        return member.id;
       }) as Array<string>;
 
     // リクエスト数超過を避けるため、3秒間隔で送信

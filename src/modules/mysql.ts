@@ -1,18 +1,16 @@
-import { readFile } from "fs/promises";
 import { projectConstants } from "./constants";
+import { getKeys } from "./keys";
 import { postText, postText2Log } from "./slack";
 const mysql = require("mysql2/promise");
-const path = require("path");
 
 // MySQLへの接続を返す
 const connect = async () => {
-  const keyReader = readFile(path.join(__dirname, "./secret/keys.json"), "utf-8");
-  const data = await keyReader;
+  const data = await getKeys();
 
   const connection = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: JSON.parse(data)["mysql"]["root_password"],
+    password: data.mysql.root_password,
     database: projectConstants.mysql.DBName,
   });
 
