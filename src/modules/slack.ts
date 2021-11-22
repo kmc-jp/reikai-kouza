@@ -1,12 +1,10 @@
-import { readFile } from "fs/promises";
 import { projectConstants } from "./constants";
+import { getKeys } from "./keys";
 const axios = require("axios");
-const path = require("path");
 
 // 例会講座用 公開Slackチャンネルに指定したメッセージを投稿
 export const postText2Members = async (message: string) => {
-  const keyReader = readFile(path.join(__dirname, "./secret/keys.json"), "utf-8");
-  const data = await keyReader;
+  const data = await getKeys();
 
   await axios.post(
     "https://slack.com/api/chat.postMessage",
@@ -16,7 +14,7 @@ export const postText2Members = async (message: string) => {
     },
     {
       headers: {
-        Authorization: `Bearer ${JSON.parse(data)["slack"]["bot_user_oauth_token"]}`,
+        Authorization: `Bearer ${data.slack.bot_user_oauth_token}`,
         "Content-Type": "application/json",
       },
     }
@@ -28,8 +26,7 @@ export const postText2Members = async (message: string) => {
 // 例会講座 運営用Slackチャンネルに指定したメッセージを投稿
 // このメッセージは全てログチャンネルにも投稿する。
 export const postText = async (message: string) => {
-  const keyReader = readFile(path.join(__dirname, "./secret/keys.json"), "utf-8");
-  const data = await keyReader;
+  const data = await getKeys();
 
   await axios.post(
     "https://slack.com/api/chat.postMessage",
@@ -39,7 +36,7 @@ export const postText = async (message: string) => {
     },
     {
       headers: {
-        Authorization: `Bearer ${JSON.parse(data)["slack"]["bot_user_oauth_token"]}`,
+        Authorization: `Bearer ${data.slack.bot_user_oauth_token}`,
         "Content-Type": "application/json",
       },
     }
@@ -51,8 +48,7 @@ export const postText = async (message: string) => {
 
 // 例会講座 ログ用Slackチャンネルに指定したメッセージを投稿
 export const postText2Log = async (message: string) => {
-  const keyReader = readFile(path.join(__dirname, "./secret/keys.json"), "utf-8");
-  const data = await keyReader;
+  const data = await getKeys();
 
   await axios.post(
     "https://slack.com/api/chat.postMessage",
@@ -62,7 +58,7 @@ export const postText2Log = async (message: string) => {
     },
     {
       headers: {
-        Authorization: `Bearer ${JSON.parse(data)["slack"]["bot_user_oauth_token"]}`,
+        Authorization: `Bearer ${data.slack.bot_user_oauth_token}`,
         "Content-Type": "application/json",
       },
     }
@@ -70,8 +66,7 @@ export const postText2Log = async (message: string) => {
 };
 
 export const post2DM = async (id: string, blocks: string) => {
-  const keyReader = readFile(path.join(__dirname, "./secret/keys.json"), "utf-8");
-  const data = await keyReader;
+  const data = await getKeys();
 
   await axios.post(
     "https://slack.com/api/chat.postMessage",
@@ -81,7 +76,7 @@ export const post2DM = async (id: string, blocks: string) => {
     },
     {
       headers: {
-        Authorization: `Bearer ${JSON.parse(data)["slack"]["bot_user_oauth_token"]}`,
+        Authorization: `Bearer ${data.slack.bot_user_oauth_token}`,
         "Content-Type": "application/json",
       },
     }
@@ -89,8 +84,7 @@ export const post2DM = async (id: string, blocks: string) => {
 };
 
 export const updateByResponseURL = async (responseURL: string, message: string) => {
-  const keyReader = readFile(path.join(__dirname, "./secret/keys.json"), "utf-8");
-  const data = await keyReader;
+  const data = await getKeys();
 
   await axios.post(
     responseURL,
@@ -99,7 +93,7 @@ export const updateByResponseURL = async (responseURL: string, message: string) 
     },
     {
       headers: {
-        Authorization: `Bearer ${JSON.parse(data)["slack"]["bot_user_oauth_token"]}`,
+        Authorization: `Bearer ${data.slack.bot_user_oauth_token}`,
         "Content-Type": "application/json",
       },
     }
@@ -107,11 +101,10 @@ export const updateByResponseURL = async (responseURL: string, message: string) 
 };
 
 export const getMemberList = async (): Promise<UsersListResponse> => {
-  const keyReader = readFile(path.join(__dirname, "./secret/keys.json"), "utf-8");
-  const data = await keyReader;
+  const data = await getKeys();
 
   const userList = await axios.get("https://slack.com/api/users.list", {
-    headers: { Authorization: `Bearer ${JSON.parse(data)["slack"]["bot_user_oauth_token"]}` },
+    headers: { Authorization: `Bearer ${data.slack.bot_user_oauth_token}` },
   });
 
   return userList["data"] as UsersListResponse;
