@@ -7,7 +7,7 @@
   "license": "Apache-2.0",
   "scripts": {
     "build": "webpack",
-    "fix": "eslint --fix './src/**/*.{ts,js}' && prettier --write './src/**/*.{ts,js}'"
+    "fix": "eslint --fix './src/**/*.{ts,js}' && prettier --write './src/**/*.{ts,js}' && prettier --write './dist/secret/*.json'"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
