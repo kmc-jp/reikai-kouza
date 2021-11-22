@@ -1,4 +1,5 @@
 import { readFile } from "fs/promises";
+import { filterNormalMembers } from "./modules/member";
 import { postText } from "./modules/slack";
 import { postAnnounce } from "./postAnnounce";
 import { postDateSelection } from "./postDateSelection";
@@ -17,10 +18,7 @@ const post = async () => {
   const responseJson = response["data"];
 
   if (responseJson["ok"]) {
-    const allMembersID = (responseJson["members"] as Array<any>)
-      .filter((member) => member["id"] !== "USLACKBOT") // Slack Botを除外
-      .filter((member) => !member["is_bot"]) // botを除外
-      .filter((member) => member["is_restricted"] === false) // 制限されたユーザーを除外
+    const allMembersID = filterNormalMembers(responseJson["members"] as Array<any>)
       // 表示名は設定されていない場合がある
       .map((member) => {
         return member["id"];

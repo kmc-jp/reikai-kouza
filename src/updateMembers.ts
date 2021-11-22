@@ -1,6 +1,7 @@
 import { readFile } from "fs/promises";
 import { projectConstants, tableItemName, tableStructure__ID } from "./modules/constants";
 import { toDate, toDBFormat } from "./modules/date";
+import { filterNormalMembers } from "./modules/member";
 import { executeQuery } from "./modules/mysql";
 import { postText } from "./modules/slack";
 import { postAnnounce } from "./postAnnounce";
@@ -38,10 +39,8 @@ const update = async () => {
 
     if (responseJson["ok"]) {
       // 全部員の最新のIDリスト
-      const allMembers = (responseJson["members"] as Array<any>)
-        .filter((member) => member["id"] !== "USLACKBOT") // Slack Botを除外
-        .filter((member) => !member["is_bot"]) // botを除外
-        .filter((member) => member["is_restricted"] === false) // 制限されたユーザーを除外
+      const allMembersID = filterNormalMembers(responseJson["members"] as Array<any>)
+        // 表示名は設定されていない場合がある
         .map((member) => {
           return member["id"];
         });
@@ -56,7 +55,7 @@ const update = async () => {
       const registerNewMembers = async () => {
         // 新規の部員をチェック
         await Promise.all(
-          allMembers.map(async (id) => {
+          allMembersID.map(async (id) => {
             // DBにIDが登録されていなかった場合
             if (!registeredMembers.includes(id)) {
               await postText(`新規の部員を追加します。\n<@${id}>, ID: ${id}`);
@@ -92,7 +91,7 @@ const update = async () => {
       const deleteMembers = async () => {
         registeredMembers.forEach(async (id) => {
           // Slackの非制限ユーザーリストに入っていなかった場合は、DBから削除
-          if (!allMembers.includes(id)) {
+          if (!allMembersID.includes(id)) {
             await postText(`登録情報を削除します。\n<@${id}>, ID: ${id}`);
             await executeQuery(`DELETE FROM ${projectConstants.mysql.tableName} WHERE ${tableItemName.id} = ? ;`, [id]);
           }
