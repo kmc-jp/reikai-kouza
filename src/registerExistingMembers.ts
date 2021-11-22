@@ -10,8 +10,7 @@ const argv = require("minimist")(process.argv.slice(2));
 const register = async () => {
   try {
     // ユーザー一覧情報を取得
-    const response = await getMemberList();
-    const responseJson = response["data"];
+    const responseJson = await getMemberList();
 
     // 実際の日付の6ヶ月前の日付を求める。
     // 実際の日付は引数で指定する。
@@ -25,10 +24,10 @@ const register = async () => {
 
     const date_halfYearAgo__dbFormat = toDBFormat(date_halfYearAgo);
 
-    if (responseJson["ok"]) {
+    if (responseJson.ok) {
       await executeQueries(
         `INSERT INTO ${projectConstants.mysql.tableName} VALUES (?, ?, ?, ?, ?, ?, ?);`,
-        filterNormalMembers(responseJson["members"] as Array<Member>)
+        filterNormalMembers(responseJson.members as Array<Member>)
           // 表示名は設定されていない場合がある
           .map((member) => {
             return [

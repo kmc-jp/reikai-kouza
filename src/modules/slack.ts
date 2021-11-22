@@ -106,14 +106,19 @@ export const updateByResponseURL = async (responseURL: string, message: string) 
   );
 };
 
-export const getMemberList = async () => {
+export const getMemberList = async (): Promise<UsersListResponse> => {
   const keyReader = readFile(path.join(__dirname, "./secret/keys.json"), "utf-8");
   const data = await keyReader;
 
-  return await axios.get("https://slack.com/api/users.list", {
+  const userList = await axios.get("https://slack.com/api/users.list", {
     headers: { Authorization: `Bearer ${JSON.parse(data)["slack"]["bot_user_oauth_token"]}` },
   });
+
+  return userList["data"] as UsersListResponse;
 };
+
+// 型定義は以下のリポジトリから
+// https://github.com/slackapi/node-slack-sdk
 
 export interface Member {
   id?: string;
@@ -191,4 +196,34 @@ interface StatusEmojiDisplayInfo {
   emoji_name?: string;
   display_alias?: string;
   display_url?: string;
+}
+
+export type UsersListResponse = WebAPICallResult & {
+  ok?: boolean;
+  members?: Member[];
+  cache_ts?: number;
+  offset?: string;
+  response_metadata?: ResponseMetadata;
+  error?: string;
+  needed?: string;
+  provided?: string;
+};
+
+interface WebAPICallResult {
+  ok: boolean;
+  error?: string;
+  response_metadata?: {
+    warnings?: string[];
+    next_cursor?: string;
+
+    scopes?: string[];
+    acceptedScopes?: string[];
+    retryAfter?: number;
+    messages?: string[];
+  };
+  [key: string]: unknown;
+}
+
+export interface ResponseMetadata {
+  next_cursor?: string;
 }

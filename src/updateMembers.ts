@@ -12,8 +12,7 @@ const argv = require("minimist")(process.argv.slice(2));
 const update = async () => {
   try {
     // ユーザー一覧情報を取得
-    const response = await getMemberList();
-    const responseJson = response["data"];
+    const responseJson = await getMemberList();
 
     // 実際の日付の6ヶ月前の日付を求める。
     // 実際の日付は引数で指定する。
@@ -28,12 +27,12 @@ const update = async () => {
     const date__dbFormat = toDBFormat(date);
     const date_halfYearAgo__dbFormat = toDBFormat(date_halfYearAgo);
 
-    if (responseJson["ok"]) {
+    if (responseJson.ok) {
       // 全部員の最新のIDリスト
-      const allMembersID = filterNormalMembers(responseJson["members"] as Array<any>)
+      const allMembersID = filterNormalMembers(responseJson.members as Array<any>)
         // 表示名は設定されていない場合がある
         .map((member) => {
-          return member["id"];
+          return member.id;
         }) as Array<string>;
 
       const allMembersInDB = await executeQuery<tableStructure__ID>(
@@ -56,12 +55,12 @@ const update = async () => {
               // TODO: 後ろから探査したほうが確実に早い
               // TODO: 見つけたらbreak
               return Promise.all(
-                (responseJson["members"] as Array<any>).map(async (x) => {
-                  if (x["id"] === id) {
+                responseJson.members!.map(async (x) => {
+                  if (x.id === id) {
                     return await executeQuery(
                       `INSERT INTO ${projectConstants.mysql.tableName} VALUES (?, ?, ?, ?, ?, ?, ?);`,
                       [
-                        x["id"],
+                        x.id,
                         date__dbFormat,
                         projectConstants.values.preferredDayOfWeek.Unanswered.value,
                         projectConstants.values.assignedDate.None,
