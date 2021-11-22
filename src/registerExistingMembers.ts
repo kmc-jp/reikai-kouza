@@ -1,6 +1,7 @@
 import { readFile } from "fs/promises";
 import { projectConstants } from "./modules/constants";
 import { toDate, toDBFormat } from "./modules/date";
+import { filterNormalMembers } from "./modules/member";
 import { executeQueries } from "./modules/mysql";
 import { postText } from "./modules/slack";
 const axios = require("axios");
@@ -36,10 +37,7 @@ const register = async () => {
     if (responseJson["ok"]) {
       await executeQueries(
         `INSERT INTO ${projectConstants.mysql.tableName} VALUES (?, ?, ?, ?, ?, ?, ?);`,
-        (responseJson["members"] as Array<any>)
-          .filter((member) => member["id"] !== "USLACKBOT") // Slack Botを除外
-          .filter((member) => !member["is_bot"]) // botを除外
-          .filter((member) => member["is_restricted"] === false) // 制限されたユーザーを除外
+        filterNormalMembers(responseJson["members"] as Array<any>)
           // 表示名は設定されていない場合がある
           .map((member) => {
             return [
