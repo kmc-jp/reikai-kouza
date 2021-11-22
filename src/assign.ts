@@ -31,8 +31,11 @@ export const assign = async (today: Date, assignedDate: Date) => {
   await postText(`${format(assignedDate)} の講座担当者を選びます (対象人数: ${targetMembers.length})`);
 
   // 対象者からランダムに1人割り当てる
-  const assignedMember: string = targetMembers[Math.floor(Math.random() * targetMembers.length)].id;
-  await postText(`<@${assignedMember}>`);
+  // 対象者がいなかった場合は何もしない
+  if (targetMembers.length > 0) {
+    const assignedMember: string = targetMembers[Math.floor(Math.random() * targetMembers.length)].id;
+    await postText(`<@${assignedMember}>`);
+  }
 
   // assignMember(assignedMember, today, assignedDate);
   assignMember("U01U7S3UFAB", today, assignedDate);
