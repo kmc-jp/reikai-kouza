@@ -20,3 +20,98 @@ $ yarn build              # dist/ 以下に生成
 $ # ビルドの手順は済んでいるものとします
 $ yarn fix
 ```
+
+## 🐎 実行
+
+### additionalAssignTask.js
+
+追加の割り当てを行う。
+
+#### 実行例
+
+```
+$ node additionalAssignTask.js $(date +"%Y%m%d")
+```
+
+### assignTask.js
+
+割り当てを行う。
+
+#### 実行例
+
+```
+$ node assignTask.js $(date +"%Y%m%d")
+```
+
+### background.js
+
+サーバー側の処理
+
+#### 実行例
+
+```
+$ node background.js
+```
+
+### publicAnnounce.js
+
+#### 実行例
+
+```
+$ node publicAnnounce.js $(date +"%Y%m%d")
+```
+
+### registerExistingMembers.js
+
+- [x] テスト不可
+
+#### 実行例
+
+```
+$ node registerExistingMembers.js $(date +"%Y%m%d")
+```
+
+### send2AllMembers.js
+
+- [x] テスト不可
+
+#### 実行例
+
+```
+$ node send2AllMembers.js
+```
+
+### updateMembers.js
+
+#### 実行例
+
+```
+$ node updateMembers.js $(date +"%Y%m%d")
+```
+
+### updateStatus.js
+
+#### 実行例
+
+```
+$ node updateStatus.js $(date +"%Y%m%d")
+```
+
+## ⏳ 運用
+
+### 稼働時に一度だけ実行
+
+- registerExistingMembers.js
+- send2AllMembers.js
+
+### 1日1回実行
+
+- additionalAssignTask.js
+- updateStatus.js
+- assignTask.js
+- publicAnnounce.js
+- updateMembers.js
+
+## 🚦 テスト
+
+DBに手動追加した上で運用させる
