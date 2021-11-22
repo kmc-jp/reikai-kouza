@@ -1,20 +1,12 @@
-import { readFile } from "fs/promises";
 import { filterNormalMembers } from "./modules/member";
-import { Member, postText } from "./modules/slack";
+import { getMemberList, Member, postText } from "./modules/slack";
 import { postAnnounce } from "./postAnnounce";
 import { postDateSelection } from "./postDateSelection";
-const axios = require("axios");
-const path = require("path");
 
 // 全部員に送信
 const post = async () => {
-  const keyReader = readFile(path.join(__dirname, "./secret/keys.json"), "utf-8");
-  const data = await keyReader;
-
   // ユーザー一覧情報を取得
-  const response = await axios.get("https://slack.com/api/users.list", {
-    headers: { Authorization: `Bearer ${JSON.parse(data)["slack"]["bot_user_oauth_token"]}` },
-  });
+  const response = await getMemberList();
   const responseJson = response["data"];
 
   if (responseJson["ok"]) {

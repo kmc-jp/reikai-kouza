@@ -1,33 +1,16 @@
-import { readFile } from "fs/promises";
 import { projectConstants, tableItemName } from "./modules/constants";
 import { format, getNextDate, toDBFormat } from "./modules/date";
 import { executeQuery } from "./modules/mysql";
-const axios = require("axios");
-const path = require("path");
+import { post2DM } from "./modules/slack";
 
 export const assignMember = async (id: string, today: Date, assignedDate: Date) => {
-  const keyReader = readFile(path.join(__dirname, "./secret/keys.json"), "utf-8");
-  const data = await keyReader;
-
   await executeQuery(
     `UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.assignmentGroup} = ?, ${tableItemName.announcedDate} = ? WHERE ${tableItemName.id} = ?`,
     [toDBFormat(assignedDate), toDBFormat(today), id]
   );
 
   // 選ばれた担当者にメッセージを送信
-  await axios.post(
-    "https://slack.com/api/chat.postMessage",
-    {
-      channel: `@${id}`,
-      blocks: `${getAssignMessage(assignedDate)}`,
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${JSON.parse(data)["slack"]["bot_user_oauth_token"]}`,
-        "Content-Type": "application/json",
-      },
-    }
-  );
+  await post2DM(id, getAssignMessage(assignedDate));
 
   // データベースの更新
   await executeQuery(

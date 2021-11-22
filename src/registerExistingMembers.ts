@@ -1,25 +1,16 @@
-import { readFile } from "fs/promises";
 import { projectConstants } from "./modules/constants";
 import { toDate, toDBFormat } from "./modules/date";
 import { filterNormalMembers } from "./modules/member";
 import { executeQueries } from "./modules/mysql";
-import { Member, postText } from "./modules/slack";
-const axios = require("axios");
-const path = require("path");
+import { getMemberList, Member, postText } from "./modules/slack";
 const argv = require("minimist")(process.argv.slice(2));
 
 // 既存の部員の登録
 // 引数として、日付をYYYYMMDDの形式で与える必要がある
 const register = async () => {
   try {
-    // key.jsonの内容を読み出し
-    const keyReader = readFile(path.join(__dirname, "./secret/keys.json"), "utf-8");
-    const data = await keyReader;
-
     // ユーザー一覧情報を取得
-    const response = await axios.get("https://slack.com/api/users.list", {
-      headers: { Authorization: `Bearer ${JSON.parse(data)["slack"]["bot_user_oauth_token"]}` },
-    });
+    const response = await getMemberList();
     const responseJson = response["data"];
 
     // 実際の日付の6ヶ月前の日付を求める。

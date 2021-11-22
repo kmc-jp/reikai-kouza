@@ -1,13 +1,7 @@
-import { readFile } from "fs/promises";
 import { projectConstants } from "./modules/constants";
-import { postText } from "./modules/slack";
-const axios = require("axios");
-const path = require("path");
+import { post2DM, postText } from "./modules/slack";
 
 export const postDateSelection = async (id: string) => {
-  const keyReader = readFile(path.join(__dirname, "./secret/keys.json"), "utf-8");
-  const data = await keyReader;
-
   const message = [
     {
       type: "section",
@@ -71,18 +65,6 @@ export const postDateSelection = async (id: string) => {
     },
   ];
 
-  await axios.post(
-    "https://slack.com/api/chat.postMessage",
-    {
-      channel: `@${id}`,
-      blocks: JSON.stringify(message),
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${JSON.parse(data)["slack"]["bot_user_oauth_token"]}`,
-        "Content-Type": "application/json",
-      },
-    }
-  );
+  await post2DM(id, JSON.stringify(message));
   await postText(`<@${id}> さんに、希望曜日調査を送付しました。`);
 };

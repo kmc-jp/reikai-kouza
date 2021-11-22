@@ -14,5 +14,5 @@ export const verify = async (
 
   const hash = crypto.createHmac("sha256", JSON.parse(data)["slack"]["signing_secret"]).update(baseStr).digest("hex");
 
-  return "v0=" + hash === xSlackSignature;
+  return `v0=${hash}` === xSlackSignature;
 };

@@ -86,6 +86,8 @@ $ node send2AllMembers.js
 
 ### updateMembers.js
 
+- [x] テスト不可
+
 #### 実行例
 
 ```
@@ -118,3 +120,10 @@ $ node updateStatus.js $(date +"%Y%m%d")
 ## 🚦 テスト
 
 DBに手動追加した上で運用させる
+
+以下のファイルを1回ずつ順に引数を変えながら実行<br>
+
+- additionalAssignTask.js
+- updateStatus.js
+- assignTask.js
+- publicAnnounce.js
