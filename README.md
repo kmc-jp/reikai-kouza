@@ -23,6 +23,8 @@ $ yarn fix
 
 ## 🐎 実行
 
+事前に `secret/keys.json` を設定する。 `secret/keys.example.json` に設定例がある。
+
 ### additionalAssignTask.js
 
 追加の割り当てを行う。
