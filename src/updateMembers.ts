@@ -43,7 +43,7 @@ const update = async () => {
         // 表示名は設定されていない場合がある
         .map((member) => {
           return member["id"];
-        });
+        }) as Array<string>;
 
       const allMembersInDB = await executeQuery<tableStructure__ID>(
         `SELECT ${tableItemName.id} FROM ${projectConstants.mysql.tableName};`,
