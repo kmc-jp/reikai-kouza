@@ -86,6 +86,8 @@ $ node send2AllMembers.js
 
 ### updateMembers.js
 
+- [x] テスト不可
+
 #### 実行例
 
 ```
