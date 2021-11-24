@@ -17,7 +17,9 @@ const post = async () => {
 
     // リクエスト数超過を避けるため、3秒間隔で送信
     for (const id of allMembersID) {
+      // 例会講座システムのアナウンスを送付
       await postAnnounce(id);
+      // 希望曜日選択を送信
       await postDateSelection(id);
       await new Promise((resolve) => {
         setTimeout(resolve, 3000);

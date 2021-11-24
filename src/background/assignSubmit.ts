@@ -7,13 +7,16 @@ import {
   tableStructure__assignedDate,
   tableStructure__assignmentGroup,
 } from "../modules/constants";
-import { format, toDate } from "../modules/date";
+import { toUsualFormat, toDate } from "../modules/date";
 import { executeQuery } from "../modules/mysql";
 import { postText, updateByResponseURL } from "../modules/slack";
 
+// 担当日選択 送信ボタン
+// 担当者にメッセージを送信
+// ログも流す
 export const assignSubmit = async (payload: any) => {
-  // 担当者にメッセージ送信
-  // ログも流す
+  // 登録された情報を取得
+  // 送信ボタンを押す前に、担当日の選択が終わっていることを想定している (ただし、終わっていなくても壊れることはない)
   const registeredData = (
     await executeQuery<
       tableStructure__assignedDate &
@@ -27,7 +30,7 @@ export const assignSubmit = async (payload: any) => {
   )[0];
 
   switch (registeredData.announcement_status) {
-    // 未返答状態の場合は、
+    // 未返答状態の場合は、担当日の選択フォームを再送信
     case projectConstants.values.announcementStatus.NoReply:
       await updateByResponseURL(
         payload["response_url"],
@@ -41,22 +44,30 @@ export const assignSubmit = async (payload: any) => {
       );
       return;
 
+    // そのまま確定、または延期された場合
     case projectConstants.values.announcementStatus.OK:
     case projectConstants.values.announcementStatus.Postponed:
       await updateByResponseURL(
         payload["response_url"],
-        `<@${payload["user"]["id"]}> \n${format(
+        `<@${payload["user"]["id"]}> \n${toUsualFormat(
           toDate(registeredData.assigned_date)
         )} の講座に登録しました。講座担当日の1週間前に <${projectConstants.slack.memberChannelName}> で告知されます。`
       );
-      await postText(`<@${payload["user"]["id"]}> ${format(toDate(registeredData.assigned_date))} に登録`);
+      await postText(`<@${payload["user"]["id"]}> ${toUsualFormat(toDate(registeredData.assigned_date))} に登録`);
       break;
+    // TODO: 延期された場合に割り当てグループを更新する処理がない
+
+    // キャンセルされた場合
     case projectConstants.values.announcementStatus.AdditionalAssignmentNeeded:
       await updateByResponseURL(
         payload["response_url"],
-        `<@${payload["user"]["id"]}> \n${format(toDate(registeredData.assignment_group))} の指名をキャンセルしました。`
+        `<@${payload["user"]["id"]}> \n${toUsualFormat(
+          toDate(registeredData.assignment_group)
+        )} の指名をキャンセルしました。`
       );
-      await postText(`<@${payload["user"]["id"]}> ${format(toDate(registeredData.assignment_group))} をキャンセル`);
+      await postText(
+        `<@${payload["user"]["id"]}> ${toUsualFormat(toDate(registeredData.assignment_group))} をキャンセル`
+      );
       break;
   }
 };

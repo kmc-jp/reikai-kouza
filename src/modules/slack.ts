@@ -65,6 +65,7 @@ export const postText2Log = async (message: string) => {
   );
 };
 
+// アプリからのメッセージを直接送信
 export const post2DM = async (id: string, blocks: string) => {
   const data = await getKeys();
 
@@ -83,6 +84,7 @@ export const post2DM = async (id: string, blocks: string) => {
   );
 };
 
+// response URL を用いたメッセージの更新を行う
 export const updateByResponseURL = async (responseURL: string, message: string) => {
   const data = await getKeys();
 
@@ -100,6 +102,7 @@ export const updateByResponseURL = async (responseURL: string, message: string) 
   );
 };
 
+// ワークスペースの全ユーザーを取得
 export const getMemberList = async (): Promise<UsersListResponse> => {
   const data = await getKeys();
 

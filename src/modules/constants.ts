@@ -46,13 +46,14 @@ export const projectConstants = {
     },
   },
   interactivity: {
+    // Block ID, Action ID のそれぞれの値は一意である必要がある
     blockID: {
       dayOfWeekSelectSubmit: "id--day-of-week-submit",
-      assign: "id--assign-submit",
+      assignmentSelectSubmit: "id--assign-submit",
     },
     actionID: {
       dayOfWeekSelect: "id--day-of-week-select",
-      assign: "id--assign-select",
+      assignmentSelect: "id--assign-select",
     },
     values: {
       dayOfWeekSelect: {

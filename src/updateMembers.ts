@@ -29,11 +29,9 @@ const update = async () => {
 
     if (responseJson.ok) {
       // 全部員の最新のIDリスト
-      const allMembersID = filterNormalMembers(responseJson.members as Array<any>)
-        // 表示名は設定されていない場合がある
-        .map((member) => {
-          return member.id;
-        }) as Array<string>;
+      const allMembersID = filterNormalMembers(responseJson.members as Array<any>).map((member) => {
+        return member.id;
+      }) as Array<string>;
 
       const allMembersInDB = await executeQuery<tableStructure__ID>(
         `SELECT ${tableItemName.id} FROM ${projectConstants.mysql.tableName};`,

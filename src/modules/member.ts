@@ -1,5 +1,7 @@
 import { Member } from "./slack";
 
+// Bot権限でないBotユーザー
+// https://github.com/kmc-jp/reikai-kouza/pull/15
 const botsAsUsers = [
   "U3KJNDAHL", // ako2
   "U037YB0U2", // kmc

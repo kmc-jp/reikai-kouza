@@ -10,6 +10,7 @@ const app = express();
 const querystring = require("querystring");
 const getRawBody = require("raw-body");
 
+// 署名の検証に使用するため、生のリクエストを取得できるように
 app.use((request: any, result: any, next: any) => {
   getRawBody(request, (error: any, string: any) => {
     if (error) return next(error);
@@ -35,6 +36,7 @@ app.post(projectConstants.server.path.interactivity, async (request: any, respon
 
   // TODO: 5分以上前のものは破棄
 
+  // URLエンコードされているためパース処理
   const parsedPayload = querystring.parse(request.text.toString("utf8"), null, null);
   const payload = JSON.parse(parsedPayload["payload"]);
 
@@ -46,7 +48,8 @@ app.post(projectConstants.server.path.interactivity, async (request: any, respon
           dayOfWeekSelectAction(payload);
           break;
 
-        case projectConstants.interactivity.actionID.assign:
+        // 担当日選択
+        case projectConstants.interactivity.actionID.assignmentSelect:
           assignAction(payload);
           break;
 
@@ -62,7 +65,8 @@ app.post(projectConstants.server.path.interactivity, async (request: any, respon
           dayOfWeekSelectSubmit(payload);
           break;
 
-        case projectConstants.interactivity.blockID.assign:
+        // 担当日選択 送信ボタン
+        case projectConstants.interactivity.blockID.assignmentSelectSubmit:
           assignSubmit(payload);
           break;
 

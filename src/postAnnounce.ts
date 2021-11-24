@@ -1,5 +1,6 @@
 import { post2DM, postText } from "./modules/slack";
 
+// 例会講座システムのアナウンスを送付
 export const postAnnounce = async (id: string) => {
   const message = [
     {

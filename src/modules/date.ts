@@ -1,5 +1,5 @@
 // m/d (a) の形式で日付を返す
-export const format = (date: Date): string => {
+export const toUsualFormat = (date: Date): string => {
   switch (date.getDay()) {
     case 0:
       return `${date.getMonth() + 1}/${date.getDate()} (日)`;
