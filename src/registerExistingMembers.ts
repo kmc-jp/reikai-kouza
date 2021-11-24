@@ -2,7 +2,8 @@ import { projectConstants } from "./modules/constants";
 import { toDate, toDBFormat } from "./modules/date";
 import { filterNormalMembers } from "./modules/member";
 import { executeQueries } from "./modules/mysql";
-import { getMemberList, Member, postText } from "./modules/slack";
+import { getMemberList, postText } from "./modules/slack";
+import { Member } from "./types/slack";
 const argv = require("minimist")(process.argv.slice(2));
 
 // 既存の部員の登録
@@ -27,19 +28,17 @@ const register = async () => {
     if (responseJson.ok) {
       await executeQueries(
         `INSERT INTO ${projectConstants.mysql.tableName} VALUES (?, ?, ?, ?, ?, ?, ?);`,
-        filterNormalMembers(responseJson.members as Array<Member>)
-          // 表示名は設定されていない場合がある
-          .map((member) => {
-            return [
-              member.id,
-              date_halfYearAgo__dbFormat,
-              projectConstants.values.preferredDayOfWeek.Unanswered.value,
-              projectConstants.values.assignedDate.None,
-              date_halfYearAgo__dbFormat,
-              date_halfYearAgo__dbFormat,
-              projectConstants.values.announcementStatus.Unassigned,
-            ];
-          })
+        filterNormalMembers(responseJson.members as Array<Member>).map((member) => {
+          return [
+            member.id,
+            date_halfYearAgo__dbFormat,
+            projectConstants.values.preferredDayOfWeek.Unanswered.value,
+            projectConstants.values.assignedDate.None,
+            date_halfYearAgo__dbFormat,
+            date_halfYearAgo__dbFormat,
+            projectConstants.values.announcementStatus.Unassigned,
+          ];
+        })
       );
     } else {
       await postText("メンバー情報の取得に失敗しました。");

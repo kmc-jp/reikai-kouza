@@ -1,8 +1,10 @@
-import { projectConstants, tableItemName, tableStructure__preferredDayOfWeek } from "../modules/constants";
-import { executeQuery } from "../modules/mysql";
+import { projectConstants } from "../modules/constants";
+import { executeQuery, tableItemName } from "../modules/mysql";
 import { postText, updateByResponseURL } from "../modules/slack";
 import { postDateSelection } from "../postDateSelection";
+import { tableStructure__preferredDayOfWeek } from "../types/mysql";
 
+// 希望曜日選択 送信ボタン
 export const dayOfWeekSelectSubmit = async (payload: any) => {
   const registeredData = (
     await executeQuery<tableStructure__preferredDayOfWeek>(
@@ -23,6 +25,7 @@ export const dayOfWeekSelectSubmit = async (payload: any) => {
       postDateSelection(payload["user"]["id"]);
       return;
 
+    // 月・木・どちらでものうちいずれかが登録されていればOK
     case projectConstants.values.preferredDayOfWeek.Monday.value:
       dayOfWeek = projectConstants.values.preferredDayOfWeek.Monday.text;
       break;

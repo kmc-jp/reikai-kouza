@@ -1,6 +1,7 @@
 import { projectConstants } from "./modules/constants";
 import { post2DM, postText } from "./modules/slack";
 
+// 希望曜日選択を送信
 export const postDateSelection = async (id: string) => {
   const message = [
     {

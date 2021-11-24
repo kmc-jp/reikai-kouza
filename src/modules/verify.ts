@@ -1,6 +1,7 @@
 import { getKeys } from "./keys";
 const crypto = require("crypto");
 
+// リクエスト認証を検証
 export const verify = async (
   xSlackSignature: string,
   xSlackRequestTimestamp: string,

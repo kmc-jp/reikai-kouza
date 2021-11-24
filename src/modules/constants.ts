@@ -46,13 +46,14 @@ export const projectConstants = {
     },
   },
   interactivity: {
+    // Block ID, Action ID のそれぞれの値は一意である必要がある
     blockID: {
       dayOfWeekSelectSubmit: "id--day-of-week-submit",
-      assign: "id--assign-submit",
+      assignmentSelectSubmit: "id--assign-submit",
     },
     actionID: {
       dayOfWeekSelect: "id--day-of-week-select",
-      assign: "id--assign-select",
+      assignmentSelect: "id--assign-select",
     },
     values: {
       dayOfWeekSelect: {
@@ -70,50 +71,4 @@ export const projectConstants = {
       },
     },
   },
-};
-
-export type tableStructure__ID = {
-  id: string;
-};
-
-export type tableStructure__registrationDate = {
-  registration_date: number;
-};
-
-export type tableStructure__preferredDayOfWeek = {
-  preferred_day_of_week: number;
-};
-
-export type tableStructure__assignedDate = {
-  assigned_date: number;
-};
-
-export type tableStructure__assignmentGroup = {
-  assignment_group: number;
-};
-
-export type tableStructure__announcedDate = {
-  announced_date: number;
-};
-
-export type tableStructure__announcementStatus = {
-  announcement_status: number;
-};
-
-export type tableStructure = tableStructure__ID &
-  tableStructure__registrationDate &
-  tableStructure__preferredDayOfWeek &
-  tableStructure__assignedDate &
-  tableStructure__assignmentGroup &
-  tableStructure__announcedDate &
-  tableStructure__announcementStatus;
-
-export const tableItemName = {
-  id: "id",
-  registrationDate: "registration_date",
-  preferredDayOfWeek: "preferred_day_of_week",
-  assignedDate: "assigned_date",
-  assignmentGroup: "assignment_group",
-  announcedDate: "announced_date",
-  announcementStatus: "announcement_status",
 };

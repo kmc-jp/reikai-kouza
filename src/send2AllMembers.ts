@@ -1,7 +1,8 @@
 import { filterNormalMembers } from "./modules/member";
-import { getMemberList, Member, postText } from "./modules/slack";
+import { getMemberList, postText } from "./modules/slack";
 import { postAnnounce } from "./postAnnounce";
 import { postDateSelection } from "./postDateSelection";
+import { Member } from "./types/slack";
 
 // 全部員に送信
 const post = async () => {
@@ -17,7 +18,9 @@ const post = async () => {
 
     // リクエスト数超過を避けるため、3秒間隔で送信
     for (const id of allMembersID) {
+      // 例会講座システムのアナウンスを送付
       await postAnnounce(id);
+      // 希望曜日選択を送信
       await postDateSelection(id);
       await new Promise((resolve) => {
         setTimeout(resolve, 3000);
