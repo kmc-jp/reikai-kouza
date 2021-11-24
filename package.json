@@ -8,6 +8,7 @@
   "scripts": {
     "build": "webpack",
     "fix": "eslint --fix './src/**/*.{ts,js}' && prettier --write './src/**/*.{ts,js}' && prettier --write './dist/secret/*.json'",
+    "lint": "eslint './src/**/*.{ts,js}' && prettier --write './src/**/*.{ts,js}' && prettier --write './dist/secret/*.json'",
     "prepare": "husky install"
   },
   "husky": {
