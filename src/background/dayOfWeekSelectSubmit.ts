@@ -1,7 +1,8 @@
-import { projectConstants, tableItemName, tableStructure__preferredDayOfWeek } from "../modules/constants";
+import { projectConstants, tableItemName } from "../modules/constants";
 import { executeQuery } from "../modules/mysql";
 import { postText, updateByResponseURL } from "../modules/slack";
 import { postDateSelection } from "../postDateSelection";
+import { tableStructure__preferredDayOfWeek } from "../types/mysql";
 
 // 希望曜日選択 送信ボタン
 export const dayOfWeekSelectSubmit = async (payload: any) => {

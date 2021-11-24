@@ -1,7 +1,8 @@
 import { filterNormalMembers } from "./modules/member";
-import { getMemberList, Member, postText } from "./modules/slack";
+import { getMemberList, postText } from "./modules/slack";
 import { postAnnounce } from "./postAnnounce";
 import { postDateSelection } from "./postDateSelection";
+import { Member } from "./types/slack";
 
 // 全部員に送信
 const post = async () => {

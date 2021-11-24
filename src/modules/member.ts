@@ -1,4 +1,4 @@
-import { Member } from "./slack";
+import { Member } from "../types/slack";
 
 // Bot権限でないBotユーザー
 // https://github.com/kmc-jp/reikai-kouza/pull/15

@@ -1,7 +1,8 @@
-import { projectConstants, tableItemName, tableStructure__assignedDate, tableStructure__ID } from "./modules/constants";
+import { projectConstants, tableItemName } from "./modules/constants";
 import { toUsualFormat, toDate, toDBFormat } from "./modules/date";
 import { executeQuery } from "./modules/mysql";
 import { postText, postText2Members } from "./modules/slack";
+import { tableStructure__assignedDate, tableStructure__ID } from "./types/mysql";
 
 const argv = require("minimist")(process.argv.slice(2));
 

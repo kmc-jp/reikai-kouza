@@ -1,8 +1,9 @@
 import { assignMember } from "./assignMember";
-import { projectConstants, tableItemName, tableStructure } from "./modules/constants";
+import { projectConstants, tableItemName } from "./modules/constants";
 import { toUsualFormat, toDBFormat } from "./modules/date";
 import { executeQuery } from "./modules/mysql";
 import { postText } from "./modules/slack";
+import { tableStructure } from "./types/mysql";
 
 // 割り当て・追加の割り当て時に使用される
 export const assign = async (today: Date, assignedDate: Date) => {

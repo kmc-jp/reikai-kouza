@@ -1,6 +1,7 @@
-import { projectConstants, tableItemName, tableStructure__assignmentGroup } from "../modules/constants";
+import { projectConstants, tableItemName } from "../modules/constants";
 import { getNextDate, toDate, toDBFormat } from "../modules/date";
 import { executeQuery } from "../modules/mysql";
+import { tableStructure__assignmentGroup } from "../types/mysql";
 
 // 担当日選択
 export const assignAction = async (payload: any) => {
