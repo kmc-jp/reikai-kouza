@@ -1,6 +1,6 @@
-import { projectConstants, tableItemName } from "./modules/constants";
+import { projectConstants } from "./modules/constants";
 import { toUsualFormat, toDate, toDBFormat } from "./modules/date";
-import { executeQuery } from "./modules/mysql";
+import { executeQuery, tableItemName } from "./modules/mysql";
 import { postText, postText2Members } from "./modules/slack";
 import { tableStructure__assignedDate, tableStructure__ID } from "./types/mysql";
 

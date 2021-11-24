@@ -3,6 +3,16 @@ import { getKeys } from "./keys";
 import { postText, postText2Log } from "./slack";
 const mysql = require("mysql2/promise");
 
+export const tableItemName = {
+  id: "id",
+  registrationDate: "registration_date",
+  preferredDayOfWeek: "preferred_day_of_week",
+  assignedDate: "assigned_date",
+  assignmentGroup: "assignment_group",
+  announcedDate: "announced_date",
+  announcementStatus: "announcement_status",
+};
+
 // MySQLへの接続を返す
 const connect = async () => {
   const data = await getKeys();

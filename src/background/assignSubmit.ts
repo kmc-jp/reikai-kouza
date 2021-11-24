@@ -1,7 +1,7 @@
 import { assignMember } from "../assignMember";
-import { projectConstants, tableItemName } from "../modules/constants";
+import { projectConstants } from "../modules/constants";
 import { toUsualFormat, toDate } from "../modules/date";
-import { executeQuery } from "../modules/mysql";
+import { executeQuery, tableItemName } from "../modules/mysql";
 import { postText, updateByResponseURL } from "../modules/slack";
 import {
   tableStructure__announcedDate,

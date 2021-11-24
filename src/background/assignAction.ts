@@ -1,6 +1,6 @@
-import { projectConstants, tableItemName } from "../modules/constants";
+import { projectConstants } from "../modules/constants";
 import { getNextDate, toDate, toDBFormat } from "../modules/date";
-import { executeQuery } from "../modules/mysql";
+import { executeQuery, tableItemName } from "../modules/mysql";
 import { tableStructure__assignmentGroup } from "../types/mysql";
 
 // 担当日選択

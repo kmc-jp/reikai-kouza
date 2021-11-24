@@ -72,13 +72,3 @@ export const projectConstants = {
     },
   },
 };
-
-export const tableItemName = {
-  id: "id",
-  registrationDate: "registration_date",
-  preferredDayOfWeek: "preferred_day_of_week",
-  assignedDate: "assigned_date",
-  assignmentGroup: "assignment_group",
-  announcedDate: "announced_date",
-  announcementStatus: "announcement_status",
-};

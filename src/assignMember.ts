@@ -1,6 +1,6 @@
-import { projectConstants, tableItemName } from "./modules/constants";
+import { projectConstants } from "./modules/constants";
 import { toUsualFormat, getNextDate, toDBFormat } from "./modules/date";
-import { executeQuery } from "./modules/mysql";
+import { executeQuery, tableItemName } from "./modules/mysql";
 import { post2DM } from "./modules/slack";
 
 // 部員のIDと担当日を指定し、割り当て時の処理を行う
