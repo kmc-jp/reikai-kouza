@@ -117,6 +117,7 @@ $ node updateStatus.js $(date +"%Y%m%d")
 - publicAnnounce.js
 - updateMembers.js
 
+※ `assignTask.js` は、2回実行される
 ## 🚦 テスト
 
 DBに手動追加した上で運用させる
