@@ -60,7 +60,7 @@ export const postDateSelection = async (id: string) => {
             text: "送信",
             emoji: true,
           },
-          value: "value--submit",
+          value: "value--submit", // この値にあまり意味はない
         },
       ],
     },
