@@ -16,7 +16,7 @@ const publicAnnounce = async () => {
 
   // 直近1週間分の担当者を取得
   const assignmentInfo = await executeQuery<tableStructure__ID & tableStructure__assignedDate>(
-    `SELECT ${tableItemName.id}, ${tableItemName.assignedDate} FROM ${projectConstants.mysql.tableName} WHERE (${tableItemName.assignedDate} >= ? AND ${tableItemName.assignedDate} <= ?)`,
+    `SELECT ${tableItemName.id}, ${tableItemName.assignedDate} FROM ${projectConstants.mysql.tableName} WHERE (${tableItemName.assignedDate} >= ? AND ${tableItemName.assignedDate} <= ?);`,
     [today__dbFormat, today_oneWeekAfter__dbFormat]
   );
 

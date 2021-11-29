@@ -8,7 +8,7 @@ export const assignAction = async (payload: any) => {
   // 割り当てグループは、はじめに割り当てられた担当日の情報が入っており、担当日が確定するまで変更されない
   const assignedGroup: number = (
     await executeQuery<tableStructure__assignmentGroup>(
-      `SELECT ${tableItemName.assignmentGroup} FROM ${projectConstants.mysql.tableName} WHERE ${tableItemName.id} = ?`,
+      `SELECT ${tableItemName.assignmentGroup} FROM ${projectConstants.mysql.tableName} WHERE ${tableItemName.id} = ?;`,
       [payload["user"]["id"]]
     )
   )[0].assignment_group;
@@ -22,14 +22,14 @@ export const assignAction = async (payload: any) => {
     // そのまま確定
     case projectConstants.interactivity.values.assign.OK:
       await executeQuery(
-        `UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.assignedDate} = ?, ${tableItemName.announcementStatus} = ? WHERE ${tableItemName.id} = ?`,
+        `UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.assignedDate} = ?, ${tableItemName.announcementStatus} = ? WHERE ${tableItemName.id} = ?;`,
         [assignedGroup, projectConstants.values.announcementStatus.OK, payload["user"]["id"]]
       );
       break;
     // 割り当てられた担当日の次回の例会に延期
     case projectConstants.interactivity.values.assign.Postpone1:
       await executeQuery(
-        `UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.assignedDate} = ?, ${tableItemName.announcementStatus} = ? WHERE ${tableItemName.id} = ?`,
+        `UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.assignedDate} = ?, ${tableItemName.announcementStatus} = ? WHERE ${tableItemName.id} = ?;`,
         [
           toDBFormat(getNextDate(toDate(assignedGroup))),
           projectConstants.values.announcementStatus.Postponed,
@@ -40,7 +40,7 @@ export const assignAction = async (payload: any) => {
     // 割り当てられた担当日の次々回の例会に延期
     case projectConstants.interactivity.values.assign.Postpone2:
       await executeQuery(
-        `UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.assignedDate} = ?, ${tableItemName.announcementStatus} = ? WHERE ${tableItemName.id} = ?`,
+        `UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.assignedDate} = ?, ${tableItemName.announcementStatus} = ? WHERE ${tableItemName.id} = ?;`,
         [
           toDBFormat(getNextDate(getNextDate(toDate(assignedGroup)))),
           projectConstants.values.announcementStatus.Postponed,
@@ -51,7 +51,7 @@ export const assignAction = async (payload: any) => {
     // 割り当てられた担当日の3回後の例会に延期
     case projectConstants.interactivity.values.assign.Postpone3:
       await executeQuery(
-        `UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.assignedDate} = ?, ${tableItemName.announcementStatus} = ? WHERE ${tableItemName.id} = ?`,
+        `UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.assignedDate} = ?, ${tableItemName.announcementStatus} = ? WHERE ${tableItemName.id} = ?;`,
         [
           toDBFormat(getNextDate(getNextDate(getNextDate(toDate(assignedGroup))))),
           projectConstants.values.announcementStatus.Postponed,
@@ -62,7 +62,7 @@ export const assignAction = async (payload: any) => {
     // 割り当てられた担当日の4回後の例会に延期
     case projectConstants.interactivity.values.assign.Postpone4:
       await executeQuery(
-        `UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.assignedDate} = ?, ${tableItemName.announcementStatus} = ? WHERE ${tableItemName.id} = ?`,
+        `UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.assignedDate} = ?, ${tableItemName.announcementStatus} = ? WHERE ${tableItemName.id} = ?;`,
         [
           toDBFormat(getNextDate(getNextDate(getNextDate(getNextDate(toDate(assignedGroup)))))),
           projectConstants.values.announcementStatus.Postponed,
@@ -73,7 +73,7 @@ export const assignAction = async (payload: any) => {
     // 担当をキャンセル
     case projectConstants.interactivity.values.assign.Cancel:
       await executeQuery(
-        `UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.assignedDate} = ?, ${tableItemName.announcementStatus} = ? WHERE ${tableItemName.id} = ?`,
+        `UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.assignedDate} = ?, ${tableItemName.announcementStatus} = ? WHERE ${tableItemName.id} = ?;`,
         [
           projectConstants.values.assignedDate.None,
           projectConstants.values.announcementStatus.AdditionalAssignmentNeeded,

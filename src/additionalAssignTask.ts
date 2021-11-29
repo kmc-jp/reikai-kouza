@@ -20,7 +20,7 @@ const additionalAssignTask = async () => {
   // 「割り当て状態が1 かつ 割り当て日から3日が経過している」 または 「割り当て状態が2である」 または 「割り当て状態が3である」
   const results = await executeQuery<tableStructure>(
     `SELECT * FROM ${projectConstants.mysql.tableName} WHERE\
-  (${tableItemName.announcedDate} <= ? AND ${tableItemName.announcementStatus} = ?) OR ${tableItemName.announcementStatus} = ? OR ${tableItemName.announcementStatus} = ?`,
+  (${tableItemName.announcedDate} <= ? AND ${tableItemName.announcementStatus} = ?) OR ${tableItemName.announcementStatus} = ? OR ${tableItemName.announcementStatus} = ?;`,
     [
       threeDaysAgo__dbFormat,
       projectConstants.values.announcementStatus.NoReply,
@@ -55,7 +55,7 @@ const additionalAssignTask = async () => {
       case projectConstants.values.announcementStatus.Postponed:
         // もとの部員の割り当てグループを延期先の日付 (担当日) で更新
         await executeQuery(
-          `UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.assignmentGroup} = ? WHERE ${tableItemName.id} = ?`,
+          `UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.assignmentGroup} = ? WHERE ${tableItemName.id} = ?;`,
           [result.assigned_date, result.id]
         );
         break;
@@ -63,7 +63,7 @@ const additionalAssignTask = async () => {
 
     // 割り当て状態を10に更新
     await executeQuery(
-      `UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.announcementStatus} = ? WHERE ${tableItemName.id} = ?`,
+      `UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.announcementStatus} = ? WHERE ${tableItemName.id} = ?;`,
       [projectConstants.values.announcementStatus.OK, result.id]
     );
   }
