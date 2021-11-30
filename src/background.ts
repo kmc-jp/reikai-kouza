@@ -4,6 +4,7 @@ import { dayOfWeekSelectSubmit } from "./background/dayOfWeekSelectSubmit";
 import { assignAction } from "./background/assignAction";
 import { assignSubmit } from "./background/assignSubmit";
 import { verify } from "./modules/verify";
+import { postText } from "./modules/slack";
 
 const express = require("express");
 const app = express();
@@ -31,10 +32,22 @@ app.post(projectConstants.server.path.interactivity, async (request: any, respon
       request.text.toString("utf8")
     ))
   ) {
+    postText("署名の検証に失敗しました。");
     return;
   }
 
-  // TODO: 5分以上前のものは破棄
+  // タイムスタンプの値が整数値であることを保証
+  if (Number.isInteger(request.get("X-Slack-Request-Timestamp"))) {
+    return;
+  }
+
+  // 5分以上前のものは破棄
+  const now = new Date();
+
+  if (Number.parseInt(request.get("X-Slack-Request-Timestamp")) < Math.floor(now.getTime() / 1000) - 5 * 60) {
+    postText("5分以上前のリクエストを破棄します。");
+    return;
+  }
 
   // URLエンコードされているためパース処理
   const parsedPayload = querystring.parse(request.text.toString("utf8"), null, null);
