@@ -10,8 +10,8 @@ export const assignMember = async (id: string, today: Date, assignedDate: Date) 
 
   // 割り当てグループ、割り当て日、割り当て状態を更新
   await executeQuery(
-    `UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.assignmentGroup} = ?, ${tableItemName.announcedDate} = ?, ${tableItemName.announcementStatus} = ? WHERE ${tableItemName.id} = ?`,
-    [projectConstants.values.announcementStatus.NoReply, toDBFormat(assignedDate), toDBFormat(today), id]
+    `UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.assignmentGroup} = ?, ${tableItemName.announcedDate} = ?, ${tableItemName.announcementStatus} = ? WHERE ${tableItemName.id} = ?;`,
+    [toDBFormat(assignedDate), toDBFormat(today), projectConstants.values.announcementStatus.NoReply, id]
   );
 };
 
