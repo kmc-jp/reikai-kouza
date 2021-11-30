@@ -1354,10 +1354,10 @@ ms@2.1.2:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
-mysql2@^2.3.3-rc.0:
-  version "2.3.3-rc.0"
-  resolved "https://registry.yarnpkg.com/mysql2/-/mysql2-2.3.3-rc.0.tgz#550e51b836cea93a134eb6138aa0120d5cb8dcb8"
-  integrity sha512-zWPDmiOR8g9fG+23KyhhN4Fe8VE3B/G9lSq6K1tavCrcucW1BhVWrYGyLDI43Tw9SV5qBq/4pyDNpXd3Gd74LA==
+mysql2@^2.3.3:
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/mysql2/-/mysql2-2.3.3.tgz#944f3deca4b16629052ff8614fbf89d5552545a0"
+  integrity sha512-wxJUev6LgMSgACDkb/InIFxDprRa6T95+VEoR+xPvtngtccNH2dGjEB/fVZ8yg1gWv1510c9CvXuJHi5zUm0ZA==
   dependencies:
     denque "^2.0.1"
     generate-function "^2.3.1"
