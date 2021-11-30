@@ -6,7 +6,7 @@ export const projectConstants = {
     logChannelName: "#reikai-kouza-log",
   },
   mysql: {
-    DBName: "test_db",
+    DBName: "kmc",
     tableName: "reikai_kouza",
   },
   server: {
