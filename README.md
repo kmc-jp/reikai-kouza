@@ -118,6 +118,7 @@ $ node updateStatus.js $(date +"%Y%m%d")
 - updateMembers.js
 
 ※ `assignTask.js` は、2回実行される
+
 ## 🚦 テスト
 
 DBに手動追加した上で運用させる
@@ -128,3 +129,5 @@ DBに手動追加した上で運用させる
 - updateStatus.js
 - assignTask.js
 - publicAnnounce.js
+
+※ `assignTask.js` は、2回実行される

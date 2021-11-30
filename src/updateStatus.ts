@@ -15,7 +15,7 @@ const updateStatus = async () => {
 
   // 登録から3ヶ月以上が経過している全部員を取得
   const results = await executeQuery<tableStructure>(
-    `SELECT * FROM ${projectConstants.mysql.tableName} WHERE ${tableItemName.registrationDate} < ${today_threeMonthsAgo__dbFormat}`,
+    `SELECT * FROM ${projectConstants.mysql.tableName} WHERE ${tableItemName.registrationDate} < ${today_threeMonthsAgo__dbFormat};`,
     []
   );
 
@@ -31,7 +31,7 @@ const updateStatus = async () => {
   if (updateNeeded) {
     // 全員の割り当て状態を未割り当てに更新
     postText("全員の割り当て状態をリセット");
-    await executeQuery(`UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.announcementStatus} = ?`, [
+    await executeQuery(`UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.announcementStatus} = ?;`, [
       projectConstants.values.announcementStatus.Unassigned,
     ]);
   }

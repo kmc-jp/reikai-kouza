@@ -54,7 +54,6 @@ export const assignSubmit = async (payload: any) => {
       );
       await postText(`<@${payload["user"]["id"]}> ${toUsualFormat(toDate(registeredData.assigned_date))} に登録`);
       break;
-    // TODO: 延期された場合に割り当てグループを更新する処理がない
 
     // キャンセルされた場合
     case projectConstants.values.announcementStatus.AdditionalAssignmentNeeded:
