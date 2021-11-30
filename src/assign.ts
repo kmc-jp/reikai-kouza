@@ -42,9 +42,11 @@ export const assign = async (today: Date, assignedDate: Date) => {
   if (targetMembers.length > 0) {
     const assignedMember: string = targetMembers[Math.floor(Math.random() * targetMembers.length)].id;
     await postText(`<@${assignedMember}>`);
-  }
 
-  // assignMember(assignedMember, today, assignedDate);
-  // DEV: ここで、誤爆を防ぐためにすべてryokohbatoに送信している
-  assignMember("U01U7S3UFAB", today, assignedDate);
+    assignMember(assignedMember, today, assignedDate);
+    /*
+    DEV: ここで、誤爆を防ぐためにすべてryokohbatoに送信している
+    assignMember("U01U7S3UFAB", today, assignedDate);
+    */
+  }
 };
