@@ -90,4 +90,9 @@ app.post(projectConstants.server.path.interactivity, async (request: any, respon
   }
 });
 
+app.get(projectConstants.server.path.check, async (request: any, response: any) => {
+  postText("OK");
+  response.end();
+});
+
 app.listen(projectConstants.server.port);
