@@ -34,7 +34,7 @@ const getAssignMessage = (assignedDate: Date): string => {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: "直近2週間までは延期できます。選択欄から担当日を選んでください。担当を断る場合は、「 *担当しない* 」を選択してください。",
+        text: "直近2週間までは延期できます。選択欄から担当日を選んでください。担当を断る場合は、「 *担当しない* 」を選択してください。\n72時間以内に返答がない場合、自動的にキャンセルされます。",
       },
       accessory: {
         type: "static_select",
