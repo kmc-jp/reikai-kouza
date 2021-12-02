@@ -44,9 +44,7 @@ export const assign = async (today: Date, assignedDate: Date) => {
     await postText(`<@${assignedMember}>`);
 
     assignMember(assignedMember, today, assignedDate);
-    /*
-    DEV: ここで、誤爆を防ぐためにすべてryokohbatoに送信している
-    assignMember("U01U7S3UFAB", today, assignedDate);
-    */
+    // DEV: ここで、誤爆を防ぐためにすべてryokohbatoに送信している
+    // assignMember("U01U7S3UFAB", today, assignedDate);
   }
 };
