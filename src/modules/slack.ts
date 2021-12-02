@@ -87,6 +87,10 @@ export const post2DM = async (id: string, blocks: string) => {
       },
     }
   );
+
+  // DM の送信はログにも流す
+  await postText2Log(JSON.stringify(result));
+  return result;
 };
 
 // response URL を用いたメッセージの更新を行う
