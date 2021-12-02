@@ -26,10 +26,15 @@ export type tableStructure__announcementStatus = {
   announcement_status: number;
 };
 
+export type tableStructure__messageTimeStamp = {
+  message_ts: string | undefined;
+};
+
 export type tableStructure = tableStructure__ID &
   tableStructure__registrationDate &
   tableStructure__preferredDayOfWeek &
   tableStructure__assignedDate &
   tableStructure__assignmentGroup &
   tableStructure__announcedDate &
-  tableStructure__announcementStatus;
+  tableStructure__announcementStatus &
+  tableStructure__messageTimeStamp;

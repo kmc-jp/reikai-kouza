@@ -11,6 +11,7 @@ export const tableItemName = {
   assignmentGroup: "assignment_group",
   announcedDate: "announced_date",
   announcementStatus: "announcement_status",
+  messageTimeStamp: "message_ts",
 };
 
 // MySQLへの接続を返す

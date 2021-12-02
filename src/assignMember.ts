@@ -6,13 +6,21 @@ import { post2DM } from "./modules/slack";
 // 部員のIDと担当日を指定し、割り当て時の処理を行う
 export const assignMember = async (id: string, today: Date, assignedDate: Date) => {
   // 選ばれた担当者にメッセージを送信
-  await post2DM(id, getAssignMessage(assignedDate));
+  const assignmentMessageTimeStamp = await post2DM(id, getAssignMessage(assignedDate));
 
-  // 割り当てグループ、割り当て日、割り当て状態を更新
-  await executeQuery(
-    `UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.assignmentGroup} = ?, ${tableItemName.announcedDate} = ?, ${tableItemName.announcementStatus} = ? WHERE ${tableItemName.id} = ?;`,
-    [toDBFormat(assignedDate), toDBFormat(today), projectConstants.values.announcementStatus.NoReply, id]
-  );
+  if (assignmentMessageTimeStamp.ts != null) {
+    // タイムスタンプが取得できれば、割り当てグループ、割り当て日、割り当て状態、メッセージタイムスタンプを更新
+    await executeQuery(
+      `UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.assignmentGroup} = ?, ${tableItemName.announcedDate} = ?, ${tableItemName.announcementStatus} = ?, ${tableItemName.messageTimeStamp} = ? WHERE ${tableItemName.id} = ?;`,
+      [toDBFormat(assignedDate), toDBFormat(today), projectConstants.values.announcementStatus.NoReply, assignmentMessageTimeStamp.ts, id]
+    );
+  } else {
+    // タイムスタンプが取得できなければ、割り当てグループ、割り当て日、割り当て状態を更新
+    await executeQuery(
+      `UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.assignmentGroup} = ?, ${tableItemName.announcedDate} = ?, ${tableItemName.announcementStatus} = ? WHERE ${tableItemName.id} = ?;`,
+      [toDBFormat(assignedDate), toDBFormat(today), projectConstants.values.announcementStatus.NoReply, id]
+    );
+  }
 };
 
 // 割り当てられた部員に送信するメッセージを取得
