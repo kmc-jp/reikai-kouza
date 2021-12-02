@@ -1,4 +1,4 @@
-import { UsersListResponse } from "../types/slack";
+import { ChatPostMessageResponse, UsersListResponse } from "../types/slack";
 import { projectConstants } from "./constants";
 import { getKeys } from "./keys";
 const axios = require("axios");
@@ -7,7 +7,7 @@ const axios = require("axios");
 export const postText2Members = async (message: string) => {
   const data = await getKeys();
 
-  await axios.post(
+  const result: ChatPostMessageResponse = await axios.post(
     "https://slack.com/api/chat.postMessage",
     {
       channel: projectConstants.slack.memberChannelName,
@@ -22,6 +22,7 @@ export const postText2Members = async (message: string) => {
   );
 
   await postText(message);
+  return result;
 };
 
 // 例会講座 運営用Slackチャンネルに指定したメッセージを投稿
@@ -29,7 +30,7 @@ export const postText2Members = async (message: string) => {
 export const postText = async (message: string) => {
   const data = await getKeys();
 
-  await axios.post(
+  const result: ChatPostMessageResponse = await axios.post(
     "https://slack.com/api/chat.postMessage",
     {
       channel: projectConstants.slack.ownerChannelName,
@@ -44,14 +45,15 @@ export const postText = async (message: string) => {
   );
 
   // ownerチャンネルへの投稿はlogチャンネルにも流す
-  await postText2Log(message);
+  await post2DM("", message);
+  return result;
 };
 
 // 例会講座 ログ用Slackチャンネルに指定したメッセージを投稿
 export const postText2Log = async (message: string) => {
   const data = await getKeys();
 
-  await axios.post(
+  const result: ChatPostMessageResponse = await axios.post(
     "https://slack.com/api/chat.postMessage",
     {
       channel: projectConstants.slack.logChannelName,
@@ -64,13 +66,15 @@ export const postText2Log = async (message: string) => {
       },
     }
   );
+
+  return result;
 };
 
 // アプリからのメッセージを直接送信
 export const post2DM = async (id: string, blocks: string) => {
   const data = await getKeys();
 
-  await axios.post(
+  const result: ChatPostMessageResponse = await axios.post(
     "https://slack.com/api/chat.postMessage",
     {
       channel: `@${id}`,
