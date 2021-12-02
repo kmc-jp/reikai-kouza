@@ -4,7 +4,7 @@ import { dayOfWeekSelectSubmit } from "./background/dayOfWeekSelectSubmit";
 import { assignAction } from "./background/assignAction";
 import { assignSubmit } from "./background/assignSubmit";
 import { verify } from "./modules/verify";
-import { postText } from "./modules/slack";
+import { postText, postText2Log } from "./modules/slack";
 
 const express = require("express");
 const app = express();
@@ -91,7 +91,7 @@ app.post(projectConstants.server.path.interactivity, async (request: any, respon
 });
 
 app.get(projectConstants.server.path.check, async (request: any, response: any) => {
-  postText("OK");
+  postText2Log("OK");
   response.end();
 });
 
