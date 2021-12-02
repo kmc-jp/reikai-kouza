@@ -12,7 +12,13 @@ export const assignMember = async (id: string, today: Date, assignedDate: Date) 
     // タイムスタンプが取得できれば、割り当てグループ、割り当て日、割り当て状態、メッセージタイムスタンプを更新
     await executeQuery(
       `UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.assignmentGroup} = ?, ${tableItemName.announcedDate} = ?, ${tableItemName.announcementStatus} = ?, ${tableItemName.messageTimeStamp} = ? WHERE ${tableItemName.id} = ?;`,
-      [toDBFormat(assignedDate), toDBFormat(today), projectConstants.values.announcementStatus.NoReply, assignmentMessageTimeStamp.ts, id]
+      [
+        toDBFormat(assignedDate),
+        toDBFormat(today),
+        projectConstants.values.announcementStatus.NoReply,
+        assignmentMessageTimeStamp.ts,
+        id,
+      ]
     );
   } else {
     // タイムスタンプが取得できなければ、割り当てグループ、割り当て日、割り当て状態を更新
