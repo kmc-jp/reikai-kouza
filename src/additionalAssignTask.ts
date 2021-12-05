@@ -2,7 +2,7 @@ import { assign } from "./assign";
 import { projectConstants } from "./modules/constants";
 import { toDate, toDBFormat } from "./modules/date";
 import { executeQuery, tableItemName } from "./modules/mysql";
-import { postText } from "./modules/slack";
+import { postText, updateDMMessage } from "./modules/slack";
 import { tableStructure } from "./types/mysql";
 
 const argv = require("minimist")(process.argv.slice(2));
@@ -48,7 +48,13 @@ const additionalAssignTask = async () => {
     postText(`追加の割り当てに関する登録情報を処理します (<@${result.id}>)`);
     switch (result.announcement_status) {
       case projectConstants.values.announcementStatus.NoReply:
-        // TODO: ボタンを押せないようにする。
+        postText(`<@${result.id}> 72時間以内に返信がありませんでした。`);
+        // ボタンを押せないようにする。
+        if (result.message_ts != null) {
+          updateDMMessage(result.id, result.message_ts, `72時間以内に返信がなかったため、自動的にスキップします。`);
+        } else {
+          postText(`<@${result.id}> さんのメッセージスタンプが取得できませんでした。`);
+        }
         break;
       case projectConstants.values.announcementStatus.AdditionalAssignmentNeeded:
         break;
