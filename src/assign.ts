@@ -13,7 +13,17 @@ export const assign = async (today: Date, assignedDate: Date) => {
   const today_threeMonthsAgo = new Date(today.getTime() - 3 * 30 * 24 * 60 * 60 * 1000);
   const today_threeMonthsAgo__dbFormat = toDBFormat(today_threeMonthsAgo);
 
-  // TODO: 割り当てグループで探索して、2人以上いれば割り当てない
+  // 割り当てグループで探索して、2人以上いれば割り当てない
+  if (
+    (
+      await executeQuery(
+        `SELECT * FROM ${projectConstants.mysql.tableName} WHERE ${tableItemName.assignmentGroup} = ?`,
+        [toDBFormat(assignedDate)]
+      )
+    ).length >= 2
+  ) {
+    return;
+  }
 
   // 割り当ての対象となる全部員を取得
   // 「登録日から3ヶ月以上経過している」 かつ 「希望曜日である (「未回答」は「どちらでも」と同じ扱い)」 かつ 「割り当てグループから3ヶ月以上経過している」 かつ 「割り当て状態が0」
