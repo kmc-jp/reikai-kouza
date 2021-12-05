@@ -27,7 +27,7 @@ export type tableStructure__announcementStatus = {
 };
 
 export type tableStructure__messageTimeStamp = {
-  message_ts: string | undefined;
+  message_ts: string | null;
 };
 
 export type tableStructure = tableStructure__ID &
