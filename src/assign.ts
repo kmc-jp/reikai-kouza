@@ -47,6 +47,29 @@ export const assign = async (today: Date, assignedDate: Date) => {
     ]
   );
 
+  // DEV: テスト時のみ、割り当てグループは1週間以上経過していればよい
+  // const today_oneWeekAgo = new Date(today.getTime() - 3 * 30 * 24 * 60 * 60 * 1000);
+  // const today_oneWeekAgo__dbFormat = toDBFormat(today_threeMonthsAgo);
+  // const targetMembers = await executeQuery<tableStructure>(
+  //   `SELECT * FROM ${projectConstants.mysql.tableName} WHERE ${tableItemName.registrationDate} < ? AND\
+  //   (${tableItemName.preferredDayOfWeek} = ? OR ${tableItemName.preferredDayOfWeek} = ? OR ${tableItemName.preferredDayOfWeek} = ?) AND\
+  //   ${tableItemName.assignmentGroup} < ? AND\
+  //   ${tableItemName.announcementStatus} = ?;`,
+  //   [
+  //     today_oneWeekAgo__dbFormat,
+  //     // どちらも
+  //     projectConstants.values.preferredDayOfWeek.Both.value,
+  //     // 担当日の曜日に合わせる
+  //     assignedDate.getDay() === 1
+  //       ? projectConstants.values.preferredDayOfWeek.Monday.value
+  //       : projectConstants.values.preferredDayOfWeek.Thursday.value,
+  //     // 未回答
+  //     projectConstants.values.preferredDayOfWeek.Unanswered.value,
+  //     today_oneWeekAgo__dbFormat,
+  //     projectConstants.values.announcementStatus.Unassigned,
+  //   ]
+  // );
+
   await postText(`${toUsualFormat(assignedDate)} の講座担当者を選びます (対象人数: ${targetMembers.length})`);
 
   // 対象者からランダムに1人割り当てる
