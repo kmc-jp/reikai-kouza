@@ -16,7 +16,7 @@ export const assign = async (today: Date, assignedDate: Date) => {
   // 割り当てグループで探索して、2人以上いれば割り当てない
   if (
     (
-      await executeQuery(
+      await executeQuery<tableStructure>(
         `SELECT * FROM ${projectConstants.mysql.tableName} WHERE ${tableItemName.assignmentGroup} = ?`,
         [toDBFormat(assignedDate)]
       )
