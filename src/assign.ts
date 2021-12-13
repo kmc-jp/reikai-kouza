@@ -13,15 +13,16 @@ export const assign = async (today: Date, assignedDate: Date) => {
   const today_threeMonthsAgo = new Date(today.getTime() - 3 * 30 * 24 * 60 * 60 * 1000);
   const today_threeMonthsAgo__dbFormat = toDBFormat(today_threeMonthsAgo);
 
-  // 割り当てグループで探索して、2人以上いれば割り当てない
+  // 既に2人以上が割り当てられていれば割り当てない
   if (
     (
       await executeQuery<tableStructure>(
-        `SELECT * FROM ${projectConstants.mysql.tableName} WHERE ${tableItemName.assignmentGroup} = ?`,
+        `SELECT * FROM ${projectConstants.mysql.tableName} WHERE ${tableItemName.assignedDate} = ?`,
         [toDBFormat(assignedDate)]
       )
     ).length >= 2
   ) {
+    postText(`${toUsualFormat(assignedDate)} の担当者が2人以上いるため、スキップします。`);
     return;
   }
 

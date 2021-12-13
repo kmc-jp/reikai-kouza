@@ -40,7 +40,7 @@ const additionalAssignTask = async () => {
   // 満たしていない場合は、割り当ては行わないず、データベースの更新のみを行う。
   for (const result of results) {
     if (result.assignment_group <= threeWeeksAfter__dbFormat && result.assignment_group >= twoWeeksAfter__dbFormat) {
-      postText(`追加の割り当てを行います (=> <@${result.id}>)`);
+      postText(`追加の割り当てを行います (<@${result.id}> =>)`);
       assign(today, toDate(result.assignment_group));
     }
 
