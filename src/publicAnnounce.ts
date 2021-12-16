@@ -16,6 +16,12 @@ const publicAnnounce = async () => {
   const today_oneWeekAfter = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
   const today_oneWeekAfter__dbFormat = toDBFormat(today_oneWeekAfter);
 
+  // 今日が月曜日か木曜日でなかった場合は終了
+  if (today.getDay() != 1 && today.getDay() != 4) {
+    await postText("月曜・木曜日ではないので告知は行いません。");
+    return;
+  }
+
   // 直近1週間分の担当者を取得
   const assignmentInfo = await executeQuery<tableStructure__ID & tableStructure__assignedDate>(
     `SELECT ${tableItemName.id}, ${tableItemName.assignedDate} FROM ${projectConstants.mysql.tableName} WHERE (${tableItemName.assignedDate} >= ? AND ${tableItemName.assignedDate} <= ?);`,
