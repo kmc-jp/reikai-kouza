@@ -121,6 +121,26 @@ $ node updateStatus.js $(date +"%Y%m%d")
 
 ※ `assignTask.js` は、2回実行される
 
+以下のようなシェルスクリプトを用意し、定期実行する。
+
+```bash
+#!/bin/bash
+
+cd $(dirname $0)
+
+/usr/local/bin/node ./additionalAssignTask.js $1
+sleep 1m
+/usr/local/bin/node ./updateStatus.js $1
+sleep 1m
+/usr/local/bin/node ./assignTask.js $1
+sleep 1m
+/usr/local/bin/node ./assignTask.js $1
+sleep 1m
+/usr/local/bin/node ./publicAnnounce.js $1
+sleep 1m
+/usr/local/bin/node ./updateMembers.js $1
+```
+
 ## 🚦 テスト
 
 DBに手動追加した上で運用させる
@@ -133,3 +153,22 @@ DBに手動追加した上で運用させる
 - publicAnnounce.js
 
 ※ `assignTask.js` は、2回実行される
+
+以下のようなシェルスクリプトを用意し、定期実行する。
+稼働テストの詳細は、[稼働テストのログ](https://github.com/kmc-jp/reikai-kouza/wiki/%E7%A8%BC%E5%83%8D%E3%83%86%E3%82%B9%E3%83%88%E3%81%AE%E3%83%AD%E3%82%B0)にある。
+
+```bash
+#!/bin/bash
+
+cd $(dirname $0)
+
+/usr/local/bin/node ./additionalAssignTask.js $1
+sleep 1m
+/usr/local/bin/node ./updateStatus.js $1
+sleep 1m
+/usr/local/bin/node ./assignTask.js $1
+sleep 1m
+/usr/local/bin/node ./assignTask.js $1
+sleep 1m
+/usr/local/bin/node ./publicAnnounce.js $1
+```
