@@ -1,7 +1,7 @@
 import { projectConstants } from "./modules/constants";
 import { toUsualFormat, toDate, toDBFormat } from "./modules/date";
 import { executeQuery, tableItemName } from "./modules/mysql";
-import { postText, postText2Members } from "./modules/slack";
+import { postText, postText2Log, postText2Members } from "./modules/slack";
 import { tableStructure__assignedDate, tableStructure__ID } from "./types/mysql";
 
 const argv = require("minimist")(process.argv.slice(2));
@@ -9,6 +9,8 @@ const argv = require("minimist")(process.argv.slice(2));
 // 講座担当者を全体に公開
 // TODO: 月木のみの告知にしたほうが、うるさすぎなくて良いかもしれない
 const publicAnnounce = async () => {
+  await postText2Log("告知を開始します。");
+
   const today = toDate((argv["_"][0] as number).toString());
   const today__dbFormat = toDBFormat(today);
   const today_oneWeekAfter = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);

@@ -2,7 +2,7 @@ import { projectConstants } from "./modules/constants";
 import { toDate, toDBFormat } from "./modules/date";
 import { filterNormalMembers } from "./modules/member";
 import { executeQuery, tableItemName } from "./modules/mysql";
-import { getMemberList, postText } from "./modules/slack";
+import { getMemberList, postText, postText2Log } from "./modules/slack";
 import { postAnnounce } from "./postAnnounce";
 import { tableStructure__ID } from "./types/mysql";
 const argv = require("minimist")(process.argv.slice(2));
@@ -11,6 +11,8 @@ const argv = require("minimist")(process.argv.slice(2));
 // 引数として、日付をYYYYMMDDの形式で与える必要がある
 // 処理に時間がかかるので注意
 const update = async () => {
+  await postText2Log("部員の登録情報を更新します。");
+
   try {
     // ユーザー一覧情報を取得
     const responseJson = await getMemberList();

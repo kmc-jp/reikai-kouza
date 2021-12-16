@@ -2,7 +2,7 @@ import { assign } from "./assign";
 import { projectConstants } from "./modules/constants";
 import { toDate, toDBFormat } from "./modules/date";
 import { executeQuery, tableItemName } from "./modules/mysql";
-import { postText, updateDMMessage } from "./modules/slack";
+import { postText, postText2Log, updateDMMessage } from "./modules/slack";
 import { tableStructure } from "./types/mysql";
 
 const argv = require("minimist")(process.argv.slice(2));
@@ -10,6 +10,8 @@ const argv = require("minimist")(process.argv.slice(2));
 // 追加の割り当て
 // https://github.com/kmc-jp/reikai-kouza/wiki/%E4%BB%95%E6%A7%98%E6%9B%B8#%E8%BF%BD%E5%8A%A0%E3%81%AE%E5%89%B2%E3%82%8A%E5%BD%93%E3%81%A6
 const additionalAssignTask = async () => {
+  await postText2Log("追加の割り当てを開始します。");
+
   const today_str = (argv["_"][0] as number).toString();
   const today = toDate(today_str);
 
