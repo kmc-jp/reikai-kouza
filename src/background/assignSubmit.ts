@@ -50,7 +50,7 @@ export const assignSubmit = async (payload: any) => {
         payload["response_url"],
         `<@${payload["user"]["id"]}> \n${toUsualFormat(
           toDate(registeredData.assigned_date)
-        )} の講座に登録しました。講座担当日の1週間前に <${projectConstants.slack.memberChannelName}> で告知されます。`
+        )} の講座に登録しました。講座担当日の1週間前に <#${projectConstants.slack.memberChannelName}> で告知されます。`
       );
       await postText(`<@${payload["user"]["id"]}> ${toUsualFormat(toDate(registeredData.assigned_date))} に登録`);
       break;
