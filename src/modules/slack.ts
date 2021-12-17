@@ -26,7 +26,7 @@ export const postText2Members = async (message: string) => {
     return result.data;
   } catch (error) {
     // 正常に投稿できなかった場合
-    postText(
+    await postText(
       `<@ryokohbato>\n:red_circle: <#${projectConstants.slack.memberChannelName}> への出力に失敗しました。 Status: ${
         (error as AxiosError).response?.status
       }\n${(error as AxiosError).message}\n${message}`
@@ -59,7 +59,7 @@ export const postText = async (message: string) => {
     return result.data;
   } catch (error) {
     // 正常に投稿できなかった場合
-    postText(
+    await postText(
       `<@ryokohbato>\n:red_circle: <#${projectConstants.slack.ownerChannelName}> への出力に失敗しました。 Status: ${
         (error as AxiosError).response?.status
       }\n${(error as AxiosError).message}\n${message}`
@@ -89,7 +89,7 @@ export const postText2Log = async (message: string) => {
     return result.data;
   } catch (error) {
     // ログが正常に書き込めなかった場合
-    postText(
+    await postText(
       `<@ryokohbato>\n:red_circle: ログの出力に失敗しました。 Status: ${(error as AxiosError).response?.status}\n${
         (error as AxiosError).message
       }\n${message}`
@@ -122,7 +122,7 @@ export const post2DM = async (id: string, blocks: string) => {
     return result.data;
   } catch (error) {
     // DMが正常に行えなかった場合
-    postText(
+    await postText(
       `<@ryokohbato>\n:red_circle: <@${id}> さんへのDMの送信に失敗しました。 Status: ${
         (error as AxiosError).response?.status
       }\n${(error as AxiosError).message}\n${stringify(blocks)}`
@@ -140,7 +140,7 @@ export const updateDMMessage = async (id: string, timeStamp: string, text: strin
   });
 
   if (conversationsChannels.length === 0) {
-    postText(`<@ryokohbato>\n:red_circle: <@${id}> さんのDMのIDの取得に失敗しました。`);
+    await postText(`<@ryokohbato>\n:red_circle: <@${id}> さんのDMのIDの取得に失敗しました。`);
     return;
   }
 
