@@ -9,7 +9,7 @@ const argv = require("minimist")(process.argv.slice(2));
 // 講座担当者を全体に公開
 // TODO: 月木のみの告知にしたほうが、うるさすぎなくて良いかもしれない
 const publicAnnounce = async () => {
-  await postText2Log("告知を開始します。");
+  await postText2Log(":blobsunglasses: 告知を開始します。");
 
   const today = toDate((argv["_"][0] as number).toString());
   const today__dbFormat = toDBFormat(today);
@@ -18,7 +18,7 @@ const publicAnnounce = async () => {
 
   // 今日が月曜日か木曜日でなかった場合は終了
   if (today.getDay() != 1 && today.getDay() != 4) {
-    await postText("月曜・木曜日ではないので告知は行いません。");
+    await postText(":blobsunglasses: 月曜・木曜日ではないので告知は行いません。");
     return;
   }
 
@@ -32,8 +32,8 @@ const publicAnnounce = async () => {
     return `${toUsualFormat(toDate(x.assigned_date))}: <@${x.id}>`;
   });
 
-  await postText("直近1週間の講座担当者を告知します。");
-  await postText2Members(`直近1週間の講座担当者\n${assignmentInfoText.join("\n")}`);
+  await postText(":blobsunglasses: 直近1週間の講座担当者を告知します。");
+  await postText2Members(`:tada: 直近1週間の講座担当者\n${assignmentInfoText.join("\n")}`);
 };
 
 publicAnnounce();

@@ -41,10 +41,10 @@ const register = async () => {
         })
       );
     } else {
-      await postText("メンバー情報の取得に失敗しました。");
+      await postText("<@ryokohbato>\n:red_circle: メンバー情報の取得に失敗しました。");
     }
   } catch (error) {
-    await postText(`部員の登録処理でエラーが発生しました。\n${error}`);
+    await postText(`<@ryokohbato>\n:red_circle: 部員の登録処理でエラーが発生しました。\n${error}`);
   }
 };
 

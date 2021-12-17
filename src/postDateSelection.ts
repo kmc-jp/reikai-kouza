@@ -67,5 +67,5 @@ export const postDateSelection = async (id: string) => {
   ];
 
   await post2DM(id, JSON.stringify(message));
-  await postText(`<@${id}> さんに、希望曜日調査を送付しました。`);
+  await postText(`:calendar: <@${id}> さんに、希望曜日調査を送付しました。`);
 };

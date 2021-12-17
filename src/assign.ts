@@ -48,13 +48,13 @@ export const assign = async (today: Date, assignedDate: Date) => {
     ]
   );
 
-  await postText(`${toUsualFormat(assignedDate)} の講座担当者を選びます (対象人数: ${targetMembers.length})`);
+  await postText(`:pick: ${toUsualFormat(assignedDate)} の講座担当者を選びます (対象人数: ${targetMembers.length})`);
 
   // 対象者からランダムに1人割り当てる
   // 対象者がいなかった場合は何もしない
   if (targetMembers.length > 0) {
     const assignedMember: string = targetMembers[Math.floor(Math.random() * targetMembers.length)].id;
-    await postText(`<@${assignedMember}>`);
+    await postText(`:pick: <@${assignedMember}>`);
 
     assignMember(assignedMember, today, assignedDate);
     // DEV: ここで、誤爆を防ぐためにすべてryokohbatoに送信している
