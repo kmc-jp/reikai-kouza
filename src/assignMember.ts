@@ -8,7 +8,7 @@ export const assignMember = async (id: string, today: Date, assignedDate: Date) 
   // 選ばれた担当者にメッセージを送信
   const result = await post2DM(id, getAssignMessage(assignedDate));
 
-  if (result.ts != null) {
+  if (result?.ts != null) {
     // タイムスタンプが取得できれば、割り当てグループ、割り当て日、割り当て状態、メッセージタイムスタンプを更新
     await executeQuery(
       `UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.assignmentGroup} = ?, ${tableItemName.announcedDate} = ?, ${tableItemName.announcementStatus} = ?, ${tableItemName.messageTimeStamp} = ? WHERE ${tableItemName.id} = ?;`,

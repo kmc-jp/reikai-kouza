@@ -9,7 +9,7 @@ const post = async () => {
   // ユーザー一覧情報を取得
   const responseJson = await getMemberList();
 
-  if (responseJson.ok) {
+  if (responseJson?.ok) {
     const allMembersID = filterNormalMembers(responseJson.members as Array<Member>)
       // 表示名は設定されていない場合がある
       .map((member) => {
