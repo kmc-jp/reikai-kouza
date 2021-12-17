@@ -32,7 +32,7 @@ const updateStatus = async () => {
 
   if (updateNeeded) {
     // 全員の割り当て状態を未割り当てに更新
-    postText("全員の割り当て状態をリセット");
+    await postText("全員の割り当て状態をリセット");
     await executeQuery(`UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.announcementStatus} = ?;`, [
       projectConstants.values.announcementStatus.Unassigned,
     ]);

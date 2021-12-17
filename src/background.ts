@@ -32,7 +32,7 @@ app.post(projectConstants.server.path.interactivity, async (request: any, respon
       request.text.toString("utf8")
     ))
   ) {
-    postText("署名の検証に失敗しました。");
+    await postText("署名の検証に失敗しました。");
     return;
   }
 
@@ -45,7 +45,7 @@ app.post(projectConstants.server.path.interactivity, async (request: any, respon
   const now = new Date();
 
   if (Number.parseInt(request.get("X-Slack-Request-Timestamp")) < Math.floor(now.getTime() / 1000) - 5 * 60) {
-    postText("5分以上前のリクエストを破棄します。");
+    await postText("5分以上前のリクエストを破棄します。");
     return;
   }
 
