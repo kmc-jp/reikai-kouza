@@ -32,7 +32,7 @@ app.post(projectConstants.server.path.interactivity, async (request: any, respon
       request.text.toString("utf8")
     ))
   ) {
-    await postText("署名の検証に失敗しました。");
+    await postText(":animation_police_car_light: 署名の検証に失敗しました。");
     return;
   }
 
@@ -45,7 +45,7 @@ app.post(projectConstants.server.path.interactivity, async (request: any, respon
   const now = new Date();
 
   if (Number.parseInt(request.get("X-Slack-Request-Timestamp")) < Math.floor(now.getTime() / 1000) - 5 * 60) {
-    await postText("5分以上前のリクエストを破棄します。");
+    await postText(":animation_police_car_light: 5分以上前のリクエストを破棄します。");
     return;
   }
 
@@ -91,7 +91,7 @@ app.post(projectConstants.server.path.interactivity, async (request: any, respon
 });
 
 app.get(projectConstants.server.path.check, async (request: any, response: any) => {
-  await postText2Log("OK");
+  await postText2Log(":large_green_circle: OK");
   response.end();
 });
 

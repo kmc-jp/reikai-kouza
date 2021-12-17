@@ -9,7 +9,7 @@ const argv = require("minimist")(process.argv.slice(2));
 // 更新処理を実行
 // 割り当て状態をリセットする
 const updateStatus = async () => {
-  await postText2Log("割り当て状態のリセットをチェックします。");
+  await postText2Log(":broom: 割り当て状態をリセットします。");
 
   const today = toDate((argv["_"][0] as number).toString());
   const today_threeMonthsAgo = new Date(today.getTime() - 3 * 30 * 24 * 60 * 60 * 1000);
@@ -32,7 +32,7 @@ const updateStatus = async () => {
 
   if (updateNeeded) {
     // 全員の割り当て状態を未割り当てに更新
-    await postText("全員の割り当て状態をリセット");
+    await postText(":broom:全員の割り当て状態をリセット");
     await executeQuery(`UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.announcementStatus} = ?;`, [
       projectConstants.values.announcementStatus.Unassigned,
     ]);

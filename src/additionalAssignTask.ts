@@ -10,7 +10,7 @@ const argv = require("minimist")(process.argv.slice(2));
 // 追加の割り当て
 // https://github.com/kmc-jp/reikai-kouza/wiki/%E4%BB%95%E6%A7%98%E6%9B%B8#%E8%BF%BD%E5%8A%A0%E3%81%AE%E5%89%B2%E3%82%8A%E5%BD%93%E3%81%A6
 const additionalAssignTask = async () => {
-  await postText2Log("追加の割り当てを開始します。");
+  await postText2Log(":blobwavereverse: 追加の割り当てを開始します。");
 
   const today_str = (argv["_"][0] as number).toString();
   const today = toDate(today_str);
@@ -42,20 +42,24 @@ const additionalAssignTask = async () => {
   // 満たしていない場合は、割り当ては行わないず、データベースの更新のみを行う。
   for (const result of results) {
     if (result.assignment_group <= threeWeeksAfter__dbFormat && result.assignment_group >= twoWeeksAfter__dbFormat) {
-      await postText(`追加の割り当てを行います (<@${result.id}> =>)`);
+      await postText(
+        `:blobwavereverse: <@${result.id}> さんの割り当てを変更または取り消し、追加の割り当てを行います。`
+      );
       assign(today, toDate(result.assignment_group));
     }
 
     // どの場合でも割り当て状態を10に更新する処理は共通なので、それ以外の個別の処理をここで行う
-    await postText(`追加の割り当てに関する登録情報を処理します (<@${result.id}>)`);
+    await postText(`:blobwavereverse: <@${result.id}> さんの登録情報を処理します。`);
     switch (result.announcement_status) {
       case projectConstants.values.announcementStatus.NoReply:
-        await postText(`<@${result.id}> 72時間以内に返信がありませんでした。`);
+        await postText(`:blobyes: <@${result.id}> 72時間以内に返信がありませんでした。`);
         // ボタンを押せないようにする。
         if (result.message_ts != null) {
           updateDMMessage(result.id, result.message_ts, `72時間以内に返信がなかったため、自動的にスキップします。`);
         } else {
-          await postText(`<@${result.id}> さんのメッセージスタンプが取得できませんでした。`);
+          await postText(
+            `<@ryokohbato>\n:red_circle: <@${result.id}> さんのメッセージスタンプが取得できませんでした。`
+          );
         }
         break;
       case projectConstants.values.announcementStatus.AdditionalAssignmentNeeded:

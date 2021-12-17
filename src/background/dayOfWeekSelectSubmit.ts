@@ -41,5 +41,5 @@ export const dayOfWeekSelectSubmit = async (payload: any) => {
     payload["response_url"],
     `<@${payload["user"]["id"]}> 「${dayOfWeek}」で登録が完了しました。`
   );
-  await postText(`<@${payload["user"]["id"]}> 「${dayOfWeek}」で登録`);
+  await postText(`:muscle: <@${payload["user"]["id"]}> 「${dayOfWeek}」で登録`);
 };

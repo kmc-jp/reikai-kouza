@@ -45,5 +45,5 @@ export const postAnnounce = async (id: string) => {
   ];
 
   await post2DM(id, JSON.stringify(message));
-  await postText(`<@${id}> さんに、例会講座システムのアナウンスを送付しました。`);
+  await postText(`:mega: <@${id}> さんに、例会講座システムのアナウンスを送付しました。`);
 };

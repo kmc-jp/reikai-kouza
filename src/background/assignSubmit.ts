@@ -52,7 +52,9 @@ export const assignSubmit = async (payload: any) => {
           toDate(registeredData.assigned_date)
         )} の講座に登録しました。講座担当日の1週間前に <#${projectConstants.slack.memberChannelName}> で告知されます。`
       );
-      await postText(`<@${payload["user"]["id"]}> ${toUsualFormat(toDate(registeredData.assigned_date))} に登録`);
+      await postText(
+        `:tada: <@${payload["user"]["id"]}> ${toUsualFormat(toDate(registeredData.assigned_date))} に登録`
+      );
       break;
 
     // キャンセルされた場合
@@ -64,7 +66,7 @@ export const assignSubmit = async (payload: any) => {
         )} の指名をキャンセルしました。`
       );
       await postText(
-        `<@${payload["user"]["id"]}> ${toUsualFormat(toDate(registeredData.assignment_group))} をキャンセル`
+        `:no_entry: <@${payload["user"]["id"]}> ${toUsualFormat(toDate(registeredData.assignment_group))} をキャンセル`
       );
       break;
   }

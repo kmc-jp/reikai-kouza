@@ -47,7 +47,7 @@ const post = async () => {
       });
     }
   } else {
-    await postText("メンバー情報の取得に失敗しました。");
+    await postText("<@ryokohbato>\n:red_circle: メンバー情報の取得に失敗しました。");
   }
 };
 
