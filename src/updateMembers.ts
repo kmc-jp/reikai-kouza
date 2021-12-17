@@ -30,7 +30,7 @@ const update = async () => {
     const date__dbFormat = toDBFormat(date);
     const date_halfYearAgo__dbFormat = toDBFormat(date_halfYearAgo);
 
-    if (responseJson.ok) {
+    if (responseJson?.ok) {
       // 全部員の最新のIDリスト
       const allMembersID = filterNormalMembers(responseJson.members as Array<any>).map((member) => {
         return member.id;

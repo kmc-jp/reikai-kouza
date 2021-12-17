@@ -91,7 +91,7 @@ app.post(projectConstants.server.path.interactivity, async (request: any, respon
 });
 
 app.get(projectConstants.server.path.check, async (request: any, response: any) => {
-  postText2Log("OK");
+  await postText2Log("OK");
   response.end();
 });
 

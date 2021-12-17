@@ -25,7 +25,7 @@ const register = async () => {
 
     const date_halfYearAgo__dbFormat = toDBFormat(date_halfYearAgo);
 
-    if (responseJson.ok) {
+    if (responseJson?.ok) {
       await executeQueries(
         `INSERT INTO ${projectConstants.mysql.tableName} VALUES (?, ?, ?, ?, ?, ?, ?);`,
         filterNormalMembers(responseJson.members as Array<Member>).map((member) => {
