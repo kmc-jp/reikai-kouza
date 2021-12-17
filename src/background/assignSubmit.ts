@@ -52,7 +52,9 @@ export const assignSubmit = async (payload: any) => {
           toDate(registeredData.assigned_date)
         )} の講座に登録しました。講座担当日の1週間前に <#${projectConstants.slack.memberChannelName}> で告知されます。`
       );
-      await postText(`:tada: <@${payload["user"]["id"]}> ${toUsualFormat(toDate(registeredData.assigned_date))} に登録`);
+      await postText(
+        `:tada: <@${payload["user"]["id"]}> ${toUsualFormat(toDate(registeredData.assigned_date))} に登録`
+      );
       break;
 
     // キャンセルされた場合

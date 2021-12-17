@@ -42,7 +42,9 @@ const additionalAssignTask = async () => {
   // 満たしていない場合は、割り当ては行わないず、データベースの更新のみを行う。
   for (const result of results) {
     if (result.assignment_group <= threeWeeksAfter__dbFormat && result.assignment_group >= twoWeeksAfter__dbFormat) {
-      await postText(`:blobwavereverse: <@${result.id}> さんの割り当てを変更または取り消し、追加の割り当てを行います。`);
+      await postText(
+        `:blobwavereverse: <@${result.id}> さんの割り当てを変更または取り消し、追加の割り当てを行います。`
+      );
       assign(today, toDate(result.assignment_group));
     }
 
@@ -55,7 +57,9 @@ const additionalAssignTask = async () => {
         if (result.message_ts != null) {
           updateDMMessage(result.id, result.message_ts, `72時間以内に返信がなかったため、自動的にスキップします。`);
         } else {
-          await postText(`<@ryokohbato>\n:red_circle: <@${result.id}> さんのメッセージスタンプが取得できませんでした。`);
+          await postText(
+            `<@ryokohbato>\n:red_circle: <@${result.id}> さんのメッセージスタンプが取得できませんでした。`
+          );
         }
         break;
       case projectConstants.values.announcementStatus.AdditionalAssignmentNeeded:
