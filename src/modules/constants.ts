@@ -1,7 +1,7 @@
 // プログラム内で使用する定数類
 export const projectConstants = {
   slack: {
-    memberChannelName: "C0321SKJM",
+    memberChannelName: "C02N5BPBK6Y",
     ownerChannelName: "C02M3GZE340",
     logChannelName: "C02L74Z33SS",
   },
