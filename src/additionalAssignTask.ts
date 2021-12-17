@@ -42,20 +42,20 @@ const additionalAssignTask = async () => {
   // 満たしていない場合は、割り当ては行わないず、データベースの更新のみを行う。
   for (const result of results) {
     if (result.assignment_group <= threeWeeksAfter__dbFormat && result.assignment_group >= twoWeeksAfter__dbFormat) {
-      postText(`追加の割り当てを行います (<@${result.id}> =>)`);
+      await postText(`追加の割り当てを行います (<@${result.id}> =>)`);
       assign(today, toDate(result.assignment_group));
     }
 
     // どの場合でも割り当て状態を10に更新する処理は共通なので、それ以外の個別の処理をここで行う
-    postText(`追加の割り当てに関する登録情報を処理します (<@${result.id}>)`);
+    await postText(`追加の割り当てに関する登録情報を処理します (<@${result.id}>)`);
     switch (result.announcement_status) {
       case projectConstants.values.announcementStatus.NoReply:
-        postText(`<@${result.id}> 72時間以内に返信がありませんでした。`);
+        await postText(`<@${result.id}> 72時間以内に返信がありませんでした。`);
         // ボタンを押せないようにする。
         if (result.message_ts != null) {
           updateDMMessage(result.id, result.message_ts, `72時間以内に返信がなかったため、自動的にスキップします。`);
         } else {
-          postText(`<@${result.id}> さんのメッセージスタンプが取得できませんでした。`);
+          await postText(`<@${result.id}> さんのメッセージスタンプが取得できませんでした。`);
         }
         break;
       case projectConstants.values.announcementStatus.AdditionalAssignmentNeeded:
