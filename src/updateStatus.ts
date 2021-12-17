@@ -9,7 +9,7 @@ const argv = require("minimist")(process.argv.slice(2));
 // 更新処理を実行
 // 割り当て状態をリセットする
 const updateStatus = async () => {
-  await postText2Log("割り当て状態をリセットします。");
+  await postText2Log("割り当て状態のリセットをチェックします。");
 
   const today = toDate((argv["_"][0] as number).toString());
   const today_threeMonthsAgo = new Date(today.getTime() - 3 * 30 * 24 * 60 * 60 * 1000);
