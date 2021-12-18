@@ -35,6 +35,37 @@ export const postText2Members = async (message: string) => {
   }
 };
 
+// 例会講座用 公開Slackチャンネルに指定したメッセージブロックを投稿
+export const postBlocks2Members = async (blocks: string) => {
+  const data = await getKeys();
+
+  try {
+    const result = await axios.post<ChatPostMessageResponse>(
+      "https://slack.com/api/chat.postMessage",
+      {
+        channel: projectConstants.slack.memberChannelName,
+        blocks: blocks,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${data.slack.bot_user_oauth_token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    await postBlocks(blocks);
+    return result.data;
+  } catch (error) {
+    // 正常に投稿できなかった場合
+    await postText(
+      `<@ryokohbato>\n:red_circle: <#${projectConstants.slack.memberChannelName}> への出力に失敗しました。 Status: ${
+        (error as AxiosError).response?.status
+      }\n${(error as AxiosError).message}\n${stringify(blocks)}`
+    );
+    return;
+  }
+};
+
 // 例会講座 運営用Slackチャンネルに指定したメッセージを投稿
 // このメッセージは全てログチャンネルにも投稿する。
 export const postText = async (message: string) => {
@@ -68,6 +99,39 @@ export const postText = async (message: string) => {
   }
 };
 
+// 例会講座 運営用Slackチャンネルに指定したメッセージブロックを投稿
+// 全てログチャンネルにも投稿する。
+export const postBlocks = async (blocks: string) => {
+  const data = await getKeys();
+
+  try {
+    const result = await axios.post<ChatPostMessageResponse>(
+      "https://slack.com/api/chat.postMessage",
+      {
+        channel: projectConstants.slack.ownerChannelName,
+        blocks: blocks,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${data.slack.bot_user_oauth_token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    // ownerチャンネルへの投稿はlogチャンネルにも流す
+    await postBlocks2Log(blocks);
+    return result.data;
+  } catch (error) {
+    // 正常に投稿できなかった場合
+    await postText(
+      `<@ryokohbato>\n:red_circle: <#${projectConstants.slack.ownerChannelName}> への出力に失敗しました。 Status: ${
+        (error as AxiosError).response?.status
+      }\n${(error as AxiosError).message}\n${stringify(blocks)}`
+    );
+    return;
+  }
+};
+
 // 例会講座 ログ用Slackチャンネルに指定したメッセージを投稿
 export const postText2Log = async (message: string) => {
   const data = await getKeys();
@@ -93,6 +157,36 @@ export const postText2Log = async (message: string) => {
       `<@ryokohbato>\n:red_circle: ログの出力に失敗しました。 Status: ${(error as AxiosError).response?.status}\n${
         (error as AxiosError).message
       }\n${message}`
+    );
+    return;
+  }
+};
+
+// 例会講座 ログ用Slackチャンネルに指定したメッセージブロックを投稿
+export const postBlocks2Log = async (blocks: string) => {
+  const data = await getKeys();
+
+  try {
+    const result = await axios.post<ChatPostMessageResponse>(
+      "https://slack.com/api/chat.postMessage",
+      {
+        channel: projectConstants.slack.logChannelName,
+        blocks: blocks,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${data.slack.bot_user_oauth_token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return result.data;
+  } catch (error) {
+    // ログが正常に書き込めなかった場合
+    await postText(
+      `<@ryokohbato>\n:red_circle: ログの出力に失敗しました。 Status: ${(error as AxiosError).response?.status}\n${
+        (error as AxiosError).message
+      }\n${stringify(blocks)}`
     );
     return;
   }
