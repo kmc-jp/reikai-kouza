@@ -1,7 +1,7 @@
 import { projectConstants } from "./modules/constants";
 import { toUsualFormat, toDate, toDBFormat } from "./modules/date";
 import { executeQuery, tableItemName } from "./modules/mysql";
-import { postText, postText2Log, postText2Members } from "./modules/slack";
+import { postBlocks, postBlocks2Members, postText, postText2Log } from "./modules/slack";
 import { tableStructure__assignedDate, tableStructure__ID } from "./types/mysql";
 
 const argv = require("minimist")(process.argv.slice(2));
@@ -28,12 +28,57 @@ const publicAnnounce = async () => {
     [today__dbFormat, today_oneWeekAfter__dbFormat]
   );
 
-  const assignmentInfoText = assignmentInfo.map((x) => {
-    return `${toUsualFormat(toDate(x.assigned_date))}: <@${x.id}>`;
-  });
+  // 確定済みの担当者を取得
+  const assignmentInfoAll = await executeQuery<tableStructure__ID & tableStructure__assignedDate>(
+    `SELECT ${tableItemName.id}, ${tableItemName.assignedDate} FROM ${projectConstants.mysql.tableName} WHERE ${tableItemName.assignedDate} >= ?;`,
+    [today__dbFormat]
+  );
 
   await postText(":blobsunglasses: 直近1週間の講座担当者を告知します。");
-  await postText2Members(`:tada: 直近1週間の講座担当者\n${assignmentInfoText.join("\n")}`);
+  await postBlocks2Members(JSON.stringify(getPublicAnnounceBlock("直近1週間の講座担当者", assignmentInfo)));
+  await postText(":blobsunglasses: 確定済みの全ての講座担当者を告知します。");
+  await postBlocks(JSON.stringify(getPublicAnnounceBlock("確定済みの講座担当者", assignmentInfoAll)));
+};
+
+const getPublicAnnounceBlock = (
+  title: string,
+  assignmentInfo: (tableStructure__ID & tableStructure__assignedDate)[]
+) => {
+  const recentAssignment: { [key: number]: string[] } = {};
+  const message = [
+    {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: `:tada: *${title}*`,
+      },
+    },
+  ];
+
+  assignmentInfo.forEach((x) => {
+    if (!Object.keys(recentAssignment).includes(x.assigned_date.toString())) {
+      recentAssignment[x.assigned_date] = [];
+    }
+    recentAssignment[x.assigned_date].push(x.id);
+  });
+
+  for (const x in recentAssignment) {
+    console.log(toUsualFormat(toDate(x)));
+    console.log();
+    message.push({
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: `*${toUsualFormat(toDate(x))}*\n${recentAssignment[x]
+          .map((x) => {
+            return `<@${x}>`;
+          })
+          .join("\n")}`,
+      },
+    });
+  }
+
+  return message;
 };
 
 publicAnnounce();
