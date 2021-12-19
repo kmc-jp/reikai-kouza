@@ -43,13 +43,13 @@ const additionalAssignTask = async () => {
   for (const result of results) {
     if (result.assignment_group <= threeWeeksAfter__dbFormat && result.assignment_group >= twoWeeksAfter__dbFormat) {
       await postText(
-        `:blobwavereverse: <@${result.id}> さんの割り当てを変更または取り消し、追加の割り当てを行います。`
+        `:blobwavereverse: <@${result.id}> さんの割り当てを変更または取り消しすることに伴い、追加の割り当てを行います。`
       );
       assign(today, toDate(result.assignment_group));
     }
 
     // どの場合でも割り当て状態を10に更新する処理は共通なので、それ以外の個別の処理をここで行う
-    await postText(`:blobwavereverse: <@${result.id}> さんの登録情報を処理します。`);
+    await postText2Log(`:blobwavereverse: <@${result.id}> さんの割り当てを変更または取り消します。`);
     switch (result.announcement_status) {
       case projectConstants.values.announcementStatus.NoReply:
         await postText(`:blobyes: <@${result.id}> 72時間以内に返信がありませんでした。`);

@@ -1,7 +1,7 @@
 import { projectConstants } from "./modules/constants";
 import { toUsualFormat, toDate, toDBFormat } from "./modules/date";
 import { executeQuery, tableItemName } from "./modules/mysql";
-import { postBlocks, postBlocks2Members, postText, postText2Log } from "./modules/slack";
+import { postBlocks, postBlocks2Members, postText2Log } from "./modules/slack";
 import { tableStructure__assignedDate, tableStructure__ID } from "./types/mysql";
 
 const argv = require("minimist")(process.argv.slice(2));
@@ -18,7 +18,7 @@ const publicAnnounce = async () => {
 
   // 今日が月曜日か木曜日でなかった場合は終了
   if (today.getDay() != 1 && today.getDay() != 4) {
-    await postText(":blobsunglasses: 月曜・木曜日ではないので告知は行いません。");
+    await postText2Log(":blobsunglasses: 月曜・木曜日ではないので告知は行いません。");
     return;
   }
 
@@ -34,9 +34,9 @@ const publicAnnounce = async () => {
     [today__dbFormat]
   );
 
-  await postText(":blobsunglasses: 直近1週間の講座担当者を告知します。");
+  await postText2Log(":blobsunglasses: 直近1週間の講座担当者を告知します。");
   await postBlocks2Members(JSON.stringify(getPublicAnnounceBlock("直近1週間の講座担当者", assignmentInfo)));
-  await postText(":blobsunglasses: 確定済みの全ての講座担当者を告知します。");
+  await postText2Log(":blobsunglasses: 確定済みの全ての講座担当者を告知します。");
   await postBlocks(JSON.stringify(getPublicAnnounceBlock("確定済みの講座担当者", assignmentInfoAll)));
 };
 
