@@ -1,6 +1,6 @@
 import { assign } from "./assign";
 import { toDate } from "./modules/date";
-import { postText, postText2Log } from "./modules/slack";
+import { postText2Log } from "./modules/slack";
 
 const argv = require("minimist")(process.argv.slice(2));
 
@@ -14,7 +14,7 @@ const assignTask = async () => {
 
   // 今日が月曜日か木曜日でなかった場合は終了
   if (today.getDay() != 1 && today.getDay() != 4) {
-    await postText(":racehorse: 月曜・木曜日ではないので割り当ては行いません。");
+    await postText2Log(":racehorse: 月曜・木曜日ではないので割り当ては行いません。");
     return;
   }
 
