@@ -4,7 +4,9 @@ import { filterNormalMembers } from "./modules/member";
 import { executeQuery, tableItemName } from "./modules/mysql";
 import { getMemberList, postText, postText2Log } from "./modules/slack";
 import { postAnnounce } from "./postAnnounce";
-import { tableStructure__ID } from "./types/mysql";
+
+import type { tableStructure__ID } from "./@types/mysql";
+
 const argv = require("minimist")(process.argv.slice(2));
 
 // 新規の部員の登録・既存の部員のプロフィール変更への追従・部員情報の削除

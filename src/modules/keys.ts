@@ -1,5 +1,7 @@
 import { readFile } from "fs/promises";
-import { Keys } from "../types/keys";
+
+import type { Keys } from "../@types/keys";
+
 const path = require("path");
 
 // keys.jsonの内容を取得

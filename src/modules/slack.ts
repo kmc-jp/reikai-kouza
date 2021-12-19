@@ -1,8 +1,10 @@
-import { Channel, ChatPostMessageResponse, ConversationsListResponse, UsersListResponse } from "../types/slack";
-import { projectConstants } from "./constants";
-import { stringify } from "flatted";
-import { getKeys } from "./keys";
 import axios, { AxiosError } from "axios";
+import { stringify } from "flatted";
+
+import { projectConstants } from "./constants";
+import { getKeys } from "./keys";
+
+import type { Channel, ChatPostMessageResponse, ConversationsListResponse, UsersListResponse } from "../@types/slack";
 
 // 例会講座用 公開Slackチャンネルに指定したメッセージを投稿
 export const postText2Members = async (message: string) => {

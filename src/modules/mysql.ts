@@ -1,6 +1,7 @@
 import { projectConstants } from "./constants";
 import { getKeys } from "./keys";
 import { postText, postText2Log } from "./slack";
+
 const mysql = require("mysql2/promise");
 
 export const tableItemName = {

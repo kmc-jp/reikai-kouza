@@ -3,12 +3,13 @@ import { projectConstants } from "../modules/constants";
 import { toUsualFormat, toDate } from "../modules/date";
 import { executeQuery, tableItemName } from "../modules/mysql";
 import { postText, updateByResponseURL } from "../modules/slack";
-import {
+
+import type {
   tableStructure__announcedDate,
   tableStructure__announcementStatus,
   tableStructure__assignedDate,
   tableStructure__assignmentGroup,
-} from "../types/mysql";
+} from "../@types/mysql";
 
 // 担当日選択 送信ボタン
 // 担当者にメッセージを送信

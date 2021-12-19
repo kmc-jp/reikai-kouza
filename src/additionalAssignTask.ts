@@ -3,7 +3,8 @@ import { projectConstants } from "./modules/constants";
 import { toDate, toDBFormat } from "./modules/date";
 import { executeQuery, tableItemName } from "./modules/mysql";
 import { postText, postText2Log, updateDMMessage } from "./modules/slack";
-import { tableStructure } from "./types/mysql";
+
+import type { tableStructure } from "./@types/mysql";
 
 const argv = require("minimist")(process.argv.slice(2));
 
