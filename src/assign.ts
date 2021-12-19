@@ -3,7 +3,7 @@ import { projectConstants } from "./modules/constants";
 import { toUsualFormat, toDBFormat } from "./modules/date";
 import { executeQuery, tableItemName } from "./modules/mysql";
 import { postText } from "./modules/slack";
-import { tableStructure } from "./types/mysql";
+import { tableStructure } from "./@types/mysql";
 
 // 割り当て・追加の割り当て時に使用される
 export const assign = async (today: Date, assignedDate: Date) => {

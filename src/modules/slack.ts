@@ -1,4 +1,4 @@
-import { Channel, ChatPostMessageResponse, ConversationsListResponse, UsersListResponse } from "../types/slack";
+import { Channel, ChatPostMessageResponse, ConversationsListResponse, UsersListResponse } from "../@types/slack";
 import { projectConstants } from "./constants";
 import { stringify } from "flatted";
 import { getKeys } from "./keys";

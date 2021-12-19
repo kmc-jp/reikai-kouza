@@ -8,7 +8,7 @@ import {
   tableStructure__announcementStatus,
   tableStructure__assignedDate,
   tableStructure__assignmentGroup,
-} from "../types/mysql";
+} from "../@types/mysql";
 
 // 担当日選択 送信ボタン
 // 担当者にメッセージを送信
