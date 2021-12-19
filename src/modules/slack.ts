@@ -300,7 +300,7 @@ const getDMList = async () => {
 
     cursor = (result.data as ConversationsListResponse).response_metadata?.next_cursor!;
 
-    await postText2Log(`next cursor: ${cursor}`);
+    await postText2Log(`:compression: next cursor: ${cursor}`);
 
     // 20リクエスト/min のAPI制限を超えないようにするための措置 (完全ではないもののほぼ防がれるはず)
     requestCount++;

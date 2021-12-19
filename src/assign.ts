@@ -23,7 +23,7 @@ export const assign = async (today: Date, assignedDate: Date) => {
       )
     ).length >= 2
   ) {
-    postText(`${toUsualFormat(assignedDate)} の担当者が2人以上いるため、スキップします。`);
+    postText(`:feet: ${toUsualFormat(assignedDate)} の担当者が2人以上いるため、スキップします。`);
     return;
   }
 
