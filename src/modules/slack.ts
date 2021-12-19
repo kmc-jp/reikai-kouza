@@ -269,6 +269,8 @@ const getDMList = async () => {
   const data = await getKeys();
   let result: any;
   let responses: Array<Channel> = [];
+  let requestCount = 0;
+  let cursor = "";
 
   do {
     result = await axios.get("https://slack.com/api/conversations.list", {
@@ -278,17 +280,38 @@ const getDMList = async () => {
       },
       params: {
         types: "im",
+        limit: 500,
+        cursor: cursor,
       },
     });
 
     if (!(result.data as ConversationsListResponse).ok) {
-      await postText("conversations list の取得に失敗しました。");
+      await postText("<@ryokohbato>\n:red_circle: conversations list の取得に失敗しました。");
     }
 
     if ((result.data as ConversationsListResponse).channels != null) {
       responses = [...(result.data as ConversationsListResponse).channels!];
     }
-  } while ((result.data as ConversationsListResponse).response_metadata?.next_cursor !== "");
+
+    if ((result.data as ConversationsListResponse).response_metadata?.next_cursor == null) {
+      await postText("<@ryokohbato>\n:red_circle: next_cursor の取得に失敗しました。");
+      break;
+    }
+
+    cursor = (result.data as ConversationsListResponse).response_metadata?.next_cursor!;
+
+    await postText2Log(`next cursor: ${cursor}`);
+
+    // 20リクエスト/min のAPI制限を超えないようにするための措置 (完全ではないもののほぼ防がれるはず)
+    requestCount++;
+    if (requestCount > 10) {
+      await postText("<@ryokohbato>\n:red_circle: リクエスト数が10を超えました。1分間実行を停止します。");
+      await new Promise((resolve) => {
+        setTimeout(resolve, 60 * 1000);
+      });
+      requestCount = 0;
+    }
+  } while (cursor !== "");
 
   return responses;
 };
@@ -324,10 +347,10 @@ export const getMemberList = async () => {
   const data = await getKeys();
 
   try {
-    const userList = await axios.get("https://slack.com/api/users.list", {
+    const userList = await axios.get<UsersListResponse>("https://slack.com/api/users.list", {
       headers: { Authorization: `Bearer ${data.slack.bot_user_oauth_token}` },
     });
-    return userList["data"] as UsersListResponse;
+    return userList.data;
   } catch (error) {
     await postText(
       `<@ryokohbato>\n:red_circle: ユーザーの取得に失敗しました。 Status: ${(error as AxiosError).response?.status}\n${

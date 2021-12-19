@@ -477,7 +477,7 @@ export type ConversationsListResponse = WebAPICallResult & {
   provided?: string;
 };
 
-export interface Channel {
+interface Channel {
   id?: string;
   name?: string;
   is_channel?: boolean;
