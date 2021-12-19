@@ -324,10 +324,10 @@ export const getMemberList = async () => {
   const data = await getKeys();
 
   try {
-    const userList = await axios.get("https://slack.com/api/users.list", {
+    const userList = await axios.get<UsersListResponse>("https://slack.com/api/users.list", {
       headers: { Authorization: `Bearer ${data.slack.bot_user_oauth_token}` },
     });
-    return userList["data"] as UsersListResponse;
+    return userList.data;
   } catch (error) {
     await postText(
       `<@ryokohbato>\n:red_circle: ユーザーの取得に失敗しました。 Status: ${(error as AxiosError).response?.status}\n${
