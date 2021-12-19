@@ -1,15 +1,17 @@
-import { projectConstants } from "./modules/constants";
-import { dayOfWeekSelectAction } from "./background/dayOfWeekSelectAction";
-import { dayOfWeekSelectSubmit } from "./background/dayOfWeekSelectSubmit";
 import { assignAction } from "./background/assignAction";
 import { assignSubmit } from "./background/assignSubmit";
-import { verify } from "./modules/verify";
+import { dayOfWeekSelectAction } from "./background/dayOfWeekSelectAction";
+import { dayOfWeekSelectSubmit } from "./background/dayOfWeekSelectSubmit";
+import { projectConstants } from "./modules/constants";
 import { postText, postText2Log } from "./modules/slack";
+import { verify } from "./modules/verify";
+
+const querystring = require("querystring");
 
 const express = require("express");
-const app = express();
-const querystring = require("querystring");
 const getRawBody = require("raw-body");
+
+const app = express();
 
 // 署名の検証に使用するため、生のリクエストを取得できるように
 app.use((request: any, result: any, next: any) => {
