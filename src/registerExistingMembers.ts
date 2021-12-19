@@ -3,7 +3,7 @@ import { toDate, toDBFormat } from "./modules/date";
 import { filterNormalMembers } from "./modules/member";
 import { executeQueries } from "./modules/mysql";
 import { getMemberList, postText } from "./modules/slack";
-import { Member } from "./@types/slack";
+import type { Member } from "./@types/slack";
 const argv = require("minimist")(process.argv.slice(2));
 
 // 既存の部員の登録
