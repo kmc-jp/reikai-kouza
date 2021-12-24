@@ -61,7 +61,7 @@ const update = async () => {
                 responseJson.members!.map(async (x) => {
                   if (x.id === id) {
                     return await executeQuery(
-                      `INSERT INTO ${projectConstants.mysql.tableName} VALUES (?, ?, ?, ?, ?, ?, ?);`,
+                      `INSERT INTO ${projectConstants.mysql.tableName} VALUES (?, ?, ?, ?, ?, ?, ?, ?);`,
                       [
                         x.id,
                         date__dbFormat,
@@ -70,6 +70,7 @@ const update = async () => {
                         date_halfYearAgo__dbFormat,
                         date_halfYearAgo__dbFormat,
                         projectConstants.values.announcementStatus.Unassigned,
+                        "",
                       ]
                     );
                   }

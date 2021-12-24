@@ -29,7 +29,7 @@ const register = async () => {
 
     if (responseJson?.ok) {
       await executeQueries(
-        `INSERT INTO ${projectConstants.mysql.tableName} VALUES (?, ?, ?, ?, ?, ?, ?);`,
+        `INSERT INTO ${projectConstants.mysql.tableName} VALUES (?, ?, ?, ?, ?, ?, ?, ?);`,
         filterNormalMembers(responseJson.members as Array<Member>).map((member) => {
           return [
             member.id,
@@ -39,6 +39,7 @@ const register = async () => {
             date_halfYearAgo__dbFormat,
             date_halfYearAgo__dbFormat,
             projectConstants.values.announcementStatus.Unassigned,
+            "",
           ];
         })
       );
