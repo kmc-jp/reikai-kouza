@@ -8,7 +8,7 @@ import type { tableStructure__assignedDate, tableStructure__ID } from "./@types/
 const argv = require("minimist")(process.argv.slice(2));
 
 // 講座担当者を全体に公開
-// TODO: 月木のみの告知にしたほうが、うるさすぎなくて良いかもしれない
+// 月木のみ告知
 const publicAnnounce = async () => {
   await postText2Log(":blobsunglasses: 告知を開始します。");
 
