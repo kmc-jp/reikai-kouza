@@ -29,7 +29,7 @@
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-jest": "^26.1.1",
     "express": "^4.17.2",
-    "flatted": "^3.2.4",
+    "flatted": "^3.2.5",
     "husky": "^7.0.4",
     "jest": "^27.5.1",
     "minimist": "^1.2.5",
