@@ -6,9 +6,10 @@ const crypto = require("crypto");
 export const verify = async (
   xSlackSignature: string,
   xSlackRequestTimestamp: string,
-  payload: string
+  payload: string,
+  isNotTest = true
 ): Promise<boolean> => {
-  const data = await getKeys();
+  const data = await getKeys(isNotTest);
 
   const baseStr = `v0:${xSlackRequestTimestamp}:${payload}`;
 
