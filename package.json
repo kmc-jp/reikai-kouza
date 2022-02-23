@@ -8,7 +8,7 @@
   "scripts": {
     "build": "webpack",
     "fix": "eslint --fix './src/**/*.{ts,js}' && prettier --write './src/**/*.{ts,js}' && prettier --write './dist/secret/*.json'",
-    "lint": "eslint './src/**/*.{ts,js}' && prettier --write './{src,tests}/**/*.{ts,js}' && prettier --write './dist/secret/*.json'",
+    "lint": "eslint './{src,tests}/**/*.{ts,js}' && prettier --write './{src,tests}/**/*.{ts,js}' && prettier --write './dist/secret/*.json'",
     "prepare": "husky install",
     "test": "jest"
   },
@@ -27,6 +27,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-import-resolver-typescript": "^2.5.0",
     "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jest": "^26.1.1",
     "express": "^4.17.2",
     "flatted": "^3.2.4",
     "husky": "^7.0.4",
