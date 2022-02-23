@@ -2,13 +2,14 @@ import { getKeys } from "./keys";
 
 const crypto = require("crypto");
 
-// リクエスト認証を検証
+// リクエスト署名を検証
 export const verify = async (
   xSlackSignature: string,
   xSlackRequestTimestamp: string,
-  payload: string
+  payload: string,
+  isNotTest = true
 ): Promise<boolean> => {
-  const data = await getKeys();
+  const data = await getKeys(isNotTest);
 
   const baseStr = `v0:${xSlackRequestTimestamp}:${payload}`;
 
