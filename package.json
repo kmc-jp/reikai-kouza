@@ -23,7 +23,7 @@
     "@types/mysql": "^2.15.20",
     "@typescript-eslint/parser": "^5.8.1",
     "axios": "^0.24.0",
-    "eslint": "^8.5.0",
+    "eslint": "^8.9.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-import-resolver-typescript": "^2.5.0",
     "eslint-plugin-import": "^2.25.3",
