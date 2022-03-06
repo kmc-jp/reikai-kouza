@@ -8,13 +8,24 @@
 
 ## 🔨 ビルド
 
-yarn が必要です。
+### docker を用いる場合
+
+以下の通りに実行すれば、`./dist` 以下に生成されます。(`yarn build:production` を実行した場合と同様に生成されます。)
+
+```
+$ ./prepare.sh
+$ ./production-build.sh
+```
+
+### docker を使用しない場合
+
+yarn が必要です。Dockerを使用した場合と同様に、`./dist` 以下に生成されます。
 
 ```
 $ cd reikai-kouza
 $ yarn install
 $ yarn prepare
-$ yarn build              # dist/ 以下に生成
+$ yarn build              # または、yarn build:production
 ```
 
 ## 🎨 フォーマット
