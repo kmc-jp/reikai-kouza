@@ -11,7 +11,8 @@
     "fix": "eslint --fix './src/**/*.{ts,js}' && prettier --write './src/**/*.{ts,js}' && prettier --write './dist/secret/*.json'",
     "lint": "eslint './{src,tests}/**/*.{ts,js}' && prettier --write './{src,tests}/**/*.{ts,js}' && prettier --write './dist/secret/*.json'",
     "prepare": "husky install",
-    "test": "jest"
+    "test": "jest",
+    "try": "webpack -c ./webpack.try.config.js"
   },
   "husky": {
     "hooks": {
