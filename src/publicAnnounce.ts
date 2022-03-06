@@ -64,8 +64,6 @@ const getPublicAnnounceBlock = (
   });
 
   for (const x in recentAssignment) {
-    console.log(toUsualFormat(toDate(x)));
-    console.log();
     message.push({
       type: "section",
       text: {
