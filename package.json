@@ -7,6 +7,7 @@
   "license": "Apache-2.0",
   "scripts": {
     "build": "webpack",
+    "build:production": "NODE_ENV=production webpack --mode=production",
     "fix": "eslint --fix './src/**/*.{ts,js}' && prettier --write './src/**/*.{ts,js}' && prettier --write './dist/secret/*.json'",
     "lint": "eslint './{src,tests}/**/*.{ts,js}' && prettier --write './{src,tests}/**/*.{ts,js}' && prettier --write './dist/secret/*.json'",
     "prepare": "husky install",
