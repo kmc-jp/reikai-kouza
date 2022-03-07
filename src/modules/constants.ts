@@ -14,6 +14,7 @@ export const projectConstants = {
     path: {
       check: "/check",
       interactivity: "/interactivity",
+      slash: "/slash",
     },
   },
   values: {
@@ -71,5 +72,8 @@ export const projectConstants = {
         Cancel: "value--Cancel",
       },
     },
+  },
+  slash: {
+    check: "/reikai-kouza-check",
   },
 };
