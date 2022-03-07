@@ -1,5 +1,5 @@
 import { projectConstants } from "../modules/constants";
-import { toDate, toUsualFormat } from "../modules/date";
+import { toDate, toDBFormat, toUsualFormat } from "../modules/date";
 import { executeQuery, tableItemName } from "../modules/mysql";
 import { post2DM } from "../modules/slack";
 
@@ -22,7 +22,7 @@ export const check = async (commandMessage: SlashCommandResponse) => {
         text: {
           type: "mrkdwn",
           text:
-            assignedDate.assigned_date === projectConstants.values.assignedDate.None
+            assignedDate.assigned_date < toDBFormat(new Date())
               ? "現在登録されている例会講座の担当日はありません。"
               : `${toUsualFormat(toDate(assignedDate.assigned_date))} の例会講座に登録されています。`,
         },
