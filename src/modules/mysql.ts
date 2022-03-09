@@ -13,7 +13,7 @@ export const tableItemName = {
   announcedDate: "announced_date",
   announcementStatus: "announcement_status",
   messageTimeStamp: "message_ts",
-};
+} as const;
 
 // MySQLへの接続を返す
 const connect = async () => {

@@ -76,4 +76,4 @@ export const projectConstants = {
   slash: {
     check: "/reikai-kouza-check",
   },
-};
+} as const;
