@@ -1,23 +1,17 @@
 import { projectConstants } from "../modules/constants";
 import { toDate, toDBFormat, toUsualFormat } from "../modules/date";
 import { executeQuery, tableItemName } from "../modules/mysql";
-import { postText, postText2Log, updateByResponseURL } from "../modules/slack";
+import { postText, updateByResponseURL } from "../modules/slack";
 
 import type { tableStructure__announcementStatus } from "../@types/mysql";
 
 export const cancelLaterSubmit = async (payload: any) => {
-  /*** TEST CODE!!! */
-  await postText2Log("DEBUG: " + JSON.stringify(payload));
-
   const announcementStatus = (
     await executeQuery<tableStructure__announcementStatus>(
       `SELECT ${tableItemName.announcementStatus} FROM ${projectConstants.mysql.tableName} WHERE ${tableItemName.id} = ?;`,
       [payload["user"]["id"]]
     )
   )[0].announcement_status;
-
-  /*** TEST CODE!!! */
-  await postText2Log("DEBUG: " + announcementStatus.toString());
 
   // 当日以前のものはキャンセルできない。
   // (当日もできない)
