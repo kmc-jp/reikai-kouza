@@ -1,10 +1,12 @@
 import { assignAction } from "./background/assignAction";
 import { assignSubmit } from "./background/assignSubmit";
+import { cancelLaterSubmit } from "./background/cancelLaterSubmit";
 import { dayOfWeekSelectAction } from "./background/dayOfWeekSelectAction";
 import { dayOfWeekSelectSubmit } from "./background/dayOfWeekSelectSubmit";
 import { projectConstants } from "./modules/constants";
 import { postText, postText2Log } from "./modules/slack";
 import { verify } from "./modules/verify";
+import { cancel } from "./slash/cancel";
 import { check } from "./slash/check";
 
 import type { SlackRequest, SlackResponse, SlashCommandResponse } from "./@types/slack";
@@ -88,6 +90,11 @@ app.post(projectConstants.server.path.interactivity, async (request: SlackReques
           assignSubmit(payload);
           break;
 
+        // 担当キャンセル 送信ボタン
+        case projectConstants.interactivity.blockID.cancelLaterSubmit:
+          cancelLaterSubmit(payload);
+          break;
+
         default:
           break;
       }
@@ -135,6 +142,13 @@ app.post(projectConstants.server.path.slash, async (request: SlackRequest, respo
   switch (commandMessage.command) {
     case projectConstants.slash.check:
       check(commandMessage);
+      break;
+
+    case projectConstants.slash.cancel:
+      cancel(commandMessage);
+      break;
+
+    default:
       break;
   }
 });

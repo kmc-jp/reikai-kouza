@@ -52,6 +52,7 @@ export const projectConstants = {
     blockID: {
       dayOfWeekSelectSubmit: "id--day-of-week-submit",
       assignmentSelectSubmit: "id--assign-submit",
+      cancelLaterSubmit: "id--cancel-later-submit",
     },
     actionID: {
       dayOfWeekSelect: "id--day-of-week-select",
@@ -75,5 +76,6 @@ export const projectConstants = {
   },
   slash: {
     check: "/reikai-kouza-check",
+    cancel: "/reikai-kouza-cancel",
   },
-};
+} as const;
