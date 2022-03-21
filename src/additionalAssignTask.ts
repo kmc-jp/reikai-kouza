@@ -16,16 +16,16 @@ const additionalAssignTask = async () => {
   const today_str = (argv["_"][0] as number).toString();
   const today = toDate(today_str);
 
-  // 3日前の時刻を取得
-  const threeDaysAgo = new Date(today.getTime() - 3 * 24 * 60 * 60 * 1000);
-  const threeDaysAgo__dbFormat = toDBFormat(threeDaysAgo);
+  // 2日前の時刻を取得
+  const twoDaysAgo = new Date(today.getTime() - 3 * 24 * 60 * 60 * 1000);
+  const twoDaysAgo__dbFormat = toDBFormat(twoDaysAgo);
 
-  // 「割り当て状態が1 かつ 割り当て日から3日が経過している」 または 「割り当て状態が2である」 または 「割り当て状態が3である」
+  // 「割り当て状態が1 かつ 割り当て日から2日が経過している」 または 「割り当て状態が2である」 または 「割り当て状態が3である」
   const results = await executeQuery<tableStructure>(
     `SELECT * FROM ${projectConstants.mysql.tableName} WHERE\
   (${tableItemName.announcedDate} <= ? AND ${tableItemName.announcementStatus} = ?) OR ${tableItemName.announcementStatus} = ? OR ${tableItemName.announcementStatus} = ?;`,
     [
-      threeDaysAgo__dbFormat,
+      twoDaysAgo__dbFormat,
       projectConstants.values.announcementStatus.NoReply,
       projectConstants.values.announcementStatus.AdditionalAssignmentNeeded,
       projectConstants.values.announcementStatus.Postponed,
@@ -53,10 +53,10 @@ const additionalAssignTask = async () => {
     await postText2Log(`:blobwavereverse: <@${result.id}> さんの割り当てを変更または取り消します。`);
     switch (result.announcement_status) {
       case projectConstants.values.announcementStatus.NoReply:
-        await postText(`:blobyes: <@${result.id}> 72時間以内に返信がありませんでした。`);
+        await postText(`:blobyes: <@${result.id}> 48時間以内に返信がありませんでした。`);
         // ボタンを押せないようにする。
         if (result.message_ts != null) {
-          updateDMMessage(result.id, result.message_ts, `72時間以内に返信がなかったため、自動的にスキップします。`);
+          updateDMMessage(result.id, result.message_ts, `48時間以内に返信がなかったため、自動的にスキップします。`);
         } else {
           await postText(
             `<@ryokohbato>\n:red_circle: <@${result.id}> さんのメッセージスタンプが取得できませんでした。`
