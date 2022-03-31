@@ -35,11 +35,12 @@ export const toDate = (dbFormat: number | string): Date => {
     dbFormat__str = dbFormat;
   }
 
-  const data = new Date();
-  data.setFullYear(Number.parseInt(dbFormat__str.substring(0, 4)));
-  data.setMonth(Number.parseInt(dbFormat__str.substring(4, 6)) - 1);
-  data.setDate(Number.parseInt(dbFormat__str.substring(6, 8)));
+  const year = Number.parseInt(dbFormat__str.substring(0, 4));
+  const month = Number.parseInt(dbFormat__str.substring(4, 6));
+  const date = Number.parseInt(dbFormat__str.substring(6, 8));
 
+  // year/month/date 00:00:00
+  const data = new Date(year, month - 1, date);
   return data;
 };
 
