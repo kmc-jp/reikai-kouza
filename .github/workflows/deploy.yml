@@ -24,7 +24,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 14
-      - run: "echo '${{ secrets.TOKEN }}' > ./dist/secret/keys.json"
       - name: Install
         run: "yarn install"
       - name: Build
