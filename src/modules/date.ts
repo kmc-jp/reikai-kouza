@@ -48,7 +48,19 @@ export const toDate = (dbFormat: number | string): Date => {
 export const getNextDate = (baseDate: Date): Date => {
   // 次回の例会日
   // 月曜日なら3日後、木曜日なら4日後
-  return baseDate.getDay() === 1
-    ? new Date(baseDate.getTime() + 3 * 24 * 60 * 60 * 1000)
-    : new Date(baseDate.getTime() + 4 * 24 * 60 * 60 * 1000);
+  // 月木以外でも動く
+  switch (baseDate.getDay()) {
+    case 1:
+    case 2:
+    case 3:
+      return new Date(baseDate.getTime() + (3 - baseDate.getDay() + 1) * 24 * 60 * 60 * 1000);
+    case 4:
+    case 5:
+    case 6:
+      return new Date(baseDate.getTime() + (4 - baseDate.getDay() + 4) * 24 * 60 * 60 * 1000);
+    case 0:
+      return new Date(baseDate.getTime() + (1 - baseDate.getDay()) * 24 * 60 * 60 * 1000);
+    default:
+      return new Date(baseDate.getTime() + 4 * 24 * 60 * 60 * 1000);
+  }
 };
