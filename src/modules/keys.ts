@@ -6,6 +6,7 @@ const path = require("path");
 
 // keys.jsonの内容を取得
 export const getKeys = async (): Promise<Keys> => {
+  // テスト環境では、サンプルファイルの値が取得される
   const keyReader =
     process.env.NODE_ENV !== "test"
       ? readFile(path.join(__dirname, "./secret/keys.json"), "utf-8")
