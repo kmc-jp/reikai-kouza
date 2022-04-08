@@ -1,5 +1,7 @@
 # 例会講座
 
+[![Deploy](https://github.com/kmc-jp/reikai-kouza/actions/workflows/deploy.yml/badge.svg)](https://github.com/kmc-jp/reikai-kouza/actions/workflows/deploy.yml)
+[![Test](https://github.com/kmc-jp/reikai-kouza/actions/workflows/test.yml/badge.svg)](https://github.com/kmc-jp/reikai-kouza/actions/workflows/test.yml)
 [![Lint](https://github.com/kmc-jp/reikai-kouza/actions/workflows/lint.yml/badge.svg)](https://github.com/kmc-jp/reikai-kouza/actions/workflows/lint.yml)
 
 ## ⚡ 概要
