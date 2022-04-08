@@ -1,6 +1,6 @@
 # 例会講座
 
-[![Lint](https://github.com/kmc-jp/reikai-kouza/actions/workflows/main.yml/badge.svg)](https://github.com/kmc-jp/reikai-kouza/actions/workflows/main.yml)
+[![Lint](https://github.com/kmc-jp/reikai-kouza/actions/workflows/lint.yml/badge.svg)](https://github.com/kmc-jp/reikai-kouza/actions/workflows/lint.yml)
 
 ## ⚡ 概要
 
