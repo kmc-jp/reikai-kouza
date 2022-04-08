@@ -1,4 +1,4 @@
-import { verify } from "../src/modules/verify";
+import { verify } from "./verify";
 
 test("this is test", async () => {
   expect(
