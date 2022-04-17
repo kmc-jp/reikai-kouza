@@ -359,3 +359,29 @@ export const getMemberList = async () => {
     );
   }
 };
+
+export const updateAppHome = async (id: string, view: string) => {
+  const data = await getKeys();
+
+  try {
+    await axios.post(
+      "https://slack.com/api/views.publish",
+      {
+        user_id: id,
+        view: view,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${data.slack.bot_user_oauth_token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  } catch (error) {
+    await postText(
+      `<@ryokohbato>\n:red_circle: AppHomeの更新に失敗しました。 Status: ${(error as AxiosError).response?.status}\n${
+        (error as AxiosError).message
+      }\n${stringify((error as AxiosError).response?.data)}`
+    );
+  }
+};

@@ -13,6 +13,7 @@ export const projectConstants = {
     port: 10080,
     path: {
       check: "/check",
+      events: "/events",
       interactivity: "/interactivity",
       slash: "/slash",
     },

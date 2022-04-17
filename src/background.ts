@@ -4,11 +4,12 @@ import { cancelLaterSubmit } from "./background/cancelLaterSubmit";
 import { dayOfWeekSelectAction } from "./background/dayOfWeekSelectAction";
 import { dayOfWeekSelectSubmit } from "./background/dayOfWeekSelectSubmit";
 import { projectConstants } from "./modules/constants";
-import { postText, postText2Log } from "./modules/slack";
+import { postText, postText2Log, updateAppHome } from "./modules/slack";
 import { verify } from "./modules/verify";
 import { cancel } from "./slash/cancel";
 import { check } from "./slash/check";
 
+import type { AppHomeOpened, Challenge } from "./@types/events";
 import type { SlackRequest, SlackResponse, SlashCommandResponse } from "./@types/slack";
 
 const querystring = require("querystring");
@@ -104,6 +105,30 @@ app.post(projectConstants.server.path.interactivity, async (request: SlackReques
 
 app.get(projectConstants.server.path.check, async (request: SlackRequest, response: SlackResponse) => {
   await postText2Log(":large_green_circle: OK");
+  response.end();
+});
+
+app.post(projectConstants.server.path.events, async (request: SlackRequest, response: SlackResponse) => {
+  const parsedRequest: Challenge | AppHomeOpened = JSON.parse(request.text.toString("utf8"));
+  if (parsedRequest.type === "url_verification") {
+    response.write(parsedRequest.challenge);
+  } else if (parsedRequest.event.type === "app_home_opened") {
+    await updateAppHome(
+      parsedRequest.event.user,
+      JSON.stringify({
+        type: "home",
+        blocks: [
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: "新しいUIを準備中です。V2アップデートをお楽しみに。",
+            },
+          },
+        ],
+      })
+    );
+  }
   response.end();
 });
 
