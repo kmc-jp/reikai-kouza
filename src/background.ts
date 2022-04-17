@@ -1,3 +1,4 @@
+import { viewBlocks } from "./background/appHomeView";
 import { assignAction } from "./background/assignAction";
 import { assignSubmit } from "./background/assignSubmit";
 import { cancelLaterSubmit } from "./background/cancelLaterSubmit";
@@ -117,15 +118,7 @@ app.post(projectConstants.server.path.events, async (request: SlackRequest, resp
       parsedRequest.event.user,
       JSON.stringify({
         type: "home",
-        blocks: [
-          {
-            type: "section",
-            text: {
-              type: "mrkdwn",
-              text: "新しいUIを準備中です。V2アップデートをお楽しみに。",
-            },
-          },
-        ],
+        blocks: viewBlocks,
       })
     );
   }
