@@ -1,0 +1,39 @@
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "ref"
+        required: false
+        default: ""
+name: Test Deploy
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0        # https://github.com/actions/checkout/issues/265
+      - run: git checkout ${{ github.event.inputs.ref }}
+        if: ${{ github.event.inputs.ref != '' }}
+
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_KEY }}
+          name: miyama
+          known_hosts: ${{ secrets.KNOWN_HOSTS }}
+          config: ${{ secrets.CONFIG }}
+
+      - name: Build Setup
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+      - name: Install
+        run: "yarn install"
+      - name: Build
+        run: "yarn run build:production"
+
+      - name: Restart reikai-kouza
+        run: bash deploy/deploy.sh
