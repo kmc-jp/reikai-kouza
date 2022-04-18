@@ -26,7 +26,7 @@ export const viewTestBlocks = [
     elements: [
       {
         type: "plain_text",
-        text: `最終更新 ${toUsualFormatWithTime(new Date)}`,
+        text: `最終更新 ${toUsualFormatWithTime(new Date())}`,
         emoji: true,
       },
     ],
