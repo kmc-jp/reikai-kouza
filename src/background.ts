@@ -1,4 +1,4 @@
-import { viewBlocks } from "./background/appHomeView";
+import { viewBlocks, viewTestBlocks } from "./background/appHomeView";
 import { assignAction } from "./background/assignAction";
 import { assignSubmit } from "./background/assignSubmit";
 import { cancelLaterSubmit } from "./background/cancelLaterSubmit";
@@ -118,7 +118,7 @@ app.post(projectConstants.server.path.events, async (request: SlackRequest, resp
       parsedRequest.event.user,
       JSON.stringify({
         type: "home",
-        blocks: viewBlocks,
+        blocks: parsedRequest.event.user === "U01U7S3UFAB" ? viewTestBlocks : viewBlocks,
       })
     );
   }
