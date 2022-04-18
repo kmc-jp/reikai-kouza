@@ -1,4 +1,4 @@
-import { toUsualFormat, toDBFormat, toDate, getNextDate } from "./date";
+import { toUsualFormat, toDBFormat, toDate, getNextDate, toUsualFormatWithTime } from "./date";
 
 test("TEST: Date Formatting (Monday)", () => {
   // 2022/4/11
@@ -35,6 +35,15 @@ test("TEST: Date Formatting (Sunday)", () => {
   expect(toUsualFormat(new Date(2022, 4 - 1, 17))).toBe("4/17 (日)");
 });
 
+// 時間付きのフォーマットを確認
+test("TEST: Date Formatting (With Time: AM)", () => {
+  expect(toUsualFormatWithTime(new Date(2022, 4 - 1, 17, 1, 23, 45))).toBe("4/17 (日) 01:23:45");
+});
+
+test("TEST: Date Formatting (With Time: PM)", () => {
+  expect(toUsualFormatWithTime(new Date(2022, 4 - 1, 17, 15, 23, 45))).toBe("4/17 (日) 15:23:45");
+});
+
 test("TEST: Date Formatting For DB", () => {
   // 2022/4/11
   expect(toDBFormat(new Date(2022, 4 - 1, 11))).toBe(20220411);
@@ -48,6 +57,7 @@ test("TEST: Format conversion (Number to Date)", () => {
   expect(toDate(20220331)).toStrictEqual(new Date(2022, 3 - 1, 31));
 });
 
+// 次の例会講座の時間をチェック
 test("TEST: Get Next Reikai (Monday)", () => {
   expect(getNextDate(new Date(2022, 4 - 1, 11))).toStrictEqual(new Date(2022, 4 - 1, 14));
 });
@@ -63,8 +73,6 @@ test("TEST: Get Next Reikai (Wednesday)", () => {
 test("TEST: Get Next Reikai (Thursday)", () => {
   expect(getNextDate(new Date(2022, 4 - 1, 14))).toStrictEqual(new Date(2022, 4 - 1, 18));
 });
-
-// **
 
 test("TEST: Get Next Reikai (Friday)", () => {
   expect(getNextDate(new Date(2022, 4 - 1, 15))).toStrictEqual(new Date(2022, 4 - 1, 18));
