@@ -290,7 +290,7 @@ export const updateAppHome = async (id: string, view: string) => {
       }
     );
   } catch (error) {
-    await postText(
+    await postText2OwnerChannel(
       `<@ryokohbato>\n:red_circle: AppHomeの更新に失敗しました。 Status: ${(error as AxiosError).response?.status}\n${
         (error as AxiosError).message
       }\n${stringify((error as AxiosError).response?.data)}`
