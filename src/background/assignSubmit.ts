@@ -2,7 +2,7 @@ import { assignMember } from "../assignMember";
 import { projectConstants } from "../modules/constants";
 import { toUsualFormat, toDate } from "../modules/date";
 import { executeQuery, tableItemName } from "../modules/mysql";
-import { postText, updateByResponseURL } from "../modules/slack";
+import { postText2OwnerChannel, updateByResponseURL } from "../modules/slack";
 
 import type {
   tableStructure__announcedDate,
@@ -53,7 +53,7 @@ export const assignSubmit = async (payload: any) => {
           toDate(registeredData.assigned_date)
         )} の講座に登録しました。講座担当日の1週間前に <#${projectConstants.slack.memberChannelName}> で告知されます。`
       );
-      await postText(
+      await postText2OwnerChannel(
         `:tada: <@${payload["user"]["id"]}> ${toUsualFormat(toDate(registeredData.assigned_date))} に登録`
       );
       break;
@@ -66,7 +66,7 @@ export const assignSubmit = async (payload: any) => {
           toDate(registeredData.assignment_group)
         )} の指名をキャンセルしました。`
       );
-      await postText(
+      await postText2OwnerChannel(
         `:no_entry: <@${payload["user"]["id"]}> ${toUsualFormat(toDate(registeredData.assignment_group))} をキャンセル`
       );
       break;

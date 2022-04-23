@@ -1,5 +1,5 @@
 import { projectConstants } from "../modules/constants";
-import { postText } from "../modules/slack";
+import { postText2OwnerChannel } from "../modules/slack";
 import { verify } from "../modules/verify";
 import { cancelAssignment } from "../slash/cancelAssignment";
 import { checkAssignment } from "../slash/checkAssignment";
@@ -24,7 +24,7 @@ router.post("/", async (request: SlackRequest, response: SlackResponse) => {
       request.text.toString("utf8")
     ))
   ) {
-    await postText(":animation_police_car_light: スラッシュコマンド / 署名の検証に失敗しました。");
+    await postText2OwnerChannel(":animation_police_car_light: スラッシュコマンド / 署名の検証に失敗しました。");
     return;
   }
 
@@ -37,7 +37,7 @@ router.post("/", async (request: SlackRequest, response: SlackResponse) => {
   const now = new Date();
 
   if (Number.parseInt(request.get("X-Slack-Request-Timestamp")!) < Math.floor(now.getTime() / 1000) - 5 * 60) {
-    await postText(":animation_police_car_light: スラッシュコマンド / 5分以上前のリクエストを破棄します。");
+    await postText2OwnerChannel(":animation_police_car_light: スラッシュコマンド / 5分以上前のリクエストを破棄します。");
     return;
   }
 
