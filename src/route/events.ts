@@ -23,3 +23,5 @@ router.post("/", async (request: SlackRequest, response: SlackResponse) => {
   }
   response.end();
 });
+
+module.exports = router;
