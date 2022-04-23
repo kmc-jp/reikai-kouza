@@ -6,7 +6,7 @@ import { post2DM } from "../modules/slack";
 import type { tableStructure__announcementStatus, tableStructure__assignedDate } from "../@types/mysql";
 import type { SlashCommandResponse } from "../@types/slack";
 
-export const cancel = async (commandMessage: SlashCommandResponse) => {
+export const cancelAssignment = async (commandMessage: SlashCommandResponse) => {
   const assignedInfo = (
     await executeQuery<tableStructure__assignedDate & tableStructure__announcementStatus>(
       `SELECT ${tableItemName.assignedDate}, ${tableItemName.announcementStatus} FROM ${projectConstants.mysql.tableName} WHERE ${tableItemName.id} = ?;`,

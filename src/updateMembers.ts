@@ -2,7 +2,7 @@ import { projectConstants } from "./modules/constants";
 import { toDate, toDBFormat } from "./modules/date";
 import { filterNormalMembers } from "./modules/member";
 import { executeQuery, tableItemName } from "./modules/mysql";
-import { getMemberList, postText, postText2Log } from "./modules/slack";
+import { getMemberList, postText2OwnerChannel, postText2LogChannel } from "./modules/slack";
 import { postAnnounce } from "./postAnnounce";
 
 import type { tableStructure__ID } from "./@types/mysql";
@@ -13,7 +13,7 @@ const argv = require("minimist")(process.argv.slice(2));
 // 引数として、日付をYYYYMMDDの形式で与える必要がある
 // 処理に時間がかかるので注意
 const update = async () => {
-  await postText2Log(":recycle: 部員の登録情報を更新します。");
+  await postText2LogChannel(":recycle: 部員の登録情報を更新します。");
 
   try {
     // ユーザー一覧情報を取得
@@ -51,7 +51,7 @@ const update = async () => {
           allMembersID.map(async (id) => {
             // DBにIDが登録されていなかった場合
             if (!registeredMembers.includes(id)) {
-              await postText(`:allo-happy: 新規の部員を追加します。\n<@${id}>, ID: ${id}`);
+              await postText2OwnerChannel(`:allo-happy: 新規の部員を追加します。\n<@${id}>, ID: ${id}`);
               await postAnnounce(id);
 
               // 時間がかかってしまうが、メンバー一覧からIDが一致するまで探してくる
@@ -86,7 +86,7 @@ const update = async () => {
         registeredMembers.forEach(async (id) => {
           // Slackの非制限ユーザーリストに入っていなかった場合は、DBから削除
           if (!allMembersID.includes(id)) {
-            await postText(`:wave: 登録情報を削除します。\n<@${id}>, ID: ${id}`);
+            await postText2OwnerChannel(`:wave: 登録情報を削除します。\n<@${id}>, ID: ${id}`);
             await executeQuery(`DELETE FROM ${projectConstants.mysql.tableName} WHERE ${tableItemName.id} = ? ;`, [id]);
           }
         });
@@ -95,10 +95,10 @@ const update = async () => {
       await registerNewMembers();
       await deleteMembers();
     } else {
-      await postText("<@ryokohbato>\n:red_circle: メンバー情報の取得に失敗しました。");
+      await postText2OwnerChannel("<@ryokohbato>\n:red_circle: メンバー情報の取得に失敗しました。");
     }
   } catch (error) {
-    await postText(`<@ryokohbato>\n:red_circle: 部員情報の更新でエラーが発生しました。\n${error}`);
+    await postText2OwnerChannel(`<@ryokohbato>\n:red_circle: 部員情報の更新でエラーが発生しました。\n${error}`);
   }
 };
 

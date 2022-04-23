@@ -17,5 +17,6 @@ app.use((request: any, result: any, next: any) => {
 app.use(projectConstants.server.path.check, require("./route/check"));
 app.use(projectConstants.server.path.interactivity, require("./route/interactivity"));
 app.use(projectConstants.server.path.slash, require("./route/slash"));
+app.use(projectConstants.server.path.events, require("./route/events"));
 
 app.listen(projectConstants.server.port);

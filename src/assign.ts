@@ -2,7 +2,7 @@ import { assignMember } from "./assignMember";
 import { projectConstants } from "./modules/constants";
 import { toUsualFormat, toDBFormat } from "./modules/date";
 import { executeQuery, tableItemName } from "./modules/mysql";
-import { postText } from "./modules/slack";
+import { postText2OwnerChannel } from "./modules/slack";
 
 import type { tableStructure } from "./@types/mysql";
 
@@ -23,7 +23,7 @@ export const assign = async (today: Date, assignedDate: Date) => {
       )
     ).length >= 1
   ) {
-    postText(`:feet: ${toUsualFormat(assignedDate)} の担当者が1人以上いるため、スキップします。`);
+    postText2OwnerChannel(`:feet: ${toUsualFormat(assignedDate)} の担当者が1人以上いるため、スキップします。`);
     return;
   }
 
@@ -49,13 +49,15 @@ export const assign = async (today: Date, assignedDate: Date) => {
     ]
   );
 
-  await postText(`:pick: ${toUsualFormat(assignedDate)} の講座担当者を選びます (対象人数: ${targetMembers.length})`);
+  await postText2OwnerChannel(
+    `:pick: ${toUsualFormat(assignedDate)} の講座担当者を選びます (対象人数: ${targetMembers.length})`
+  );
 
   // 対象者からランダムに1人割り当てる
   // 対象者がいなかった場合は何もしない
   if (targetMembers.length > 0) {
     const assignedMember: string = targetMembers[Math.floor(Math.random() * targetMembers.length)].id;
-    await postText(`:pick: <@${assignedMember}>`);
+    await postText2OwnerChannel(`:pick: <@${assignedMember}>`);
 
     assignMember(assignedMember, today, assignedDate);
   }
