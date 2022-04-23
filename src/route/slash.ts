@@ -1,8 +1,8 @@
 import { projectConstants } from "../modules/constants";
 import { postText } from "../modules/slack";
 import { verify } from "../modules/verify";
-import { cancel } from "../slash/cancel";
-import { check } from "../slash/check";
+import { cancelAssignment } from "../slash/cancelAssignment";
+import { checkAssignment } from "../slash/checkAssignment";
 
 import type { SlackRequest, SlackResponse, SlashCommandResponse } from "../@types/slack";
 
@@ -46,11 +46,11 @@ router.post("/", async (request: SlackRequest, response: SlackResponse) => {
 
   switch (commandMessage.command) {
     case projectConstants.slash.check:
-      check(commandMessage);
+      checkAssignment(commandMessage);
       break;
 
     case projectConstants.slash.cancel:
-      cancel(commandMessage);
+      cancelAssignment(commandMessage);
       break;
 
     default:
