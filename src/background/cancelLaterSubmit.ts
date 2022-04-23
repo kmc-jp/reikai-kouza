@@ -1,7 +1,7 @@
 import { projectConstants } from "../modules/constants";
 import { toDate, toDBFormat, toUsualFormat } from "../modules/date";
 import { executeQuery, tableItemName } from "../modules/mysql";
-import { postText, updateByResponseURL } from "../modules/slack";
+import { postText2OwnerChannel, updateByResponseURL } from "../modules/slack";
 
 import type { tableStructure__announcementStatus } from "../@types/mysql";
 
@@ -58,7 +58,7 @@ export const cancelLaterSubmit = async (payload: any) => {
     `UPDATE ${projectConstants.mysql.tableName} SET ${tableItemName.assignedDate} = ${projectConstants.values.assignedDate.None}, ${tableItemName.announcementStatus} = ${projectConstants.values.announcementStatus.AdditionalAssignmentNeeded} WHERE ${tableItemName.id} = ?;`,
     [payload["user"]["id"]]
   );
-  await postText(
+  await postText2OwnerChannel(
     `:spiral_calendar_pad: <@${payload["user"]["id"]}> ${toUsualFormat(
       toDate(payload["actions"][0].value as string)
     )} の例会講座をキャンセル`

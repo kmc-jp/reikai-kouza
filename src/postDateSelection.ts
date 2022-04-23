@@ -1,5 +1,5 @@
 import { projectConstants } from "./modules/constants";
-import { post2DM, postText } from "./modules/slack";
+import { post2DM, postText2OwnerChannel } from "./modules/slack";
 
 // 希望曜日選択を送信
 export const postDateSelection = async (id: string) => {
@@ -67,5 +67,5 @@ export const postDateSelection = async (id: string) => {
   ];
 
   await post2DM(id, JSON.stringify(message));
-  await postText(`:calendar: <@${id}> さんに、希望曜日調査を送付しました。`);
+  await postText2OwnerChannel(`:calendar: <@${id}> さんに、希望曜日調査を送付しました。`);
 };

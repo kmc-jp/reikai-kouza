@@ -1,5 +1,5 @@
 import { filterNormalMembers } from "./modules/member";
-import { getMemberList, postText } from "./modules/slack";
+import { getMemberList, postText2OwnerChannel } from "./modules/slack";
 import { postAnnounce } from "./postAnnounce";
 import { postDateSelection } from "./postDateSelection";
 
@@ -28,7 +28,7 @@ const post = async () => {
       });
     }
   } else {
-    await postText("<@ryokohbato>\n:red_circle: メンバー情報の取得に失敗しました。");
+    await postText2OwnerChannel("<@ryokohbato>\n:red_circle: メンバー情報の取得に失敗しました。");
   }
 };
 

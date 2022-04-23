@@ -1,5 +1,5 @@
 import { projectConstants } from "./modules/constants";
-import { post2DM, postText } from "./modules/slack";
+import { post2DM, postText2OwnerChannel } from "./modules/slack";
 
 // 例会講座システムのアナウンスを送付
 export const postAnnounce = async (id: string) => {
@@ -46,5 +46,5 @@ export const postAnnounce = async (id: string) => {
   ];
 
   await post2DM(id, JSON.stringify(message));
-  await postText(`:mega: <@${id}> さんに、例会講座システムのアナウンスを送付しました。`);
+  await postText2OwnerChannel(`:mega: <@${id}> さんに、例会講座システムのアナウンスを送付しました。`);
 };
