@@ -4,7 +4,7 @@ import { cancelLaterSubmit } from "../background/cancelLaterSubmit";
 import { dayOfWeekSelectAction } from "../background/dayOfWeekSelectAction";
 import { dayOfWeekSelectSubmit } from "../background/dayOfWeekSelectSubmit";
 import { projectConstants } from "../modules/constants";
-import { postText } from "../modules/slack";
+import { postText2OwnerChannel } from "../modules/slack";
 import { verify } from "../modules/verify";
 
 import type { SlackRequest, SlackResponse } from "../@types/slack";
@@ -27,7 +27,7 @@ router.post("/", async (request: SlackRequest, response: SlackResponse) => {
       request.text.toString("utf8")
     ))
   ) {
-    await postText(":animation_police_car_light: 署名の検証に失敗しました。");
+    await postText2OwnerChannel(":animation_police_car_light: 署名の検証に失敗しました。");
     return;
   }
 
@@ -40,7 +40,7 @@ router.post("/", async (request: SlackRequest, response: SlackResponse) => {
   const now = new Date();
 
   if (Number.parseInt(request.get("X-Slack-Request-Timestamp")!) < Math.floor(now.getTime() / 1000) - 5 * 60) {
-    await postText(":animation_police_car_light: 5分以上前のリクエストを破棄します。");
+    await postText2OwnerChannel(":animation_police_car_light: 5分以上前のリクエストを破棄します。");
     return;
   }
 

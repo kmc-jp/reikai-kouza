@@ -2,7 +2,7 @@ import { projectConstants } from "./modules/constants";
 import { toDate, toDBFormat } from "./modules/date";
 import { filterNormalMembers } from "./modules/member";
 import { executeQueries } from "./modules/mysql";
-import { getMemberList, postText } from "./modules/slack";
+import { getMemberList, postText2OwnerChannel } from "./modules/slack";
 
 import type { Member } from "./@types/slack";
 
@@ -44,10 +44,10 @@ const register = async () => {
         })
       );
     } else {
-      await postText("<@ryokohbato>\n:red_circle: メンバー情報の取得に失敗しました。");
+      await postText2OwnerChannel("<@ryokohbato>\n:red_circle: メンバー情報の取得に失敗しました。");
     }
   } catch (error) {
-    await postText(`<@ryokohbato>\n:red_circle: 部員の登録処理でエラーが発生しました。\n${error}`);
+    await postText2OwnerChannel(`<@ryokohbato>\n:red_circle: 部員の登録処理でエラーが発生しました。\n${error}`);
   }
 };
 

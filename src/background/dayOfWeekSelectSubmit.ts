@@ -1,6 +1,6 @@
 import { projectConstants } from "../modules/constants";
 import { executeQuery, tableItemName } from "../modules/mysql";
-import { postText, updateByResponseURL } from "../modules/slack";
+import { postText2OwnerChannel, updateByResponseURL } from "../modules/slack";
 import { postDateSelection } from "../postDateSelection";
 
 import type { tableStructure__preferredDayOfWeek } from "../@types/mysql";
@@ -42,5 +42,5 @@ export const dayOfWeekSelectSubmit = async (payload: any) => {
     payload["response_url"],
     `<@${payload["user"]["id"]}> 「${dayOfWeek}」で登録が完了しました。`
   );
-  await postText(`:muscle: <@${payload["user"]["id"]}> 「${dayOfWeek}」で登録`);
+  await postText2OwnerChannel(`:muscle: <@${payload["user"]["id"]}> 「${dayOfWeek}」で登録`);
 };

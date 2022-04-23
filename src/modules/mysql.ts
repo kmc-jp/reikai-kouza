@@ -1,6 +1,6 @@
 import { projectConstants } from "./constants";
 import { getKeys } from "./keys";
-import { postText, postText2Log } from "./slack";
+import { postText2OwnerChannel, postText2LogChannel } from "./slack";
 
 const mysql = require("mysql2/promise");
 
@@ -31,7 +31,7 @@ const connect = async () => {
 
 // 指定したクエリを実行するとともに、Slackのログチャンネルに実行したクエリ文字列を投げる。
 export const executeQuery = async <T>(query: string, placeholder: any[]): Promise<T[]> => {
-  await postText2Log(`:mysql: 以下のクエリを発行\n${query}\n${placeholder.join(", ")}`);
+  await postText2LogChannel(`:mysql: 以下のクエリを発行\n${query}\n${placeholder.join(", ")}`);
 
   const connection = await connect();
   connection.connect();
@@ -40,7 +40,7 @@ export const executeQuery = async <T>(query: string, placeholder: any[]): Promis
     return (await connection.query(query, placeholder))[0];
   } catch (error) {
     if (error) {
-      await postText(`<@ryokohbato>\n:red_circle: 発行時エラー\n${error}`);
+      await postText2OwnerChannel(`<@ryokohbato>\n:red_circle: 発行時エラー\n${error}`);
     }
     return [];
   } finally {
@@ -50,7 +50,7 @@ export const executeQuery = async <T>(query: string, placeholder: any[]): Promis
 
 // 指定した複数のクエリを実行するとともに、Slackのログチャンネルに実行したクエリ文字列を投げる。
 export const executeQueries = async <T>(query: string, placeholders: any[][]): Promise<T[][]> => {
-  await postText2Log(
+  await postText2LogChannel(
     `:mysql: 以下のクエリを実行\n${query}\n${placeholders
       .map((placeholder) => {
         return placeholder.join(", ");
@@ -69,7 +69,7 @@ export const executeQueries = async <T>(query: string, placeholders: any[][]): P
     );
   } catch (error) {
     if (error) {
-      await postText(`<@ryokohbato>\n:red_circle: 発行時エラー\n${error}`);
+      await postText2OwnerChannel(`<@ryokohbato>\n:red_circle: 発行時エラー\n${error}`);
     }
     return [];
   } finally {
