@@ -37,7 +37,9 @@ router.post("/", async (request: SlackRequest, response: SlackResponse) => {
   const now = new Date();
 
   if (Number.parseInt(request.get("X-Slack-Request-Timestamp")!) < Math.floor(now.getTime() / 1000) - 5 * 60) {
-    await postText2OwnerChannel(":animation_police_car_light: スラッシュコマンド / 5分以上前のリクエストを破棄します。");
+    await postText2OwnerChannel(
+      ":animation_police_car_light: スラッシュコマンド / 5分以上前のリクエストを破棄します。"
+    );
     return;
   }
 

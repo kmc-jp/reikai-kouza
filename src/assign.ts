@@ -49,7 +49,9 @@ export const assign = async (today: Date, assignedDate: Date) => {
     ]
   );
 
-  await postText2OwnerChannel(`:pick: ${toUsualFormat(assignedDate)} の講座担当者を選びます (対象人数: ${targetMembers.length})`);
+  await postText2OwnerChannel(
+    `:pick: ${toUsualFormat(assignedDate)} の講座担当者を選びます (対象人数: ${targetMembers.length})`
+  );
 
   // 対象者からランダムに1人割り当てる
   // 対象者がいなかった場合は何もしない
