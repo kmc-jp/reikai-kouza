@@ -78,5 +78,6 @@ export const projectConstants = {
   slash: {
     check: "/reikai-kouza-check",
     cancel: "/reikai-kouza-cancel",
+    events: "/events",
   },
 } as const;
