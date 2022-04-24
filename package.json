@@ -19,6 +19,7 @@
     }
   },
   "devDependencies": {
+    "@tsconfig/strictest": "^1.0.1",
     "@types/axios": "^0.14.0",
     "@types/express": "^4.17.13",
     "@types/jest": "^27.4.1",
