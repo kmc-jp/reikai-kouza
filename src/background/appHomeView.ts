@@ -1,5 +1,5 @@
+import { getAssignmentStatus } from "../modules/assignmentStatus";
 import { toDate, toUsualFormat, toUsualFormatWithTime } from "../modules/date";
-import { getAssignmentStatus } from "../slash/getAssignmentStatus";
 
 export const getAppHomeView = async (id: string) => {
   const status = await getAssignmentStatus(id);
@@ -9,7 +9,7 @@ export const getAppHomeView = async (id: string) => {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: `*担当日：${status.isNowAssigned ? toUsualFormat(toDate(status.lastAssignedDate)): "なし"}*`,
+          text: `*担当日：${status.isNowAssigned ? toUsualFormat(toDate(status.lastAssignedDate)) : "なし"}*`,
         },
       },
       {
