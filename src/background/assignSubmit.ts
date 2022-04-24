@@ -29,7 +29,7 @@ export const assignSubmit = async (payload: any) => {
     )
   )[0];
 
-  switch (registeredData.announcement_status) {
+  switch (registeredData!.announcement_status) {
     // 未返答状態の場合は、担当日の選択フォームを再送信
     case projectConstants.values.announcementStatus.NoReply:
       await updateByResponseURL(
@@ -39,8 +39,8 @@ export const assignSubmit = async (payload: any) => {
       // 担当日選択フォームを再送信
       assignMember(
         payload["user"]["id"],
-        toDate(registeredData.announced_date),
-        toDate(registeredData.assignment_group)
+        toDate(registeredData!.announced_date),
+        toDate(registeredData!.assignment_group)
       );
       return;
 
@@ -50,11 +50,11 @@ export const assignSubmit = async (payload: any) => {
       await updateByResponseURL(
         payload["response_url"],
         `<@${payload["user"]["id"]}> \n${toUsualFormat(
-          toDate(registeredData.assigned_date)
+          toDate(registeredData!.assigned_date)
         )} の講座に登録しました。講座担当日の1週間前に <#${projectConstants.slack.memberChannelName}> で告知されます。`
       );
       await postText2OwnerChannel(
-        `:tada: <@${payload["user"]["id"]}> ${toUsualFormat(toDate(registeredData.assigned_date))} に登録`
+        `:tada: <@${payload["user"]["id"]}> ${toUsualFormat(toDate(registeredData!.assigned_date))} に登録`
       );
       break;
 
@@ -63,11 +63,11 @@ export const assignSubmit = async (payload: any) => {
       await updateByResponseURL(
         payload["response_url"],
         `<@${payload["user"]["id"]}> \n${toUsualFormat(
-          toDate(registeredData.assignment_group)
+          toDate(registeredData!.assignment_group)
         )} の指名をキャンセルしました。`
       );
       await postText2OwnerChannel(
-        `:no_entry: <@${payload["user"]["id"]}> ${toUsualFormat(toDate(registeredData.assignment_group))} をキャンセル`
+        `:no_entry: <@${payload["user"]["id"]}> ${toUsualFormat(toDate(registeredData!.assignment_group))} をキャンセル`
       );
       break;
   }

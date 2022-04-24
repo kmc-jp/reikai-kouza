@@ -6,6 +6,7 @@ const router = require("express").Router();
 
 // /check
 
+// @ts-ignore requestは使用しない
 router.get("/", async (request: SlackRequest, response: SlackResponse) => {
   await postText2LogChannel(":large_green_circle: OK");
   response.end();

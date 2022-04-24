@@ -12,7 +12,7 @@ export const dayOfWeekSelectSubmit = async (payload: any) => {
       `SELECT ${tableItemName.preferredDayOfWeek} from ${projectConstants.mysql.tableName} WHERE ${tableItemName.id} = ? ;`,
       [payload["user"]["id"]]
     )
-  )[0].preferred_day_of_week;
+  )[0]!.preferred_day_of_week;
   let dayOfWeek = "";
 
   switch (registeredData) {

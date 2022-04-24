@@ -16,7 +16,7 @@ export const cancelAssignment = async (commandMessage: SlashCommandResponse) => 
 
   // 当日以前のものはキャンセルできない。
   // (当日もできない)
-  if (assignedInfo.assigned_date <= toDBFormat(new Date())) {
+  if (assignedInfo!.assigned_date <= toDBFormat(new Date())) {
     await post2DM(
       `${commandMessage.user_id}`,
       JSON.stringify([
@@ -34,8 +34,8 @@ export const cancelAssignment = async (commandMessage: SlashCommandResponse) => 
 
   // 割り当て状態が10または0でない場合はキャンセルできない
   if (
-    assignedInfo.announcement_status !== projectConstants.values.announcementStatus.OK &&
-    assignedInfo.announcement_status !== projectConstants.values.announcementStatus.Unassigned
+    assignedInfo!.announcement_status !== projectConstants.values.announcementStatus.OK &&
+    assignedInfo!.announcement_status !== projectConstants.values.announcementStatus.Unassigned
   ) {
     await post2DM(
       `${commandMessage.user_id}`,
@@ -78,7 +78,7 @@ export const cancelAssignment = async (commandMessage: SlashCommandResponse) => 
         text: {
           type: "mrkdwn",
           text: `${toUsualFormat(
-            toDate(assignedInfo.assigned_date)
+            toDate(assignedInfo!.assigned_date)
           )} の例会講座をキャンセルしますか？\nキャンセルする場合は、「キャンセルする」を押してください。キャンセルしない場合は、このメッセージを放置したままにしてください。`,
         },
       },
@@ -93,7 +93,7 @@ export const cancelAssignment = async (commandMessage: SlashCommandResponse) => 
               text: "キャンセルする",
               emoji: true,
             },
-            value: `${toDBFormat(toDate(assignedInfo.assigned_date))}`,
+            value: `${toDBFormat(toDate(assignedInfo!.assigned_date))}`,
           },
         ],
       },

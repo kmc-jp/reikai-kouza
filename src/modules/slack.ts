@@ -1,10 +1,11 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { stringify } from "flatted";
 
 import { projectConstants } from "./constants";
 import { getKeys } from "./keys";
 
 import type { Channel, ChatPostMessageResponse, ConversationsListResponse, UsersListResponse } from "../@types/slack";
+import type { AxiosError } from "axios";
 
 const postText = async (channel: string, message: string, postFunction?: Function) => {
   try {
@@ -156,7 +157,7 @@ export const updateDMMessage = async (id: string, timeStamp: string, text: strin
     await axios.post(
       "https://slack.com/api/chat.update",
       {
-        channel: `${conversationsChannels[0].id}`,
+        channel: `${conversationsChannels[0]!.id}`,
         ts: timeStamp,
         as_user: true,
         blocks: [{ type: "section", text: { type: "plain_text", text: `${text}` } }],
@@ -269,6 +270,7 @@ export const getMemberList = async () => {
         (error as AxiosError).message
       }\n${stringify((error as AxiosError).response?.data)}`
     );
+    return;
   }
 };
 

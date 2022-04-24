@@ -6,6 +6,7 @@ const getRawBody = require("raw-body");
 const app = express();
 
 // 署名の検証に使用するため、生のリクエストを取得できるように
+// @ts-ignore : resultは使用されない
 app.use((request: any, result: any, next: any) => {
   getRawBody(request, (error: any, string: any) => {
     if (error) return next(error);

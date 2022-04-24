@@ -11,7 +11,7 @@ export const cancelLaterSubmit = async (payload: any) => {
       `SELECT ${tableItemName.announcementStatus} FROM ${projectConstants.mysql.tableName} WHERE ${tableItemName.id} = ?;`,
       [payload["user"]["id"]]
     )
-  )[0].announcement_status;
+  )[0]!.announcement_status;
 
   // 当日以前のものはキャンセルできない。
   // (当日もできない)

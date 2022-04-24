@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "module": "CommonJS",
-    "strict": true,
     "lib": [ "ESNext" ]
-  }
+  },
+  "extends": "@tsconfig/strictest/tsconfig.json"
 }
