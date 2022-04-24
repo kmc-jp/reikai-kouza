@@ -12,7 +12,7 @@ export const assignAction = async (payload: any) => {
       `SELECT ${tableItemName.assignmentGroup} FROM ${projectConstants.mysql.tableName} WHERE ${tableItemName.id} = ?;`,
       [payload["user"]["id"]]
     )
-  )[0].assignment_group;
+  )[0]!.assignment_group;
 
   // 何度選択し直しても大丈夫なようになっている (はず)
   //

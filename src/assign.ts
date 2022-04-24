@@ -56,7 +56,8 @@ export const assign = async (today: Date, assignedDate: Date) => {
   // 対象者からランダムに1人割り当てる
   // 対象者がいなかった場合は何もしない
   if (targetMembers.length > 0) {
-    const assignedMember: string = targetMembers[Math.floor(Math.random() * targetMembers.length)].id;
+    // Math.random()が1を返すことはない
+    const assignedMember: string = targetMembers[Math.floor(Math.random() * targetMembers.length)]!.id;
     await postText2OwnerChannel(`:pick: <@${assignedMember}>`);
 
     assignMember(assignedMember, today, assignedDate);

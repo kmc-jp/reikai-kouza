@@ -48,9 +48,10 @@ const update = async () => {
       const registerNewMembers = async () => {
         // 新規の部員をチェック
         await Promise.all(
-          allMembersID.map(async (id) => {
+          allMembersID
             // DBにIDが登録されていなかった場合
-            if (!registeredMembers.includes(id)) {
+            .filter((x) => !registeredMembers.includes(x))
+            .map(async (id) => {
               await postText2OwnerChannel(`:allo-happy: 新規の部員を追加します。\n<@${id}>, ID: ${id}`);
               await postAnnounce(id);
 
@@ -58,8 +59,9 @@ const update = async () => {
               // TODO: 後ろから探査したほうが確実に早い
               // TODO: 見つけたらbreak
               return Promise.all(
-                responseJson.members!.map(async (x) => {
-                  if (x.id === id) {
+                responseJson
+                  .members!.filter((x) => x.id === id)
+                  .map(async (x) => {
                     return await executeQuery(
                       `INSERT INTO ${projectConstants.mysql.tableName} VALUES (?, ?, ?, ?, ?, ?, ?, ?);`,
                       [
@@ -73,11 +75,9 @@ const update = async () => {
                         "",
                       ]
                     );
-                  }
-                })
+                  })
               );
-            }
-          })
+            })
         );
       };
 

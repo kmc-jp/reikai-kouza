@@ -60,7 +60,7 @@ const getPublicAnnounceBlock = (
     if (!Object.keys(recentAssignment).includes(x.assigned_date.toString())) {
       recentAssignment[x.assigned_date] = [];
     }
-    recentAssignment[x.assigned_date].push(x.id);
+    recentAssignment[x.assigned_date]!.push(x.id);
   });
 
   for (const x in recentAssignment) {
@@ -68,11 +68,9 @@ const getPublicAnnounceBlock = (
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `*${toUsualFormat(toDate(x))}*\n${recentAssignment[x]
-          .map((x) => {
-            return `<@${x}>`;
-          })
-          .join("\n")}`,
+        text: `*${toUsualFormat(toDate(x))}*\n${recentAssignment[x]!.map((x) => {
+          return `<@${x}>`;
+        }).join("\n")}`,
       },
     });
   }

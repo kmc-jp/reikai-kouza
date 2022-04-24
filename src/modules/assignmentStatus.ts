@@ -13,7 +13,7 @@ export const getAssignmentStatus = async (id: string) => {
   )[0];
 
   return {
-    isNowAssigned: assignedDate.assigned_date >= toDBFormat(new Date()),
-    lastAssignedDate: assignedDate.assigned_date,
+    isNowAssigned: assignedDate!.assigned_date >= toDBFormat(new Date()),
+    lastAssignedDate: assignedDate!.assigned_date,
   };
 };
