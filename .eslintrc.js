@@ -12,24 +12,18 @@ module.exports = {
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
-    "sourceType": "module",
-    "project": "./tsconfig.json",
+    sourceType: "module",
+    project: "./tsconfig.json",
   },
+  plugins: ["@typescript-eslint"],
   root: true,
   rules: {
     "no-console": "error",
+    "@typescript-eslint/consistent-type-imports": ["error", { prefer: "type-imports" }],
     "import/order": [
       "error",
       {
-        groups: [
-          "builtin",
-          "external",
-          "parent",
-          "sibling",
-          "index",
-          "object",
-          "type",
-        ],
+        groups: ["builtin", "external", "parent", "sibling", "index", "object", "type"],
         pathGroups: [
           {
             pattern: "@alias/**",
@@ -44,4 +38,4 @@ module.exports = {
       },
     ],
   },
-}
+};
