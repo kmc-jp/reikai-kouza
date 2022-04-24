@@ -9,7 +9,7 @@ export const getAppHomeView = async (id: string) => {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: `*担当日：${status.isNowAssigned ? toUsualFormat(toDate(status.lastAssignedDate)): "なし"}*`,
+          text: `*担当日：${status.isNowAssigned ? toUsualFormat(toDate(status.lastAssignedDate)) : "なし"}*`,
         },
       },
       {
