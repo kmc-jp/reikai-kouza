@@ -20,6 +20,13 @@ export const toUsualFormat = (date: Date): string => {
   return "";
 };
 
+export const toUsualFormatWithTime = (date: Date): string => {
+  return `${toUsualFormat(date)} ${date.getHours().toString().padStart(2, "0")}:${date
+    .getMinutes()
+    .toString()
+    .padStart(2, "0")}:${date.getSeconds().toString().padStart(2, "0")}`;
+};
+
 // DB格納形式に変換
 export const toDBFormat = (date: Date): number => {
   return date.getFullYear() * 10000 + (date.getMonth() + 1) * 100 + date.getDate();

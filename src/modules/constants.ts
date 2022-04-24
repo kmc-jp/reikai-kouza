@@ -13,6 +13,7 @@ export const projectConstants = {
     port: 10080,
     path: {
       check: "/check",
+      events: "/events",
       interactivity: "/interactivity",
       slash: "/slash",
     },
@@ -77,5 +78,6 @@ export const projectConstants = {
   slash: {
     check: "/reikai-kouza-check",
     cancel: "/reikai-kouza-cancel",
+    events: "/events",
   },
 } as const;
