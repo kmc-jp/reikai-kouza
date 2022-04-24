@@ -17,7 +17,7 @@ router.post("/", async (request: SlackRequest, response: SlackResponse) => {
       parsedRequest.event.user,
       JSON.stringify({
         type: "home",
-        blocks: getAppHomeView(parsedRequest.event.user),
+        blocks: await getAppHomeView(parsedRequest.event.user),
       })
     );
   }
