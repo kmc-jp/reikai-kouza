@@ -1,7 +1,6 @@
+import { getAssignmentStatus } from "../modules/assignmentStatus";
 import { toDate, toUsualFormat } from "../modules/date";
 import { post2DM } from "../modules/slack";
-
-import { getAssignmentStatus } from "./getAssignmentStatus";
 
 import type { SlashCommandResponse } from "../@types/slack";
 

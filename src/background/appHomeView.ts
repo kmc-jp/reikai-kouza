@@ -1,5 +1,5 @@
+import { getAssignmentStatus } from "../modules/assignmentStatus";
 import { toDate, toUsualFormat, toUsualFormatWithTime } from "../modules/date";
-import { getAssignmentStatus } from "../slash/getAssignmentStatus";
 
 export const getAppHomeView = async (id: string) => {
   const status = await getAssignmentStatus(id);
