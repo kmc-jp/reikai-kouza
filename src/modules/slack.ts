@@ -1,10 +1,11 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { stringify } from "flatted";
 
 import { projectConstants } from "./constants";
 import { getKeys } from "./keys";
 
 import type { Channel, ChatPostMessageResponse, ConversationsListResponse, UsersListResponse } from "../@types/slack";
+import type { AxiosError } from "axios";
 
 const postText = async (channel: string, message: string, postFunction?: Function) => {
   try {
