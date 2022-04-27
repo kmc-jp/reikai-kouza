@@ -4,3 +4,5 @@ yarn-error.log
 dist/*.js
 dist/*.map
 dist/secret/keys.json
+
+docker/*/dist

@@ -1,0 +1,8 @@
+version: '2'
+services:
+  reikai-kouza-slack-api:
+    build:
+      context: ./
+      dockerfile: ./docker/slack-api/Dockerfile
+    ports:
+      - "5500:80"
