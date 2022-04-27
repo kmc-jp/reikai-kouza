@@ -3,4 +3,4 @@ RUN apk add bash
 ENTRYPOINT ["bash"]
 WORKDIR /reikai-kouza
 COPY . .
-CMD [ "./docker/production-build.sh" ]
+CMD [ "/reikai-kouza/docker/build/production-build.sh" ]
