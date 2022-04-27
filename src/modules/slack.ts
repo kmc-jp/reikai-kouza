@@ -94,7 +94,7 @@ export const postText2OwnerChannel = async (message: string) => {
 // 例会講座 運営用Slackチャンネルに指定したメッセージブロックを投稿
 // 全てログチャンネルにも投稿する。
 export const postBlocks2OwnerChannel = async (blocks: string) => {
-  return postText(projectConstants.slack.ownerChannelName, blocks, postBlocks2LogChannel);
+  return postBlocks(projectConstants.slack.ownerChannelName, blocks, postBlocks2LogChannel);
 };
 
 // 例会講座 ログ用Slackチャンネルに指定したメッセージを投稿
@@ -104,7 +104,7 @@ export const postText2LogChannel = async (message: string) => {
 
 // 例会講座 ログ用Slackチャンネルに指定したメッセージブロックを投稿
 export const postBlocks2LogChannel = async (blocks: string) => {
-  return postText(projectConstants.slack.logChannelName, blocks);
+  return postBlocks(projectConstants.slack.logChannelName, blocks);
 };
 
 // アプリからのメッセージを直接送信
