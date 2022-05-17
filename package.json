@@ -6,12 +6,21 @@
   "author": "ryokohbato <ryokohbato@gmail.com>",
   "license": "Apache-2.0",
   "scripts": {
-    "build": "webpack",
-    "build:production": "NODE_ENV=production webpack --mode=production",
-    "fix": "eslint --fix './src/**/*.{ts,js}' && prettier --write './src/**/*.{ts,js}' && prettier --write './dist/secret/*.json'",
-    "lint": "eslint './{src,tests}/**/*.{ts,js}' && prettier --write './{src,tests}/**/*.{ts,js}' && prettier --write './dist/secret/*.json'",
+    "build": "run-p build:src build:slack-api-test-server",
+    "build:production": "run-p build:src:production build:slack-api-test-server:production",
+    "build:src": "webpack",
+    "build:src:production": "NODE_ENV=production webpack --mode=production",
+    "build:slack-api-test-server": "webpack -c slack-api-test-server/webpack.config.js",
+    "build:slack-api-test-server:production": "NODE_ENV=production webpack -c slack-api-test-server/webpack.config.js --mode=production",
+    "fix": "run-p fix:src fix:slack-api-test-server",
+    "lint": "run-p lint:src lint:slack-api-test-server",
+    "fix:src": "eslint --fix './src/**/*.{ts,js}' && prettier --write './src/**/*.{ts,js}' && prettier --write './dist/secret/*.json'",
+    "lint:src": "eslint './src/**/*.{ts,js}' && prettier --write './src/**/*.{ts,js}' && prettier --write './dist/secret/*.json'",
+    "fix:slack-api-test-server": "eslint --fix './slack-api-test-server/src/**/*.{ts,js}' && prettier --write './slack-api-test-server/src/**/*.{ts,js}'",
+    "lint:slack-api-test-server": "eslint './slack-api-test-server/src/**/*.{ts,js}' && prettier --write './slack-api-test-server/src/**/*.{ts,js}'",
     "prepare": "husky install",
-    "test": "jest"
+    "test": "jest",
+    "docker:build:slack-api": "webpack -c ./docker/slack-api/webpack.config.js"
   },
   "husky": {
     "hooks": {
@@ -25,7 +34,7 @@
     "@types/jest": "^27.4.1",
     "@types/mysql": "^2.15.20",
     "@typescript-eslint/eslint-plugin": "^5.22.0",
-    "@typescript-eslint/parser": "^5.21.0",
+    "@typescript-eslint/parser": "^5.24.0",
     "axios": "^0.26.1",
     "eslint": "^8.14.0",
     "eslint-config-prettier": "^8.5.0",
@@ -38,6 +47,7 @@
     "jest": "^27.5.1",
     "minimist": "^1.2.6",
     "mysql2": "^2.3.3",
+    "npm-run-all": "^4.1.5",
     "prettier": "^2.6.2",
     "raw-body": "^2.5.1",
     "ts-jest": "^27.1.4",
