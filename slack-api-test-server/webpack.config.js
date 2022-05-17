@@ -6,7 +6,7 @@ module.exports = {
   ...config,
   mode: "development",
   entry: {
-    "build_api_server": "./slack-api-test-server/src/server.ts",
+    "server": "./slack-api-test-server/src/server.ts",
   },
   output: {
     filename: "[name].js",
