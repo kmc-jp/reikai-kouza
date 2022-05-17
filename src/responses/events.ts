@@ -33,15 +33,15 @@ const appHomeOpened = {
 type _challengeTypeBase = typeof challenge;
 
 export type _challengeType = _challengeTypeBase & {
-  type: "url_verification",
-}
+  type: "url_verification";
+};
 
 type _appHomeOpenedTypeBase = typeof appHomeOpened;
 
 export type _appHomeOpenedType = _appHomeOpenedTypeBase & {
   event: {
-    type: "app_home_opened",
-    tab: "home",
-  },
-  type: "event_callback",
-}
+    type: "app_home_opened";
+    tab: "home";
+  };
+  type: "event_callback";
+};
