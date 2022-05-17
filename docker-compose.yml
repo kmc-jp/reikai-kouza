@@ -1,0 +1,25 @@
+version: "3"
+services:
+  reikai-kouza:
+    build:
+      context: .
+      dockerfile: ./docker/reikai-kouza/Dockerfile
+    container_name: reikai-kouza
+    ports:
+      - 10080:10080
+    volumes:
+      - .:/home/KMC/reikai-kouza
+      - reikai-kouza__node_modules:/home/KMC/reikai-kouza/node_modules
+  reikai-kouza-slack-api:
+    build:
+      context: .
+      dockerfile: ./docker/slack-api-test-server/Dockerfile
+    container_name: reikai-kouza--slack-api-test-server
+    ports:
+      - "5500:80"
+    volumes:
+      - .:/home/KMC/slack-api-test-server
+      - reikai-kouza--slack-api-test-server__node_modules:/home/KMC/slack-api-test-server/node_modules
+volumes:
+  reikai-kouza__node_modules:
+  reikai-kouza--slack-api-test-server__node_modules:
