@@ -5,4 +5,5 @@ dist/*.js
 dist/*.map
 dist/secret/keys.json
 
-docker/*/dist
+/**/dist/*.js
+/**/dist/*.map

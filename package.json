@@ -8,6 +8,7 @@
   "scripts": {
     "build": "webpack",
     "build:production": "NODE_ENV=production webpack --mode=production",
+    "build:slack-api-test-server": "webpack -c slack-api-test-server/webpack.config.js",
     "fix": "eslint --fix './{src,tests,docker/**/src}/**/*.{ts,js}' && prettier --write './{src,tests,docker/**/src}/**/*.{ts,js}' && prettier --write './dist/secret/*.json'",
     "lint": "eslint './{src,tests,docker/**/src}/**/*.{ts,js}' && prettier --write './{src,tests,docker/**/src}/**/*.{ts,js}' && prettier --write './dist/secret/*.json'",
     "prepare": "husky install",

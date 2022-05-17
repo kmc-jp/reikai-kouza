@@ -1,12 +1,12 @@
 const path = require("path");
 
-const config = require("../../webpack.config");
+const config = require("../webpack.config.js");
 
 module.exports = {
   ...config,
   mode: "development",
   entry: {
-    "build_api_server": "./docker/slack-api/src/server.ts",
+    "build_api_server": "./slack-api-test-server/src/server.ts",
   },
   output: {
     filename: "[name].js",
