@@ -1,9 +1,7 @@
 node_modules
 yarn-error.log
 
-dist/*.js
-dist/*.map
-dist/secret/keys.json
-
 /**/dist/*.js
 /**/dist/*.map
+
+dist/secret/keys.json
