@@ -10,7 +10,9 @@ services:
     volumes:
       - .:/home/KMC/reikai-kouza
       - reikai-kouza__node_modules:/home/KMC/reikai-kouza/node_modules
-  reikai-kouza-slack-api:
+    links:
+      - reikai-kouza-db
+  reikai-kouza-slack-api-test-server:
     build:
       context: .
       dockerfile: ./docker/slack-api-test-server/Dockerfile
@@ -20,6 +22,19 @@ services:
     volumes:
       - .:/home/KMC/slack-api-test-server
       - reikai-kouza--slack-api-test-server__node_modules:/home/KMC/slack-api-test-server/node_modules
+    links:
+      - reikai-kouza-db
+  reikai-kouza-db:
+    build:
+      context: .
+      dockerfile: ./docker/db/Dockerfile
+    container_name: reikai-kouza--db
+    ports:
+      - 3306:3306
+    volumes:
+      - ./docker/db/initdb.d:/docker-entrypoint-initdb.d
+    environment:
+      - MYSQL_ROOT_PASSWORD=passw0rd!
 volumes:
   reikai-kouza__node_modules:
   reikai-kouza--slack-api-test-server__node_modules:
