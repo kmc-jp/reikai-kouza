@@ -1,6 +1,6 @@
 const path = require("path");
 
-const config = require("../webpack.config.js");
+const config = require("../reikai_kouza/webpack.config.js");
 
 module.exports = {
   ...config,
@@ -10,6 +10,6 @@ module.exports = {
   },
   output: {
     filename: "[name].js",
-    path: path.join(__dirname, "dist/"),
+    path: path.join(__dirname, "../dist/slack-api-test-server"),
   },
 };

@@ -1,0 +1,22 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+    types: [opened]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup
+        uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - name: Install
+        run: "yarn install"
+      - name: Build
+        run: "yarn build"
