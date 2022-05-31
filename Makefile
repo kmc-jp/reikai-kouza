@@ -13,3 +13,6 @@ attach-reikai-kouza:
 
 attach-slack-api-test-server:
 	docker exec -it reikai-kouza--slack-api-test-server /bin/bash
+
+attach-db:
+	docker exec -it reikai-kouza--db /bin/bash
