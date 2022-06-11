@@ -10,7 +10,7 @@ const app = express();
 
 app.use(constants.path.auth, require("./route/auth"));
 
-app.use((request: Express.Request, response: Express.Response) => {
+app.use((_: Express.Request, response: Express.Response) => {
   response.status(404).json(
     apiResponse.error<NotFoundResponse>({
       reason: "Not found",

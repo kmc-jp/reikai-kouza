@@ -7,7 +7,7 @@ const router = require("express").Router();
 
 // /api/auth
 
-router.get("/", async (request: Express.Request, response: Express.Response) => {
+router.get("/", async (_: Express.Request, response: Express.Response) => {
   response.status(401).json(
     apiResponse.error<AuthResponse>({
       reason: "Unauthorized",
