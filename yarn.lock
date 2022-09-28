@@ -657,10 +657,10 @@
   resolved "https://registry.yarnpkg.com/@tsconfig/node16/-/node16-1.0.2.tgz#423c77877d0569db20e1fc80885ac4118314010e"
   integrity sha512-eZxlbI8GZscaGS7kkc/trHTT5xgrjH3/1n2JDwusC9iahPKWMRvRjJSAN5mCXviuTGQ/lHnhvv8Q1YTpnfz9gA==
 
-"@tsconfig/strictest@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@tsconfig/strictest/-/strictest-1.0.1.tgz#04149befb12c1eb6db521b6d14dadf71121d6fb2"
-  integrity sha512-7O8Q537UQdTZSKEV0f5WRLRFtfL9B8agGqIZrCOwOiWvbjZWPP2rAoZ7LHcwjdG4vnjdleHMEE+ZetM+lhRkcA==
+"@tsconfig/strictest@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@tsconfig/strictest/-/strictest-1.0.2.tgz#aff98cd714dbd1722c9229eed2dcf3fc6fd30fd9"
+  integrity sha512-IRKlC8cnP7zMz1SDBjyIVyPapkEGWLZ6wkF6Z8T+xU80P9sO5uGXlIUvtzjx+7ehPJRWxkB6CeIDwUfyqNtYkQ==
 
 "@types/axios@^0.14.0":
   version "0.14.0"
